@@ -733,3 +733,30 @@ performed on the redesign in this pass. If/when desired, it can be run later
 against the existing pre-frozen backend posture (Zod-validated + rate-limited
 `/api/contact`, magic-byte upload sniffing, `sanitizeForJsonLd`) plus the new
 client/motion layer.
+
+---
+
+## Deployment prep (Vercel + GitHub + Neon)
+
+Code-side changes to make the project deployable on Vercel (no app/data-model
+changes):
+
+- **`.npmrc`** — `legacy-peer-deps=true` so Vercel's `npm install` resolves the
+  pre-existing nodemailer/next-auth peer conflict (same flag used locally).
+- **`app/sitemap.ts`** — added `export const dynamic = "force-dynamic"`. It
+  queries products/certifications from the DB and had no error fallback, so it
+  failed `next build` when no DB was reachable at build time. Deferring it to
+  request time makes the build self-contained and serves a fresh sitemap.
+- **`package.json`** — build script is now `prisma generate && next build`
+  (`lib/generated/prisma` is gitignored, so the client must be generated during
+  every Vercel build).
+- **git** — initialized repo, `main` branch, initial commit. `.gitignore`
+  already excludes `.env`/`.env*.local`/`node_modules`/`.next`/`.vercel`/the
+  generated Prisma client; verified no secrets are staged.
+- **`DEPLOYMENT.md`** — full runbook: create Neon Postgres, run
+  `prisma migrate deploy` + seed against it, push to GitHub, import in Vercel,
+  set the 12 required env vars (`lib/config.ts` validates them at build), deploy,
+  and post-deploy checks.
+
+Verified: `npm run build` completes cleanly with these changes (all routes
+compile; `/sitemap.xml` is now dynamic).
