@@ -1,0 +1,147 @@
+{
+  "site": {
+    "name": "Haram Textile",
+    "tagline": "Manufacturer and Exporter of Textile and Knitted Garments in Pakistan",
+    "founded": "2009-12-19",
+    "quote": "Our continuous growth, has made us a trustworthy manufacturing partner of world's best brands",
+    "designCredit": "Vision DOTCOM Technologies",
+    "baseUrl": "https://www.haramtextile.com/"
+  },
+  "contact": {
+    "phone": "(+92) 41-8814858",
+    "emails": [
+      { "label": "CEO", "email": "rashid@haramtextile.com" },
+      { "label": "MD", "email": "adnan@haramtextile.com" }
+    ],
+    "address": "7-km, Millat Chock, West Millat Industrial Estate, Pharang Drainge Dhanola, Faisalabad, Pakistan",
+    "mapLink": "https://goo.gl/maps/HQGkbQmFPTbADm3n6",
+    "hours": "Mon-Sat 9:30 am - 6:00 pm; Sunday closed"
+  },
+  "team": [
+    { "name": "Mr. Rashid Mehmood", "role": "CEO", "email": "rashid@haramtextile.com" },
+    { "name": "Mr. Aamir", "role": "Managing Director", "email": "aamir@haramtextile.com" },
+    { "name": "Hafiz Adnan Gulzar", "role": "Export & Marketing", "email": "adnan@haramtextile.com" },
+    { "name": "Mr. Farman", "role": "Export & Marketing", "email": "farman@haramtextile.com" }
+  ],
+  "stats": [
+    { "label": "Specialized machines", "value": 220 },
+    { "label": "Workers & staff", "value": 350 },
+    { "label": "Factory area (sq ft)", "value": 30000 },
+    { "label": "Packing capacity (Pcs/month)", "value": 600000 },
+    { "label": "Sewing machines", "value": 160 }
+  ],
+  "home": {
+    "products": "Right from yarn to making fabrics of different quality in cotton, Synthetic, blends like viscose / modal, Polyester, melanges, yarn dyed, organic, Compact yarn etc., produced in house in huge knitting and state-of-the-art dyeing facilities.",
+    "objective": "Haram Textile believes in quality products and is committed to provide quality products by meeting our customer requirement through continual improvement at every stage of manufacturing process.",
+    "markets": "As one of the most prominent apparel manufacturers in Pakistan and around the globe, at Haram Textile, we believe that the possibilities are endless and it is this philosophy that has helped drive us to sustainability in fashion.",
+    "aboutShort": "Haram Textile is one of the leading textiles and garments manufacturing exporters in Pakistan. We have a complete setup from knitting, dying, sewing, printing, embroidery and packing.",
+    "socialCompliance": "We are eternally committed to the highest standards of social and environmental responsibility. We always assume liability for the social, ecological and economic consequences of our activities. Our proceedings from manufacturing to delivery demonstrate this commitment.",
+    "fashionConcepts": "Haram Textile is very selective in the purchase of all raw materials specially the yarn, for consistent quality production of the fabric garments. Special attention is also focused on various production processes like knitting, dyeing, cutting and stitching etc. The entire satisfaction of the customer is our foremost goal.",
+    "productLine": "Our main product line is knitwear articles, T-shirts, polo shirts, sweat shirts, basic and fashionable jogging suits, leggings, bike shorts, tops for the ladies and the girls, underwear and the pants in solid/print, with a selection of fabrics including 100% cotton, 95% cotton, 5% Lycra and microfiber with Lycra."
+  },
+  "about": {
+    "intro": "Haram Textile strives to set standards of excellence for providing quality textiles to our customers. Founded December 19, 2009, the company emphasizes customer satisfaction as key to success.",
+    "whyPakistan": [
+      "4th largest cotton producer globally",
+      "State-of-the-art spinning sectors",
+      "Produces combed, ring, spun, and heather yarns",
+      "400 spinning mills with 10 million spindles",
+      "37% share in world cotton yarn markets",
+      "Diversified fabric making plants",
+      "Large-scale sewing infrastructure"
+    ],
+    "vision": "Assist customer's needs with best knowledge, experience and technology",
+    "values": ["Team Work", "Association", "Faithfulness"],
+    "mission": "Sustainable, quality growth"
+  },
+  "certifications": {
+    "intro": "Quality always plays vital role in our growth. A team of high skilled, professional and qualified QA members contributes efficiently towards achieving the superior quality.",
+    "list": [
+      "ISO 9001:2008 (certified by ACS)",
+      "Oeko Tex 100 by AITEX Spain Class II",
+      "BSCI certified"
+    ],
+    "documents": ["auditreport.pdf"]
+  },
+  "productCategories": [
+    {
+      "slug": "boys",
+      "name": "Boys Collection",
+      "intro": "Our Product range Roll Neck Shirts, Jogging Trousers, Sweat Shirts, Polo Shirts, T-Shirts, Hooded Shirts, Pyjama Suits, etc.",
+      "imageDir": "images/boys/",
+      "images": ["s1.jpg","s2.jpg","s3.jpg","s4.jpg","s5.jpg","s6.jpg","s7.jpg","s8.jpg","s9.jpg","s10.jpg","s11.jpg","s12.jpg","s24.jpg","s16.jpg","s17.jpg","s13.jpg","s14.jpg","s15.jpg","s18.jpg","s19.jpg","s20.jpg","s21.jpg","s22.jpg","s25.jpg"]
+    },
+    {
+      "slug": "girls",
+      "name": "Girls Collection",
+      "intro": "Our Product range Roll Neck Shirts, Jogging Trousers, Sweat Shirts, Polo Shirts, T-Shirts, Hooded Shirts, Pyjama Suits, etc.",
+      "imageDir": "images/girl/",
+      "images": ["s1.jpg","s2.jpg","s3.jpg","s4.jpg","s5.jpg","s6.jpg","s7.jpg","s8.jpg","s9.jpg","s10.jpg","s11.jpg","s12.jpg","s13.jpg","s14.jpg","s15.jpg","s16.jpg","s17.jpg","s18.jpg"]
+    },
+    {
+      "slug": "ladies",
+      "name": "Ladies Collection",
+      "intro": "Our Product range Roll Neck Shirts, Jogging Trousers, Sweat Shirts, Polo Shirts, T-Shirts, Hooded Shirts, Pyjama Suits, etc.",
+      "imageDir": "images/ladies/",
+      "images": ["s1.jpg","s2.jpg","s3.jpg","s4.jpg","s5.jpg","s6.jpg","s7.jpg","s8.jpg","s9.jpg","s10.jpg","s11.jpg","s12.jpg","s13.jpg","s14.jpg","s15.jpg","s16.jpg","s17.jpg","s18.jpg"]
+    },
+    {
+      "slug": "gents",
+      "name": "Men's Collection",
+      "intro": "Our Product range Roll Neck Shirts, Jogging Trousers, Sweat Shirts, Polo Shirts, T-Shirts, Hooded Shirts, Pyjama Suits, etc.",
+      "imageDir": "images/mens/",
+      "images": ["s1.jpg","s2.jpg","s3.jpg","s4.jpg","s5.jpg","s6.jpg","s7.jpg","s8.jpg","s9.jpg","s10.jpg","s11.jpg","s12.jpg","s14.jpg","s15.jpg","s17.jpg"]
+    }
+  ],
+  "manufacturing": [
+    {
+      "slug": "knitting",
+      "name": "Knitting",
+      "description": "Haram Textile is equipped with state of the art knitting machines, for all type of knitted fabric like: Fleece, French Terry, Single Jersey, Interlock, Pique, 1x1 Rib, 2x2 Rib, Flat Back Rib, Thermal, Feeder Striped, Engineer Striped and Jacquard knitted fabric.",
+      "imageDir": "images/knitting/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg"]
+    },
+    {
+      "slug": "dyeing",
+      "name": "Dyeing",
+      "description": "Haram Textile is furnished with state of the art dyeing with all type of finishes: In-side Brushing, Peaching Effect, Enzyme washed, mercerized stone washed. Also have the enormous facility of Garment Washing of all types: burn out washed look, stone washed look, mineral dyeing with wash, Tie & Dye garment wash, Dip Dye garment wash, etc.",
+      "imageDir": "images/dying/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg"]
+    },
+    {
+      "slug": "cutting",
+      "name": "Cutting",
+      "description": "To reduce the wastage of fabric and enhance the fabric usability, installing the CAD/CAM system for pattern designing and grading. In order to ensure constant supply of cut panels, our manual laying and cutting production runs parallel to meet the needs of stitching inductions.",
+      "imageDir": "images/cutting/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg"]
+    },
+    {
+      "slug": "printing",
+      "name": "Printing",
+      "description": "Appealing tints are placed on various kinds of fabric in our printing department where we have the facility of Screen Printing, Heat Transfer, Puff print, Rubber Print, high-density print, flocking, Glitter print, water paste printing, oil paste printing, Foil printing, discharge printing and Photo print, etc. We have a well-equipped design studio which supports production up to 5000 garment cut panels per day.",
+      "imageDir": "images/printing/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg"]
+    },
+    {
+      "slug": "embroidery",
+      "name": "Embroidery",
+      "description": "We have a general range of Embroidery Machines giving us the ability to produce many designs from the simplest to the complex, enabling us to cope with quick turn-around on both small and large volume.",
+      "imageDir": "images/emb/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg"]
+    },
+    {
+      "slug": "sewing",
+      "name": "Sewing",
+      "description": "Haram Textile operates 160 sewing machines with a complete range of gauges and attachments. Specialized machine fleet includes: Hemming machines with left hand knife for clean finish; Multi needle chain lock machines for set-in tape applications; Blind hemming machines specially for t-shirts; Elastic & Lace attaching machines with right hand knife for clean finished edge; Automatic binding cutter machine with built-in equalizer for consistent tape cutting; Continuous fusing machines for interlining providing superior quality and stability after wash; Every sewing machine has a built-in head light giving extra visibility to the operator.",
+      "imageDir": "images/stitching/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg"]
+    },
+    {
+      "slug": "packing",
+      "name": "Finishing & Packing",
+      "description": "Packing is the last process before shipping the garment. We have a well-trained packing team to meet customer requirements. We have a capacity of more than 600,000 Pcs/month.",
+      "imageDir": "images/packing/",
+      "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg","product_big5.jpg","product_big6.jpg","product_big7.jpg","product_big8.jpg","product_big9.jpg"]
+    }
+  ]
+}

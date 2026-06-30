@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Design tokens — Phase 2 motion/UI system
+   All Phase 2 components reference these CSS variables directly so they
+   work regardless of Tailwind's JIT purging of arbitrary values.
+───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Backgrounds */
+  --background: #fdfaf6;
+  --foreground: #1a0f00;
+  --surface: #f5f0e8;
+  --surface-card: #fdfaf6;
+
+  /* Brand greens */
+  --brand-deep: #2d5016;
+  --brand-deeper: #1f3a0f;
+
+  /* Brand golds (accent) */
+  --brand: #b8963e;
+  --brand-light: #cbb06a;
+
+  /* Ink / text hierarchy */
+  --ink: #1a0f00;
+  --ink-soft: #6b6259;
+  --on-brand: #fdfaf6;
+
+  /* Structure / borders */
+  --hairline: #e8ddd0;
+  --ghost: #e0d6c8;
+
+  /* Border radii */
+  --radius-card: 1.5rem;
+  --radius-card-lg: 2rem;
+  --radius-pill: 62.5rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Adaptive rem grid (scale DOWN via media queries; scale UP via JS in layout)
+   Base design width: 1920px, FONT_BASE: 16px
+   Each breakpoint value = 16 * 100 / baseWidth vw
+───────────────────────────────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 1920px) {
+  html {
+    font-size: 0.833333vw;
+  }
+}
+
+@media (max-width: 1440px) {
+  html {
+    font-size: 1.111111vw;
+  }
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 1.5625vw;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    font-size: 4.444444vw;
+  }
+}
+
+/* The adaptive rem grid above is a public-site concern. The admin panel was
+   built at 1rem = 16px and must not rescale with viewport, so pin the root
+   font-size back to a fixed 16px whenever an admin route is mounted. The
+   `html:has(.admin-root)` selector out-specifies the media-query rules above,
+   so it wins at every breakpoint. (`.admin-root` is set in app/admin/layout.tsx.) */
+html:has(.admin-root) {
+  font-size: 16px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Base styles
+───────────────────────────────────────────────────────────────────────────── */
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+}
+
+/*
+ * Admin-panel radius override: every admin component still uses Tailwind's
+ * bare `rounded` (4px) utility from before the sitewide corner-radius
+ * decision. Public-site components were updated to use `rounded-md`
+ * directly since they previously had no rounding at all; this single rule
+ * retargets the literal `.rounded` token already in use across the admin
+ * panel to the same 6px standard, without touching ~25 admin files.
+ */
+.rounded {
+  border-radius: 0.375rem;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Utility layer
+───────────────────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Legacy reveal utilities (kept for existing components) */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-hidden {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .reveal-3d {
+    opacity: 1;
+    transform: perspective(1000px) rotateX(0deg) translateY(0);
+    transition:
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-3d-hidden {
+    opacity: 0;
+    transform: perspective(1000px) rotateX(10deg) translateY(24px);
+  }
+
+  .step-card-3d {
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (hover: hover) {
+    .step-card-3d:hover {
+      transform: rotateX(-4deg) rotateY(6deg) translateZ(12px);
+    }
+  }
+
+  .logo-marquee-viewport {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  }
+  .logo-marquee-track {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    width: max-content;
+    animation: logo-marquee 32s linear infinite;
+  }
+  .logo-marquee-track:hover {
+    animation-play-state: paused;
+  }
+  @keyframes logo-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  details summary {
+    transition: color 150ms ease;
+  }
+  details[open] dd {
+    animation: faq-reveal 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @keyframes faq-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    details[open] dd {
+      animation: none;
+    }
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Focus visible — global
+───────────────────────────────────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   No-JS / scripting-disabled safety net
+   When JavaScript is disabled the Framer Motion initial states (opacity:0,
+   translateY offset) are never animated away, which hides all content from
+   users and crawlers that execute CSS but not JS. These rules force visibility
+   so the page degrades gracefully without JavaScript.
+───────────────────────────────────────────────────────────────────────────── */
+@media (scripting: none) {
+  /* Framer Motion sets inline style on motion.* elements — override them. */
+  [style*="opacity: 0"],
+  [style*="opacity:0"] {
+    opacity: 1 !important;
+  }
+  [style*="translateY"] {
+    transform: none !important;
+  }
+  /* Logo marquee: pause the running animation so logos are at least visible */
+  .logo-marquee-track {
+    animation-play-state: paused !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   Reduced-motion overrides
+───────────────────────────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-hidden,
+  .reveal-3d,
+  .reveal-3d-hidden,
+  .step-card-3d,
+  .step-card-3d:hover {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  .logo-marquee-track {
+    animation: none !important;
+  }
+}
