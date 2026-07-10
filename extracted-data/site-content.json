@@ -27,20 +27,20 @@
     { "label": "Specialized machines", "value": 220 },
     { "label": "Workers & staff", "value": 350 },
     { "label": "Factory area (sq ft)", "value": 30000 },
-    { "label": "Packing capacity (Pcs/month)", "value": 600000 },
+    { "label": "Packing capacity (Pcs/month)", "value": 70000 },
     { "label": "Sewing machines", "value": 160 }
   ],
   "home": {
     "products": "Right from yarn to making fabrics of different quality in cotton, Synthetic, blends like viscose / modal, Polyester, melanges, yarn dyed, organic, Compact yarn etc., produced in house in huge knitting and state-of-the-art dyeing facilities.",
     "objective": "Haram Textile believes in quality products and is committed to provide quality products by meeting our customer requirement through continual improvement at every stage of manufacturing process.",
     "markets": "As one of the most prominent apparel manufacturers in Pakistan and around the globe, at Haram Textile, we believe that the possibilities are endless and it is this philosophy that has helped drive us to sustainability in fashion.",
-    "aboutShort": "Haram Textile is one of the leading textiles and garments manufacturing exporters in Pakistan. We have a complete setup from knitting, dying, sewing, printing, embroidery and packing.",
+    "aboutShort": "Haram Textile is a trusted apparel manufacturer established in 2009, specializing in high-quality knitwear for international brands and retailers, with a complete in-house setup from knitting to packing.",
     "socialCompliance": "We are eternally committed to the highest standards of social and environmental responsibility. We always assume liability for the social, ecological and economic consequences of our activities. Our proceedings from manufacturing to delivery demonstrate this commitment.",
     "fashionConcepts": "Haram Textile is very selective in the purchase of all raw materials specially the yarn, for consistent quality production of the fabric garments. Special attention is also focused on various production processes like knitting, dyeing, cutting and stitching etc. The entire satisfaction of the customer is our foremost goal.",
     "productLine": "Our main product line is knitwear articles, T-shirts, polo shirts, sweat shirts, basic and fashionable jogging suits, leggings, bike shorts, tops for the ladies and the girls, underwear and the pants in solid/print, with a selection of fabrics including 100% cotton, 95% cotton, 5% Lycra and microfiber with Lycra."
   },
   "about": {
-    "intro": "Haram Textile strives to set standards of excellence for providing quality textiles to our customers. Founded December 19, 2009, the company emphasizes customer satisfaction as key to success.",
+    "intro": "Haram Textile is a trusted apparel manufacturer established in 2009, specializing in high-quality knitwear for international brands and retailers. We combine technical expertise, innovative product development, and efficient manufacturing to deliver premium apparel that meets global quality and compliance standards. Our customer-focused approach, commitment to reliability, and on-time delivery have made us a dependable long-term manufacturing partner. By continuously investing in our people, technology, and processes, we create value through quality, innovation, and lasting business relationships.",
     "whyPakistan": [
       "4th largest cotton producer globally",
       "State-of-the-art spinning sectors",
@@ -50,9 +50,35 @@
       "Diversified fabric making plants",
       "Large-scale sewing infrastructure"
     ],
-    "vision": "Assist customer's needs with best knowledge, experience and technology",
-    "values": ["Team Work", "Association", "Faithfulness"],
-    "mission": "Sustainable, quality growth"
+    "vision": "To be a trusted global apparel manufacturing partner by delivering innovative solutions through industry expertise, advanced technology, and an unwavering commitment to meeting and exceeding our customers' expectations.",
+    "values": [
+      {
+        "name": "Quality Excellence",
+        "description": "We are committed to delivering products that consistently meet the highest standards of quality and craftsmanship."
+      },
+      {
+        "name": "Integrity",
+        "description": "We conduct our business with honesty, transparency, and accountability in every relationship."
+      },
+      {
+        "name": "Customer Partnership",
+        "description": "We build long-term relationships by understanding our customers' needs and delivering reliable, value-driven solutions."
+      },
+      {
+        "name": "Innovation",
+        "description": "We embrace continuous improvement, modern technology, and creative thinking to stay ahead in a dynamic industry."
+      },
+      {
+        "name": "Sustainability",
+        "description": "We promote responsible manufacturing practices that support environmental stewardship and social responsibility."
+      },
+      {
+        "name": "Reliability",
+        "description": "We honor our commitments through consistent performance, timely delivery, and dependable service."
+      }
+    ],
+    "mission": "To deliver high-quality apparel through innovation, operational excellence, and sustainable manufacturing practices while building long-term partnerships with our customers through reliability, integrity, and exceptional service.",
+    "usp": "Haram Textile combines end-to-end apparel manufacturing expertise with a customer-first approach to deliver high-quality products tailored to global brand requirements. We differentiate ourselves through consistent quality, flexible production capabilities, reliable on-time delivery, and continuous innovation in product development. Our commitment to integrity, compliance, and long-term partnerships makes us a trusted manufacturing partner for international brands and retailers."
   },
   "certifications": {
     "intro": "Quality always plays vital role in our growth. A team of high skilled, professional and qualified QA members contributes efficiently towards achieving the superior quality.",
@@ -139,7 +165,7 @@
     {
       "slug": "packing",
       "name": "Finishing & Packing",
-      "description": "Packing is the last process before shipping the garment. We have a well-trained packing team to meet customer requirements. We have a capacity of more than 600,000 Pcs/month.",
+      "description": "Packing is the last process before shipping the garment. We have a well-trained packing team to meet customer requirements. We have a capacity of 70,000 Pcs/month.",
       "imageDir": "images/packing/",
       "images": ["product_big1.jpg","product_big2.jpg","product_big3.jpg","product_big5.jpg","product_big6.jpg","product_big7.jpg","product_big8.jpg","product_big9.jpg"]
     }

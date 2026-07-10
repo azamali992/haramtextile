@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { RevealText } from "@/components/motion/RevealText";
 import { Inview } from "@/components/motion/Inview";
 import { HoverSpring } from "@/components/motion/HoverSpring";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Badge } from "@/components/ui/Badge";
 import { PillButton } from "@/components/ui/PillButton";
 import { useUI } from "@/components/layout/UIProvider";
@@ -54,29 +53,25 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             from={{ opacity: 0, y: 48 }}
             to={{ opacity: 1, y: 0 }}
           >
-            <motion.div
-              className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-card)] bg-[var(--surface)]"
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300, damping: 22 }}
-            >
-              <Image
-                src={product.coverImage.src}
-                alt={`${product.name}, ${product.categoryName} apparel by Haram Textile`}
-                width={product.coverImage.width}
-                height={product.coverImage.height}
-                priority
-                className="h-full w-full object-cover"
-              />
-              {/* Glass caption overlay */}
-              <div className="absolute inset-x-3 bottom-3 rounded-[var(--radius-card)] bg-[var(--brand-deep)]/60 p-3 backdrop-blur-sm">
-                <p className="font-body text-sm font-medium text-[var(--on-brand)]">
-                  {product.categoryName}
-                </p>
-                <p className="mt-0.5 font-body text-[0.65rem] leading-snug text-[rgba(253,250,246,0.8)]">
-                  Haram Textile — Faisalabad, Pakistan
-                </p>
-              </div>
-            </motion.div>
+            <figure>
+              <motion.div
+                className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-[var(--surface)]"
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300, damping: 22 }}
+              >
+                <Image
+                  src={product.coverImage.src}
+                  alt={`${product.name}, ${product.categoryName} apparel by Haram Textile`}
+                  width={product.coverImage.width}
+                  height={product.coverImage.height}
+                  priority
+                  className="h-full w-full object-cover"
+                />
+              </motion.div>
+              <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
+                {product.categoryName} — Haram Textile, Faisalabad
+              </figcaption>
+            </figure>
           </Inview>
 
           {/* Product info */}
@@ -96,7 +91,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               as="h1"
               stagger={80}
               duration={0.95}
-              className="mt-4 font-heading text-[2.5rem] leading-[0.95] tracking-tight text-[var(--ink)] sm:text-[3rem]"
+              className="mt-5 font-heading font-normal text-[2.5rem] leading-[0.98] tracking-tight text-[var(--ink)] sm:text-display"
             >
               {product.name}
             </RevealText>
@@ -191,14 +186,18 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
         {/* ── Fallback gallery ── */}
         {product.gallery.length > 0 && (
-          <section aria-labelledby="gallery-heading" className="mt-20">
-            <Eyebrow tone="dark">More from this category</Eyebrow>
-            <h2
-              id="gallery-heading"
-              className="mt-4 font-heading text-[2rem] leading-[0.95] tracking-tight text-[var(--ink)]"
-            >
-              {product.categoryName} Gallery
-            </h2>
+          <section aria-labelledby="gallery-heading" className="mt-24">
+            <div className="flex items-baseline justify-between gap-6 border-t border-[var(--hairline)] pt-10">
+              <h2
+                id="gallery-heading"
+                className="font-heading text-title font-normal tracking-tight text-[var(--ink)]"
+              >
+                More from {product.categoryName}
+              </h2>
+              <p className="shrink-0 font-body text-caption uppercase tracking-[0.14em] text-[var(--ink-soft)]">
+                {product.gallery.length} styles
+              </p>
+            </div>
             <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
               {product.gallery.map((image, i) => (
                 <Inview
@@ -210,7 +209,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   to={{ opacity: 1, y: 0 }}
                 >
                   <HoverSpring to={{ scale: 1.04 }} stiffness={300} damping={22}>
-                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[var(--radius-card)] bg-[var(--surface)]">
+                    <div className="relative aspect-[4/5] w-full overflow-hidden rounded-tile bg-[var(--surface)]">
                       <Image
                         src={image.src}
                         alt={`${product.categoryName} apparel sample by Haram Textile`}

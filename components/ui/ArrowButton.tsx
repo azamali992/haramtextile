@@ -3,11 +3,12 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { type ButtonHTMLAttributes } from "react";
 
-export type ArrowButtonVariant = "outline" | "solid";
+export type ArrowButtonVariant = "outline" | "outlineLight" | "solid";
 
 interface ArrowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * `outline` — hairline border, transparent bg, ink text.
+   * `outlineLight` — translucent on-brand border/text, for dark green bands.
    * `solid` — deep-green bg, on-brand text.
    * @default "outline"
    */
@@ -44,7 +45,9 @@ export function ArrowButton({
   const variantClasses =
     variant === "solid"
       ? "bg-[var(--brand-deep)] border-[var(--brand-deep)] text-[var(--on-brand)] hover:bg-[var(--brand-deeper)]"
-      : "border-[var(--hairline)] bg-transparent text-[var(--ink)] hover:border-[var(--ink)]";
+      : variant === "outlineLight"
+        ? "border-on-brand/25 bg-transparent text-[var(--on-brand)] hover:border-on-brand/70"
+        : "border-[var(--hairline)] bg-transparent text-[var(--ink)] hover:border-[var(--ink)]";
 
   return (
     <button

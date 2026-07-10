@@ -59,15 +59,25 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
           aria-label="Primary"
           className={`hidden flex-1 items-center gap-8 lg:flex ${textColor}`}
         >
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`font-body text-sm font-medium uppercase tracking-wide opacity-90 transition-opacity duration-150 hover:opacity-100 ${linkHover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]`}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`relative font-body text-sm font-medium uppercase tracking-wide opacity-90 transition-opacity duration-150 hover:opacity-100 ${linkHover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]`}
+              >
+                {link.label}
+                {isActive && (
+                  <span
+                    className="absolute -bottom-2 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-[var(--brand)]"
+                    aria-hidden="true"
+                  />
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* Center brand */}

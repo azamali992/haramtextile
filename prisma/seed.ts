@@ -45,8 +45,9 @@ interface SiteContent {
     intro: string;
     whyPakistan: string[];
     vision: string;
-    values: string[];
+    values: { name: string; description: string }[];
     mission: string;
+    usp: string;
   };
   manufacturing: { slug: string; name: string; description: string }[];
 }
@@ -180,7 +181,7 @@ async function main() {
   const PRODUCTION_STEP_STATS: Record<string, { statLabel: string; statValue: string } | undefined> = {
     sewing: { statLabel: "Sewing machines", statValue: "160" },
     printing: { statLabel: "Design studio capacity", statValue: "5,000 cut panels/day" },
-    packing: { statLabel: "Packing capacity", statValue: "600,000+ pcs/month" },
+    packing: { statLabel: "Packing capacity", statValue: "70,000+ pcs/month" },
   };
 
   for (let index = 0; index < siteContent.manufacturing.length; index++) {
@@ -218,26 +219,20 @@ async function main() {
   });
 
   // --- About content (id = 1) ----------------------------------------------
-  // `storyText` uses the source `about.intro` verbatim. `missionText` is
-  // composed by joining `mission`, `vision`, and `values` — all verbatim
-  // source strings, just assembled into readable prose rather than left
-  // as disconnected fields, since the schema only has two text slots.
+  // `storyText` uses the source `about.intro` verbatim. Mission, Vision, and
+  // Values are rendered publicly from `siteContent.about` directly (shared
+  // `MissionVisionValues` section on About + Home) — `missionText` is left
+  // unset since there's no separate, non-duplicative content for it.
   // No image was captured for the About page in the scrape (the legacy
   // about page used generic site graphics like about_chik.jpg/dairy_about.jpg
   // not attributable to "the" about photo), so imageUrl/imagePublicId are
   // left null pending a real upload via the admin panel.
-  const aboutMissionText = [
-    `Mission: ${siteContent.about.mission}.`,
-    `Vision: ${siteContent.about.vision}.`,
-    `Values: ${siteContent.about.values.join(", ")}.`,
-  ].join(" ");
-
   await prisma.aboutContent.upsert({
     where: { id: 1 },
     create: {
       id: 1,
       storyText: siteContent.about.intro,
-      missionText: aboutMissionText,
+      missionText: null,
       imageUrl: null,
       imagePublicId: null,
     },

@@ -15,15 +15,16 @@ import {
   isPlaceholderImageUrl,
   getFallbackImageForCategory,
 } from "@/lib/product-image-fallback";
+import { getFallbackImageForProductionStep } from "@/lib/production-image-fallback";
 
 // ─── Section components ───────────────────────────────────────────────────────
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TrustSection } from "@/components/sections/TrustSection";
-import { NumberedList } from "@/components/sections/NumberedList";
-import { TiltedPhotoPair } from "@/components/sections/TiltedPhotoPair";
+import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
+import { ProductShowcaseCarousel } from "@/components/sections/ProductShowcaseCarousel";
+import { ProcessCarousel } from "@/components/sections/ProcessCarousel";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
-import { ContactCTABand } from "@/components/sections/ContactCTABand";
 
 export const dynamic = "force-dynamic";
 
@@ -116,38 +117,65 @@ export default async function HomePage() {
     openingHours: ["Mo-Sa 09:30-18:00"],
   });
 
-  // ── Deduped category slides for the hero carousel ──────────────────────────
+  // ── Product showcase slides: one card per category — DB categories first
+  //    (admin-controlled naming/order), then any siteContent category not yet
+  //    represented, so the carousel always shows the full range ───────────────
   const categoriesSeen = new Set<string>();
-  const heroSlides = products
+  const showcaseCategories = products
     .filter((product) => {
       if (categoriesSeen.has(product.category.slug)) return false;
       categoriesSeen.add(product.category.slug);
       return true;
     })
-    .map((product) => {
-      const fallback = getFallbackImageForCategory(product.category.slug);
-      return {
-        slug: product.category.slug,
-        name: product.category.name,
-        intro:
-          siteContent.productCategories.find(
-            (c) => c.slug === product.category.slug,
-          )?.intro ?? "",
-        image: fallback ?? {
-          src: "/images/hero/hero-factory.jpg",
-          width: 800,
-          height: 600,
-        },
-      };
-    });
+    .map((product) => ({
+      slug: product.category.slug,
+      name: product.category.name,
+    }));
+  for (const cat of siteContent.productCategories) {
+    if (!categoriesSeen.has(cat.slug)) {
+      categoriesSeen.add(cat.slug);
+      showcaseCategories.push({ slug: cat.slug, name: cat.name });
+    }
+  }
 
-  // ── Numbered list items from siteContent.productCategories ─────────────────
-  const numberedListItems = siteContent.productCategories.map((cat, i) => ({
-    index: String(i + 1).padStart(2, "0"),
-    name: cat.name,
-    description: cat.intro,
-    href: `/products?category=${cat.slug}`,
-  }));
+  const showcaseSlides = showcaseCategories.map((category, i) => {
+    const fallback = getFallbackImageForCategory(category.slug);
+    return {
+      index: String(i + 1).padStart(2, "0"),
+      slug: category.slug,
+      name: category.name,
+      intro:
+        siteContent.productCategories.find((c) => c.slug === category.slug)
+          ?.intro ?? "",
+      image: fallback ?? {
+        src: "/images/hero/hero-factory.jpg",
+        width: 800,
+        height: 600,
+      },
+    };
+  });
+
+  // ── Process carousel slides (DB steps; siteContent fallback if DB empty) ───
+  const processSteps =
+    productionSteps.length > 0
+      ? productionSteps.map((step) => ({
+          slug: step.slug,
+          title: step.title,
+          description: step.description,
+          statLabel: step.statLabel ?? null,
+          statValue: step.statValue ?? null,
+          imageUrl: isPlaceholderImageUrl(step.imageUrl)
+            ? getFallbackImageForProductionStep(step.slug)
+            : step.imageUrl,
+        }))
+      : siteContent.manufacturing.map((step) => ({
+          slug: step.slug,
+          title: step.name,
+          description: step.description,
+          statLabel: null,
+          statValue: null,
+          imageUrl: getFallbackImageForProductionStep(step.slug),
+        }));
 
   // ── Stats formatted for StatBand ───────────────────────────────────────────
   const statItems = siteContent.stats.map((s) => ({
@@ -160,45 +188,6 @@ export default async function HomePage() {
           : String(s.value),
   }));
 
-  // ── Production step tiles (first two, with placeholder fallback) ───────────
-  // Tiles need: src, alt, name, description, tone
-  const PRODUCTION_FALLBACKS: Array<{
-    src: string;
-    alt: string;
-    tone: "green" | "gold";
-  }> = [
-    {
-      src: "/images/hero/hero-factory.jpg",
-      alt: "Haram Textile production facility — knitting and sewing floor",
-      tone: "green",
-    },
-    {
-      src: "/images/about/about-factory.jpg",
-      alt: "Haram Textile factory workers operating sewing machines",
-      tone: "gold",
-    },
-  ];
-
-  const [tileA, tileB] = [0, 1].map((idx) => {
-    const step = productionSteps[idx];
-    const fb = PRODUCTION_FALLBACKS[idx]!;
-    const src =
-      step?.imageUrl && !isPlaceholderImageUrl(step.imageUrl)
-        ? step.imageUrl
-        : fb.src;
-    return {
-      src,
-      alt: step ? step.title : fb.alt,
-      name: step?.title ?? (idx === 0 ? "Knitting" : "Sewing"),
-      description:
-        step?.description ??
-        (idx === 0
-          ? "State-of-the-art knitting machines producing all fabric types."
-          : "160 sewing machines with complete gauges and attachments."),
-      tone: fb.tone,
-    };
-  });
-
   // ── Pull-quote certification badges ────────────────────────────────────────
   const certBadges = certifications.map((c) => ({
     name: c.name,
@@ -207,9 +196,8 @@ export default async function HomePage() {
 
   return (
     /*
-     * The page inset (px-2 sm:px-3) gives every section its rounded-card
-     * framing against the cream page background, matching the reference spec's
-     * "0.5rem / 0.75rem page inset" that rounds each section as a card.
+     * The page inset (px-2 sm:px-3) gives the hero and green bands their
+     * rounded-card framing against the cream page background.
      */
     <main className="px-2 sm:px-3">
       {/* 1 ── Hero ──────────────────────────────────────────────────────────── */}
@@ -219,8 +207,6 @@ export default async function HomePage() {
         ctaText={heroConfig?.ctaText ?? "Get a Quote"}
         ctaLink={heroConfig?.ctaLink ?? null}
         heroImage={heroImage}
-        slides={heroSlides}
-        stats={siteContent.stats}
       />
 
       {/* 2 ── Trust / social proof ─────────────────────────────────────────── */}
@@ -229,54 +215,46 @@ export default async function HomePage() {
         certifications={certifications}
       />
 
-      {/* 3 ── Product categories numbered list ─────────────────────────────── */}
-      <NumberedList
+      {/* 3 ── Mission, Vision & Values ──────────────────────────────────────── */}
+      <MissionVisionValues
+        mission={siteContent.about.mission}
+        vision={siteContent.about.vision}
+        values={siteContent.about.values}
+        tone="surface"
+      />
+
+      {/* 4 ── Product collections — horizontal carousel ────────────────────── */}
+      <ProductShowcaseCarousel
         eyebrow="What we make"
-        title={["Our", "Collections"]}
-        items={numberedListItems}
-        className="mt-3"
+        title={["Our collections"]}
+        body={siteContent.home.productLine}
+        slides={showcaseSlides}
       />
 
-      {/* 4 ── Facilities / production photo pair ───────────────────────────── */}
-      <TiltedPhotoPair
-        intro={{
-          eyebrow: "Our process",
-          title: ["World-Class", "Production"],
-          body: "From knitting and dyeing through cutting, stitching, printing, embroidery, and finishing — every step happens in-house across 30,000 sq ft of purpose-built facilities.",
-          iconImage: {
-            src: "/images/about/about-factory.jpg",
-            alt: "Haram Textile factory floor",
-          },
-        }}
-        tiles={[tileA, tileB] as [typeof tileA, typeof tileB]}
+      {/* 5 ── Production process — horizontal carousel on green ────────────── */}
+      <ProcessCarousel
+        eyebrow="Our process"
+        title={["From yarn", "to carton"]}
+        body="Every stage happens in-house across 30,000 sq ft of purpose-built facilities in Faisalabad."
+        steps={processSteps}
       />
 
-      {/* 5 ── Stats band ───────────────────────────────────────────────────── */}
+      {/* 6 ── Stats band ───────────────────────────────────────────────────── */}
       <StatBand
-        eyebrow="By the numbers"
         title={["Manufacturing", "at scale"]}
         stats={statItems}
-        tone="green"
+        tone="cream"
         className="mt-3"
       />
 
-      {/* 6 ── Pull-quote / repurposed testimonials ─────────────────────────── */}
+      {/* 7 ── Pull-quote ───────────────────────────────────────────────────── */}
       <PullQuote
-        eyebrow="Our commitment"
-        title={["Trusted by", "global brands"]}
         quote={siteContent.site.quote}
         attribution="Haram Textile — Faisalabad, Pakistan"
         certBadges={certBadges.length > 0 ? certBadges : undefined}
       />
 
-      {/* 7a ── Contact CTA band ─────────────────────────────────────────────── */}
-      <ContactCTABand
-        eyebrow="Get started"
-        title={["Ready to", "start your order?"]}
-        ctaLabel="Get a Quote"
-      />
-
-      {/* 7b ── FAQ ──────────────────────────────────────────────────────────── */}
+      {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
       <FaqAccordion faqs={HOME_FAQS} />
 
       {/* JSON-LD (kept exactly as before) */}

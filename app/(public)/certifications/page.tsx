@@ -82,15 +82,18 @@ export default async function CertificationsPage() {
       />
 
       {/* Editorial page header */}
-      <div className="px-6 py-16 sm:px-10 sm:py-20">
-        <h1 className="sr-only">Our Certifications</h1>
-        <SectionHeader
-          eyebrow="Quality assurance"
-          eyebrowTone="dark"
-          title={["Our", "Certifications"]}
-          body={siteContent.certifications.intro}
-          bodyClassName="text-[var(--ink-soft)] max-w-2xl"
-        />
+      <div className="px-6 pb-14 pt-12 sm:px-10 sm:pt-16">
+        <div className="mx-auto max-w-[90rem]">
+          <h1 className="sr-only">Our Certifications</h1>
+          <SectionHeader
+            eyebrow="Quality assurance"
+            eyebrowTone="dark"
+            title={["Our certifications"]}
+            body={siteContent.certifications.intro}
+            titleClassName="font-normal text-[3rem] sm:text-display-lg text-[var(--ink)]"
+            bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
+          />
+        </div>
       </div>
 
       {/* Certifications grid */}

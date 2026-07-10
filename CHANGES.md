@@ -760,3 +760,101 @@ changes):
 
 Verified: `npm run build` completes cleanly with these changes (all routes
 compile; `/sitemap.xml` is now dynamic).
+
+---
+
+## Phase 5 — "Editorial Luxury Atelier" revamp (2026-07-06)
+
+Full-site UI revamp of the public pages (admin untouched). Direction approved
+by the client: editorial luxury — photography-led, sentence-case Playfair
+headlines with one italic gold accent word, generous whitespace, refined
+green/cream/gold, rich-but-tasteful motion. Supersedes the Phase 2 glass/
+eyebrow-heavy surface language where they conflict.
+
+### Token consolidation (single source of truth)
+- `app/globals.css` `:root` now holds a raw scale (`--green-950…600`,
+  `--gold-700/500/300/100`, `--cream-50…300`, `--ink-900/600`) plus the
+  existing semantic aliases re-pointed to it. New: `--brand-strong` (gold that
+  passes contrast on cream), `--scrim`, RGB triplets for alpha utilities,
+  `--radius-tile`, `--shadow-card`/`--shadow-float` (the only two shadows).
+- `tailwind.config.ts` exposes semantic utilities (`bg-brand-deep/40`,
+  `text-on-brand/70`, `rounded-card-lg`, `shadow-float`) and an editorial type
+  scale (`display-xl/lg`, `display`, `title`, `title-sm`, `body-lg`, `caption`,
+  `eyebrow`). Legacy color/fontSize keys are frozen as ADMIN-ONLY.
+- Deleted `styles/tokens.ts` (unreferenced). No raw hex/rgba left in
+  `components/` (verified by grep).
+
+### New primitives
+- `components/ui/HorizontalScroller.tsx` — native overflow-x carousel
+  (drag + inertia, snap, arrows, gold progress hairline, `01 / 07` counter,
+  `data-lenis-prevent`, no vertical-wheel hijack, reduced-motion aware).
+- `components/motion/Parallax.tsx` (shared oversized-plate parallax),
+  `components/motion/CountUp.tsx` (stat count-up), `components/ui/FormField.tsx`
+  (shared Field + inputClass used by ContactModal AND ContactForm),
+  `components/sections/PhotoHero.tsx` (inner-page photo hero),
+  `lib/production-image-fallback.ts` (per-step slug→photo map).
+
+### Home
+Hero (sentence-case display-xl, italic gold last word, fake avatar dots/glass
+stat card/mini slider removed, computed years line + scroll cue) → Trust
+(ghost headline, computed years, marquee, cert chips; fake "15+ Years" and
+"#01" boxes removed) → **ProductShowcaseCarousel** (portrait category cards,
+edge-bleed) → **ProcessCarousel** (green band, 7 steps, ghost numerals, real
+per-step photos) → StatBand (cream, CountUp, gold hairlines) → PullQuote
+(de-carded centered blockquote) → FAQ. ContactCTABand removed everywhere —
+the footer CTA owns conversion.
+
+### Inner pages
+- /about: light editorial hero (cream, italic gold accent, mission aside,
+  21:9 parallax photo with caption BELOW), Why-Pakistan numbered hairline
+  rows, asymmetric Mission/Vision/Values (one dark card), team ledger rows.
+- /production: PhotoHero opener, steps keep `id={slug}` anchors, glass
+  figcaptions → captions below, per-step photos via slug map, ghost numerals,
+  StatBand moved below steps (cream).
+- /products (+ detail, loading): display-lg header, pill FilterBar, editorial
+  ProductCard (text below media, MOQ gold-wash chip), no glass caption on
+  detail cover, gallery `rounded-tile`, skeleton mirrors new layout.
+- /certifications (+ detail): new CertificationCard, retokened detail.
+- /contact: single hairline-divided details panel, real "Open in Google Maps"
+  link row (fake map block removed), ContactForm now visually identical to the
+  modal via FormField.
+
+### Component unification & deletions
+One button system (PillButton + shared pill classes); Badge/FilterBar/
+FaqAccordion/Breadcrumb retokened. Deleted: `ui/Button|Reveal|Reveal3D|
+Modal|CarouselDots|ClientLogoCarousel`, `sections/ContactCTABand|
+NumberedList|TiltedPhotoPair`, legacy `.reveal*`/`.step-card-3d` CSS.
+
+### Bug fixes shipped with the revamp
+- Hydration crash for `prefers-reduced-motion` users: RevealText/RevealLines/
+  Inview/Parallax rendered different DOM than the server. All now keep
+  identical DOM and collapse to zero-duration transitions instead.
+- `next/image` fill-parent position warning in the hero.
+
+DESIGN.md remains superseded; this log is authoritative.
+
+---
+
+## Phase 6 — Brand content update from client questionnaire (2026-07-06)
+
+Updated site copy from the client's filled-in "Website Content & Brand Questionnaire" (.docx). Also addressed a text-legibility complaint (body/caption text read as too light/faded).
+
+### Content changes (`extracted-data/site-content.json`)
+- `about.mission` / `about.vision` — replaced short taglines with the client's full mission/vision statements.
+- `about.values` — changed from 3 one-word strings to 6 `{ name, description }` objects (Quality Excellence, Integrity, Customer Partnership, Innovation, Sustainability, Reliability). `SiteContentValue` type added to `lib/site-content.ts`.
+- `about.usp` (new field) — "what makes us different" paragraph from the questionnaire.
+- `about.intro` — replaced with the client's new company summary paragraph (flagship placement: About hero).
+- `home.aboutShort` — condensed derivative of the same summary, used for footer/meta only (kept distinct from `about.intro` to avoid literal duplication on the About page).
+- **Packing capacity corrected 600,000 → 70,000 pcs/month** (confirmed with the client — a ~9x difference from the previous placeholder figure) across the stats array and the packing production-step description.
+
+### New shared section
+- `components/sections/MissionVisionValues.tsx` — Mission (large serif) + Vision (dark card) + the 6 Values (hairline grid, dot + name + description). Rendered on **both** Home (after Trust, before the product carousel) and About (after the hero) — this is genuinely new content on Home, not previously present.
+- `components/sections/AboutSections.tsx` simplified to USP + Why Pakistan + Team (Mission/Vision/Values extracted out); its old "story short" section now shows the USP paragraph under "What sets us apart" instead of duplicating `aboutShort`.
+- `components/sections/AboutHero.tsx` — dropped the `missionText` aside (it displayed a stale, auto-composed "Mission: X. Vision: Y. Values: Z." string from the original DB seed, now superseded by the dedicated Mission/Vision/Values section).
+
+### Text-legibility pass
+- `--ink-600` (the shared secondary/body-text color, aliased as `--ink-soft`) darkened `#5d554c` → `#453e35` — affects every ink-soft usage sitewide (descriptions, captions, stat labels, FAQ answers).
+- Several translucent `on-brand/NN` body-copy instances on dark-green sections bumped from the 60–75% range to 80–85% (footer blurb, PhotoHero subtitle, certification detail description, process-carousel description/body, stat labels, product-showcase intro).
+
+### Database
+`prisma/seed.ts` updated to match (fresh environments now seed correctly), plus a new one-off, idempotent `prisma/update-content.ts` script for environments seeded before this change (their rows aren't touched by re-running `db:seed`, which only creates — never updates — existing rows). Applied to the local dev database; **production/Neon still needs this run** — see the run instructions in the script's header comment.

@@ -23,6 +23,11 @@ export interface SiteContentStat {
   value: number;
 }
 
+export interface SiteContentValue {
+  name: string;
+  description: string;
+}
+
 export interface SiteContentProductCategory {
   slug: string;
   name: string;
@@ -70,8 +75,9 @@ export interface SiteContent {
     intro: string;
     whyPakistan: string[];
     vision: string;
-    values: string[];
+    values: SiteContentValue[];
     mission: string;
+    usp: string;
   };
   certifications: {
     intro: string;

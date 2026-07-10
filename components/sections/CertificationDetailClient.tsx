@@ -76,7 +76,7 @@ export function CertificationDetailClient({ certification }: CertificationDetail
               as="h1"
               stagger={80}
               duration={0.95}
-              className="mt-4 font-heading text-[2.5rem] leading-[0.95] tracking-tight text-[var(--ink)] sm:text-[3rem]"
+              className="mt-4 font-heading font-normal text-[2.5rem] leading-[0.98] tracking-tight text-[var(--ink)] sm:text-display"
             >
               {certification.name}
             </RevealText>
@@ -90,7 +90,7 @@ export function CertificationDetailClient({ certification }: CertificationDetail
                 from={{ opacity: 0, y: 16 }}
                 to={{ opacity: 1, y: 0 }}
               >
-                <p className="mt-3 font-body text-base font-medium text-[var(--brand)]">
+                <p className="mt-3 font-body text-base font-medium text-[var(--brand-strong)]">
                   Issued by {certification.issuingBody}
                 </p>
               </Inview>
@@ -124,7 +124,7 @@ export function CertificationDetailClient({ certification }: CertificationDetail
                 and compliance program. See our full{" "}
                 <Link
                   href="/certifications"
-                  className="text-[var(--brand-deep)] underline hover:text-[var(--brand)] transition-colors"
+                  className="text-[var(--brand-strong)] underline underline-offset-4 transition-colors hover:text-[var(--brand-deep)]"
                 >
                   certifications overview
                 </Link>{" "}
@@ -141,21 +141,21 @@ export function CertificationDetailClient({ certification }: CertificationDetail
             from={{ opacity: 0, y: 40 }}
             to={{ opacity: 1, y: 0 }}
           >
-            <div className="rounded-[var(--radius-card-lg)] bg-[var(--brand-deep)] p-8 text-[var(--on-brand)]">
+            <div className="rounded-card-lg bg-brand-deep p-8 text-[var(--on-brand)]">
               <span
                 className="block h-2 w-2 rounded-full bg-[var(--brand-light)]"
                 aria-hidden="true"
               />
-              <h2 className="mt-6 font-heading text-[1.75rem] leading-tight tracking-tight">
+              <h2 className="mt-6 font-heading text-title font-normal leading-tight tracking-tight">
                 {certification.name}
               </h2>
               {certification.issuingBody && (
-                <p className="mt-2 font-body text-sm text-[rgba(253,250,246,0.7)]">
+                <p className="mt-2 font-body text-sm text-on-brand/80">
                   {certification.issuingBody}
                 </p>
               )}
-              <div className="mt-8 border-t border-white/15 pt-8">
-                <p className="font-body text-sm leading-relaxed text-[rgba(253,250,246,0.75)]">
+              <div className="mt-8 border-t border-on-brand/15 pt-8">
+                <p className="font-body text-sm leading-relaxed text-on-brand/85">
                   {certification.siteName} maintains this certification as part of our
                   commitment to quality, social compliance, and international manufacturing
                   standards. Contact our team for audit reports or further documentation.

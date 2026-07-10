@@ -56,11 +56,10 @@ export function Inview({
   damping = 26,
   className = "",
 }: InviewProps) {
+  // Reduced motion keeps the same DOM (a structural branch breaks hydration —
+  // the server always renders the animated markup) and snaps straight to the
+  // visible state with a zero-duration tween instead.
   const prefersReducedMotion = useReducedMotion();
-
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
 
   return (
     <motion.div
@@ -68,14 +67,16 @@ export function Inview({
       initial={from}
       whileInView={{
         ...(to as TargetAndTransition),
-        transition: {
-          type: "spring",
-          stiffness,
-          damping,
-          delay: delayIn / 1000,
-        },
+        transition: prefersReducedMotion
+          ? { duration: 0 }
+          : {
+              type: "spring",
+              stiffness,
+              damping,
+              delay: delayIn / 1000,
+            },
       }}
-      viewport={{ once: true }}
+      viewport={{ once: true, ...(prefersReducedMotion ? { amount: 0 } : {}) }}
     >
       {children}
     </motion.div>

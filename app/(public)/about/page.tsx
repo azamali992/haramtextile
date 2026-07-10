@@ -10,8 +10,8 @@ import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { AboutHero } from "@/components/sections/AboutHero";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
-import { ContactCTABand } from "@/components/sections/ContactCTABand";
 import { AboutSections } from "@/components/sections/AboutSections";
+import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
 
 export const dynamic = "force-dynamic";
 
@@ -46,7 +46,7 @@ const ABOUT_FAQS = [
   },
   {
     question: "What does Haram Textile value as a company?",
-    answer: `Our core values are ${siteContent.about.values.join(", ")}.`,
+    answer: `Our core values are ${siteContent.about.values.map((v) => v.name).join(", ")}.`,
   },
 ];
 
@@ -93,41 +93,36 @@ export default async function AboutPage() {
             ? aboutContent.imageUrl
             : "/images/about/about-factory.jpg"
         }
-        missionText={aboutContent?.missionText ?? null}
       />
 
-      {/* About content sections — why pakistan, mission/vision/values, team */}
-      <AboutSections
-        whyPakistan={siteContent.about.whyPakistan}
+      {/* Mission, Vision & Values — shared with Home */}
+      <MissionVisionValues
         mission={siteContent.about.mission}
         vision={siteContent.about.vision}
         values={siteContent.about.values}
-        aboutShort={siteContent.home.aboutShort}
+        tone="surface"
+      />
+
+      {/* About content sections — USP, why pakistan, team */}
+      <AboutSections
+        whyPakistan={siteContent.about.whyPakistan}
+        usp={siteContent.about.usp}
         team={siteContent.team}
       />
 
-      {/* Pull quote with cert badges placeholder */}
+      {/* Pull quote — centered editorial blockquote */}
       <PullQuote
-        eyebrow="Our commitment"
-        title={["Trusted by", "global brands"]}
         quote={siteContent.site.quote}
         attribution={`${siteContent.team[0]?.name ?? "Rashid Mehmood"}, CEO — ${siteContent.site.name}`}
       />
 
-      {/* Stats band */}
+      {/* Stats band — this page's one dark moment */}
       <StatBand
         eyebrow="By the numbers"
         title={["Haram Textile", "at scale"]}
         stats={statItems}
         tone="green"
-        className="mt-3"
-      />
-
-      {/* Contact CTA */}
-      <ContactCTABand
-        eyebrow="Work with us"
-        title={["Ready to", "start your order?"]}
-        ctaLabel="Get a Quote"
+        className="mx-2 sm:mx-3"
       />
 
       <FaqAccordion faqs={faqSchema} title="Company History & Export Experience FAQs" />

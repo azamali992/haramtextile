@@ -106,15 +106,18 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       />
 
       {/* Editorial page header */}
-      <div className="px-6 py-16 sm:px-10 sm:py-20">
-        <h1 className="sr-only">Our Products</h1>
-        <SectionHeader
-          eyebrow="What we make"
-          eyebrowTone="dark"
-          title={["Our", "Products"]}
-          body={siteContent.home.productLine}
-          bodyClassName="text-[var(--ink-soft)] max-w-2xl"
-        />
+      <div className="px-6 pb-14 pt-12 sm:px-10 sm:pt-16">
+        <div className="mx-auto max-w-[90rem]">
+          <h1 className="sr-only">Our Products</h1>
+          <SectionHeader
+            eyebrow="What we make"
+            eyebrowTone="dark"
+            title={["Our products"]}
+            body={siteContent.home.productLine}
+            titleClassName="font-normal text-[3rem] sm:text-display-lg text-[var(--ink)]"
+            bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
+          />
+        </div>
       </div>
 
       {/* Category filter tabs */}
@@ -123,19 +126,22 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       {/* Products grid or empty state */}
       <section
         aria-labelledby="product-grid-heading"
-        className="px-6 py-12 sm:px-10"
+        className="px-6 py-14 sm:px-10 sm:py-16"
       >
         <h2 id="product-grid-heading" className="sr-only">
           All Products
         </h2>
 
         {products.length === 0 ? (
-          <div className="mx-auto max-w-[90rem]">
-            <p className="font-body text-base text-[var(--ink-soft)]">
+          <div className="mx-auto max-w-[90rem] py-16">
+            <p className="font-heading text-title font-normal text-[var(--ghost)]">
+              Nothing here yet.
+            </p>
+            <p className="mt-4 max-w-xl font-body text-body text-[var(--ink-soft)]">
               No products found in this category yet. Please check back soon or{" "}
               <a
                 href="/contact"
-                className="text-[var(--brand-deep)] underline hover:text-[var(--brand)]"
+                className="text-[var(--brand-strong)] underline underline-offset-4 hover:text-[var(--brand-deep)]"
               >
                 contact our export team
               </a>{" "}

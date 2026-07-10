@@ -30,9 +30,7 @@ export function Eyebrow({ children, tone = "dark", className = "" }: EyebrowProp
       : "bg-[var(--brand-light)]"; // light gold
 
   const textColor =
-    tone === "dark"
-      ? "text-[var(--ink-soft)]"
-      : "text-[rgba(253,250,246,0.7)]"; // on-brand @ 70%
+    tone === "dark" ? "text-[var(--ink-soft)]" : "text-on-brand/70";
 
   return (
     <span

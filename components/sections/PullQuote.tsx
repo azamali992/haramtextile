@@ -1,20 +1,19 @@
 "use client";
 
 import { Inview } from "@/components/motion/Inview";
-import { HoverSpring } from "@/components/motion/HoverSpring";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 
 export interface PullQuoteCertBadge {
-  /** Short certification name shown as a badge. */
+  /** Short certification name shown as a chip. */
   name: string;
-  /** Optional issuing body shown below the name. */
+  /** Optional issuing body shown after the name. */
   issuingBody?: string | null;
 }
 
 interface PullQuoteProps {
-  /** Eyebrow kicker above the headline. */
+  /** Optional eyebrow kicker (omit on home — the quote speaks for itself). */
   eyebrow?: string;
-  /** Section header lines (RevealLines-style, but used as static display here). */
+  /** Optional header lines above the quote. */
   title?: string[];
   /**
    * The pull-quote text (without surrounding quotation marks — the component
@@ -23,36 +22,16 @@ interface PullQuoteProps {
   quote: string;
   /** Attribution line, e.g. "Rashid Mehmood, CEO — Haram Textile". */
   attribution?: string;
-  /** Optional list of certification badges to show as trust markers. */
+  /** Optional list of certification chips shown as trust markers. */
   certBadges?: PullQuoteCertBadge[];
   /** Extra classes on the outer `<section>`. */
   className?: string;
 }
 
 /**
- * Repurposed "testimonials" slot per CHANGES.md decision: no testimonial model
- * exists in the DB, so we render the founder/company quote from
- * `siteContent.site.quote` as a large brand blockquote alongside certification
- * badges as trust markers.
- *
- * Prop API (for Phase 3b reuse on About page):
- * ```
- * eyebrow?:      string
- * title?:        string[]
- * quote:         string        — the pull-quote body
- * attribution?:  string        — "Name, Role — Company"
- * certBadges?:   { name, issuingBody? }[]
- * className?:    string
- * ```
- *
- * @example
- * <PullQuote
- *   eyebrow="Our commitment"
- *   title={["Trusted by", "global brands"]}
- *   quote={siteContent.site.quote}
- *   attribution="Rashid Mehmood, CEO — Haram Textile"
- *   certBadges={certifications.map(c => ({ name: c.name, issuingBody: c.issuingBody }))}
- * />
+ * Centered editorial pull-quote: oversized gold quote glyph, large italic
+ * Playfair blockquote between hairlines, quiet attribution, and an inline
+ * row of hairline certification chips. No cards, no boxes.
  */
 export function PullQuote({
   eyebrow,
@@ -65,10 +44,10 @@ export function PullQuote({
   return (
     <section
       id="testimonials"
-      className={`bg-[var(--background)] px-6 py-20 sm:px-10 sm:py-24 ${className}`}
+      className={`bg-[var(--background)] px-6 py-24 sm:px-10 sm:py-32 ${className}`}
     >
-      <div className="mx-auto max-w-[90rem]">
-        {/* Header */}
+      <div className="mx-auto max-w-4xl text-center">
+        {/* Optional header */}
         {(eyebrow || (title && title.length > 0)) && (
           <div className="mb-14">
             {eyebrow && <Eyebrow tone="dark">{eyebrow}</Eyebrow>}
@@ -77,7 +56,7 @@ export function PullQuote({
                 {title.map((line, i) => (
                   <p
                     key={i}
-                    className="font-heading text-[3rem] leading-[0.95] tracking-tight text-[var(--ink)]"
+                    className="font-heading font-normal text-display text-[var(--ink)]"
                   >
                     {line}
                   </p>
@@ -87,75 +66,63 @@ export function PullQuote({
           </div>
         )}
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3">
-          {/* Pull-quote card (spans 2 cols) */}
-          <Inview
-            delayIn={0}
-            stiffness={180}
-            damping={26}
-            from={{ opacity: 0, y: 40 }}
-            to={{ opacity: 1, y: 0 }}
-            className="md:col-span-2"
-          >
-            <HoverSpring to={{ y: -8 }} stiffness={300} damping={22}>
-              <figure className="flex h-full flex-col justify-between rounded-[var(--radius-card)] bg-[var(--surface)] p-7">
-                {/* Opening quote glyph */}
-                <span
-                  className="font-heading text-[2.25rem] leading-none text-[var(--brand)]"
-                  aria-hidden="true"
-                >
-                  &ldquo;
+        <Inview
+          stiffness={180}
+          damping={26}
+          from={{ opacity: 0, y: 32 }}
+          to={{ opacity: 1, y: 0 }}
+        >
+          <figure className="border-y border-[var(--hairline)] py-14 sm:py-16">
+            {/* Oversized opening quote glyph */}
+            <span
+              className="block font-heading text-[4.5rem] leading-[0.5] text-[var(--brand)]"
+              aria-hidden="true"
+            >
+              &ldquo;
+            </span>
+
+            <blockquote className="mx-auto mt-8 max-w-3xl font-heading text-title font-normal italic leading-snug text-[var(--ink)] sm:text-[2rem]">
+              {quote}
+            </blockquote>
+
+            {attribution && (
+              <figcaption className="mt-8">
+                <p className="font-body text-caption uppercase tracking-[0.18em] text-[var(--ink-soft)]">
+                  {attribution}
+                </p>
+              </figcaption>
+            )}
+          </figure>
+        </Inview>
+
+        {/* Certification chips — inline hairline row */}
+        {certBadges && certBadges.length > 0 && (
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+            {certBadges.map((badge, i) => (
+              <Inview
+                key={badge.name}
+                delayIn={i * 90}
+                stiffness={200}
+                damping={26}
+                from={{ opacity: 0, y: 14 }}
+                to={{ opacity: 1, y: 0 }}
+              >
+                <span className="inline-flex items-center gap-2 rounded-pill border border-[var(--hairline)] px-4 py-2 font-body text-xs text-[var(--ink)]">
+                  <span
+                    className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand)]"
+                    aria-hidden="true"
+                  />
+                  {badge.name}
+                  {badge.issuingBody && (
+                    <span className="text-[var(--ink-soft)]">
+                      &middot; {badge.issuingBody}
+                    </span>
+                  )}
                 </span>
-
-                <blockquote className="mt-4 font-heading text-xl leading-relaxed text-[var(--ink)] sm:text-[1.5rem]">
-                  {quote}
-                </blockquote>
-
-                {attribution && (
-                  <figcaption className="mt-6 border-t border-[var(--hairline)] pt-4">
-                    <p className="font-body text-sm font-medium text-[var(--ink)]">
-                      {attribution}
-                    </p>
-                  </figcaption>
-                )}
-              </figure>
-            </HoverSpring>
-          </Inview>
-
-          {/* Certification badges column */}
-          {certBadges && certBadges.length > 0 && (
-            <div className="flex flex-col gap-4">
-              {certBadges.map((badge, i) => (
-                <Inview
-                  key={badge.name}
-                  delayIn={i * 120}
-                  stiffness={180}
-                  damping={26}
-                  from={{ opacity: 0, y: 40 }}
-                  to={{ opacity: 1, y: 0 }}
-                >
-                  <HoverSpring to={{ y: -8 }} stiffness={300} damping={22}>
-                    <div className="rounded-[var(--radius-card)] bg-[var(--surface)] p-7">
-                      {/* Gold dot accent */}
-                      <span
-                        className="block h-2 w-2 rounded-full bg-[var(--brand)]"
-                        aria-hidden="true"
-                      />
-                      <p className="mt-4 font-heading text-lg font-medium leading-snug text-[var(--ink)]">
-                        {badge.name}
-                      </p>
-                      {badge.issuingBody && (
-                        <p className="mt-1 font-body text-sm text-[var(--ink-soft)]">
-                          {badge.issuingBody}
-                        </p>
-                      )}
-                    </div>
-                  </HoverSpring>
-                </Inview>
-              ))}
-            </div>
-          )}
-        </div>
+              </Inview>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

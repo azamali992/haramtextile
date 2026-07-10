@@ -155,11 +155,10 @@ function Curtain({ onReady }: CurtainProps) {
 
       {/* Progress track */}
       <div
-        className="relative overflow-hidden rounded-[var(--radius-pill)]"
+        className="relative overflow-hidden rounded-[var(--radius-pill)] bg-on-brand/20"
         style={{
           width: "10rem",
           height: "1px",
-          background: "rgba(253,250,246,0.2)",
         }}
       >
         <motion.div

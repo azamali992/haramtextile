@@ -18,7 +18,7 @@ export function CertificationsGrid({ certifications }: CertificationsGridProps) 
   const MAX_STAGGER_MS = 480;
 
   return (
-    <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {certifications.map((cert, index) => (
         <Inview
           key={cert.id}

@@ -19,19 +19,26 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   const schema = buildBreadcrumbSchema(items.map(({ name, url }) => ({ name, url })));
 
   return (
-    <nav aria-label="Breadcrumb" className="px-4 py-4 sm:px-6 lg:px-8">
-      <ol className="flex flex-wrap items-center gap-2 text-sm text-gray-warm">
+    <nav aria-label="Breadcrumb" className="px-6 pb-2 pt-6 sm:px-10">
+      <ol className="mx-auto flex max-w-[90rem] flex-wrap items-center gap-2 font-body text-caption uppercase tracking-[0.12em] text-[var(--ink-soft)]">
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
             <li key={item.url} className="flex items-center gap-2">
-              {index > 0 && <span aria-hidden="true">/</span>}
+              {index > 0 && (
+                <span aria-hidden="true" className="text-[var(--ghost)]">
+                  /
+                </span>
+              )}
               {isLast || !item.href ? (
-                <span className="text-brown-deep" aria-current={isLast ? "page" : undefined}>
+                <span className="text-[var(--ink)]" aria-current={isLast ? "page" : undefined}>
                   {item.name}
                 </span>
               ) : (
-                <Link href={item.href} className="hover:text-green-primary">
+                <Link
+                  href={item.href}
+                  className="transition-colors duration-150 hover:text-[var(--brand-strong)]"
+                >
                   {item.name}
                 </Link>
               )}

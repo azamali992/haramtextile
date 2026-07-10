@@ -19,7 +19,7 @@ export function ProductsGrid({ products }: ProductsGridProps) {
   const MAX_STAGGER_MS = 420;
 
   return (
-    <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mx-auto grid max-w-[90rem] grid-cols-1 gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product, index) => (
         <Inview
           key={product.id}

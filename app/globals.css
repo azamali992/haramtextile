@@ -8,33 +8,57 @@
    work regardless of Tailwind's JIT purging of arbitrary values.
 ───────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --background: #fdfaf6;
-  --foreground: #1a0f00;
-  --surface: #f5f0e8;
-  --surface-card: #fdfaf6;
+  /* ── Raw scale ── */
+  --green-950: #16290c;
+  --green-900: #1f3a0f;
+  --green-800: #2d5016;
+  --green-600: #4a7c2f;
+  --gold-500: #b8963e;
+  --gold-700: #8a6d24;
+  --gold-300: #cbb06a;
+  --gold-100: #f3ebd9;
+  --cream-50: #fdfaf6;
+  --cream-100: #f5f0e8;
+  --cream-200: #e8ddd0;
+  --cream-300: #e0d6c8;
+  --ink-900: #1a0f00;
+  --ink-600: #453e35;
 
-  /* Brand greens */
-  --brand-deep: #2d5016;
-  --brand-deeper: #1f3a0f;
+  /* ── Semantic aliases ── */
+  --background: var(--cream-50);
+  --foreground: var(--ink-900);
+  --surface: var(--cream-100);
+  --surface-card: var(--cream-50);
 
-  /* Brand golds (accent) */
-  --brand: #b8963e;
-  --brand-light: #cbb06a;
+  --brand-deep: var(--green-800);
+  --brand-deeper: var(--green-900);
 
-  /* Ink / text hierarchy */
-  --ink: #1a0f00;
-  --ink-soft: #6b6259;
-  --on-brand: #fdfaf6;
+  --brand: var(--gold-500);
+  --brand-light: var(--gold-300);
+  --brand-strong: var(--gold-700);
 
-  /* Structure / borders */
-  --hairline: #e8ddd0;
-  --ghost: #e0d6c8;
+  --ink: var(--ink-900);
+  --ink-soft: var(--ink-600);
+  --on-brand: var(--cream-50);
+
+  --hairline: var(--cream-200);
+  --ghost: var(--cream-300);
+  --scrim: var(--green-950);
+
+  /* RGB triplets for alpha-channel utilities (rgb(var(--x-rgb) / <alpha>)) */
+  --on-brand-rgb: 253 250 246;
+  --brand-deep-rgb: 45 80 22;
+  --scrim-rgb: 22 41 12;
 
   /* Border radii */
   --radius-card: 1.5rem;
   --radius-card-lg: 2rem;
+  --radius-tile: 1rem;
   --radius-pill: 62.5rem;
+
+  /* Shadows — exactly two allowed sitewide */
+  --shadow-card: 0 4px 24px rgb(var(--scrim-rgb) / 0.08);
+  --shadow-float: 0 24px 64px rgb(var(--scrim-rgb) / 0.25);
 }
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -108,38 +132,15 @@ body {
     text-wrap: balance;
   }
 
-  /* Legacy reveal utilities (kept for existing components) */
-  .reveal {
-    opacity: 1;
-    transform: translateY(0);
-    transition:
-      opacity 500ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* Horizontal carousel scroller — hides the native scrollbar while keeping
+     native overflow scrolling (touch, trackpad, keyboard focus-scroll). */
+  .scroller-x {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
   }
-  .reveal-hidden {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-
-  .reveal-3d {
-    opacity: 1;
-    transform: perspective(1000px) rotateX(0deg) translateY(0);
-    transition:
-      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .reveal-3d-hidden {
-    opacity: 0;
-    transform: perspective(1000px) rotateX(10deg) translateY(24px);
-  }
-
-  .step-card-3d {
-    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  @media (hover: hover) {
-    .step-card-3d:hover {
-      transform: rotateX(-4deg) rotateY(6deg) translateZ(12px);
-    }
+  .scroller-x::-webkit-scrollbar {
+    display: none;
   }
 
   .logo-marquee-viewport {
@@ -222,17 +223,6 @@ body {
    Reduced-motion overrides
 ───────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  .reveal,
-  .reveal-hidden,
-  .reveal-3d,
-  .reveal-3d-hidden,
-  .step-card-3d,
-  .step-card-3d:hover {
-    transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
-  }
-
   .logo-marquee-track {
     animation: none !important;
   }

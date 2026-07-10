@@ -82,17 +82,10 @@ export function RevealLines({
   className = "",
   lineClassName = "",
 }: RevealLinesProps) {
+  // Reduced motion keeps the same DOM (a structural branch breaks hydration —
+  // the server always renders the animated markup) and runs the variants with
+  // zero duration/stagger instead, so lines appear immediately.
   const prefersReducedMotion = useReducedMotion();
-
-  if (prefersReducedMotion) {
-    return (
-      <div className={className}>
-        {lines.map((line, i) => (
-          <div key={i}>{line}</div>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <motion.div
@@ -101,8 +94,12 @@ export function RevealLines({
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true }}
-      custom={{ stagger, baseDelay }}
+      viewport={{ once: true, amount: prefersReducedMotion ? 0 : undefined }}
+      custom={
+        prefersReducedMotion
+          ? { stagger: 0, baseDelay: 0 }
+          : { stagger, baseDelay }
+      }
     >
       {lines.map((line, i) => (
         <div
@@ -116,7 +113,7 @@ export function RevealLines({
           <motion.span
             className={`block ${lineClassName}`}
             variants={lineVariants}
-            custom={duration}
+            custom={prefersReducedMotion ? 0 : duration}
           >
             {line}
           </motion.span>

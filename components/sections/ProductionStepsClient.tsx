@@ -1,10 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { Inview } from "@/components/motion/Inview";
 import { RevealLines } from "@/components/motion/RevealLines";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 
 interface ProductionStep {
   id: string;
@@ -22,27 +20,24 @@ interface ProductionStepsClientProps {
 }
 
 /**
- * Client component rendering the production steps list with alternating
- * image/text layouts and Inview + parallax motion.
- *
- * Each step shows:
- * - A hover-scale glassy image (reference Facilities card pattern)
- * - Step counter eyebrow
- * - Clip-mask title reveal (RevealLines)
- * - Description with Inview rise-in
- * - statLabel/statValue when present (admin-editable)
+ * Production steps as alternating editorial rows: photo (caption below, not
+ * glass-on-image) opposite a text column headed by an oversized ghost
+ * numeral, hairline step counter, Playfair title reveal, description and an
+ * optional gold stat callout. Row anchors (`id={slug}`) are preserved for
+ * the HowTo JSON-LD deep links.
  */
 export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClientProps) {
   return (
-    <div className="flex flex-col gap-20 sm:gap-28">
+    <div className="flex flex-col gap-24 sm:gap-32">
       {steps.map((step, index) => {
         const isReversed = index % 2 === 1;
+        const numeral = String(index + 1).padStart(2, "0");
 
         return (
           <div
             key={step.id}
             id={step.slug}
-            className={`grid grid-cols-1 items-center gap-10 lg:grid-cols-2`}
+            className="grid scroll-mt-28 grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16"
           >
             {/* Image column */}
             <Inview
@@ -53,33 +48,25 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
               to={{ opacity: 1, y: 0 }}
               className={isReversed ? "lg:order-2" : ""}
             >
-              <motion.figure
-                className="relative aspect-[4/3] w-full overflow-hidden rounded-[var(--radius-card-lg)] bg-[var(--surface)]"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 22 }}
-              >
-                <Image
-                  src={step.imageUrl}
-                  alt={`${step.title} stage at Haram Textile's Faisalabad factory`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                  loading={index < 2 ? "eager" : "lazy"}
-                  priority={index < 2}
-                />
-                {/* Glass caption */}
-                <figcaption className="absolute inset-x-3 bottom-3 rounded-[var(--radius-card)] bg-[var(--brand-deep)]/60 p-3 backdrop-blur-sm">
-                  <p className="font-body text-sm font-medium text-[var(--on-brand)]">
-                    {step.title}
-                  </p>
-                  <p className="mt-0.5 font-body text-[0.65rem] leading-snug text-[rgba(253,250,246,0.8)]">
-                    Haram Textile — Faisalabad, Pakistan
-                  </p>
+              <figure>
+                <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-card bg-[var(--surface)]">
+                  <Image
+                    src={step.imageUrl}
+                    alt={`${step.title} stage at Haram Textile's Faisalabad factory`}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    loading={index < 2 ? "eager" : "lazy"}
+                    priority={index < 2}
+                  />
+                </div>
+                <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
+                  {step.title} — Haram Textile, Faisalabad
                 </figcaption>
-              </motion.figure>
+              </figure>
             </Inview>
 
-            {/* Text column */}
+            {/* Text column with ghost numeral */}
             <Inview
               delayIn={140}
               stiffness={190}
@@ -88,42 +75,44 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
               to={{ opacity: 1, y: 0 }}
               className={isReversed ? "lg:order-1" : ""}
             >
-              <div>
-                {/* Step counter */}
-                <Eyebrow tone="dark">
-                  Step {index + 1} of {totalSteps}
-                </Eyebrow>
+              <div className="relative">
+                {/* Oversized ghost numeral behind the text */}
+                <span
+                  className="pointer-events-none absolute -top-14 left-0 select-none font-heading text-[7rem] font-normal leading-none text-[var(--ghost)] opacity-60"
+                  aria-hidden="true"
+                >
+                  {numeral}
+                </span>
 
-                {/* Title — stacked lines reveal; split at space for two-word titles */}
-                <RevealLines
-                  lines={
-                    step.title.includes(" ")
-                      ? step.title.split(/\s+/).slice(0, 2).concat(
-                          step.title.split(/\s+/).slice(2).join(" ")
-                        ).filter(Boolean)
-                      : [step.title]
-                  }
-                  stagger={120}
-                  duration={0.95}
-                  className="mt-4 font-heading text-[2.25rem] leading-[0.95] tracking-tight text-[var(--ink)]"
-                />
+                <div className="relative">
+                  {/* Step counter */}
+                  <p className="font-body text-eyebrow font-medium uppercase text-[var(--ink-soft)]">
+                    {numeral} — {String(totalSteps).padStart(2, "0")}
+                  </p>
 
-                {/* Description */}
-                <p className="mt-6 font-body text-base leading-relaxed text-[var(--ink-soft)]">
-                  {step.description}
-                </p>
+                  <RevealLines
+                    lines={[step.title]}
+                    stagger={120}
+                    duration={0.95}
+                    className="mt-4 font-heading font-normal text-display text-[var(--ink)]"
+                  />
 
-                {/* Stat callout — admin-editable statLabel + statValue */}
-                {step.statLabel && step.statValue && (
-                  <div className="mt-6 inline-flex items-baseline gap-2">
-                    <span className="font-heading text-[2rem] leading-none text-[var(--brand-deep)]">
-                      {step.statValue}
-                    </span>
-                    <span className="font-body text-sm text-[var(--ink-soft)]">
-                      {step.statLabel}
-                    </span>
-                  </div>
-                )}
+                  <p className="mt-6 max-w-xl font-body text-body leading-relaxed text-[var(--ink-soft)]">
+                    {step.description}
+                  </p>
+
+                  {/* Stat callout — admin-editable statLabel + statValue */}
+                  {step.statLabel && step.statValue && (
+                    <div className="mt-8 inline-flex items-baseline gap-3 border-t border-[var(--brand)] pt-4">
+                      <span className="font-heading text-[2.25rem] leading-none italic text-[var(--brand-strong)]">
+                        {step.statValue}
+                      </span>
+                      <span className="font-body text-caption uppercase tracking-[0.12em] text-[var(--ink-soft)]">
+                        {step.statLabel}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
             </Inview>
           </div>

@@ -12,7 +12,7 @@ interface FilterBarProps {
   categories: FilterBarCategory[];
 }
 
-/** Tab-style category filter — reads/writes the `?category=` search param. */
+/** Pill-tab category filter — reads/writes the `?category=` search param. */
 export function FilterBar({ categories }: FilterBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,10 +35,10 @@ export function FilterBar({ categories }: FilterBarProps) {
   const tabs = [{ slug: "", name: "All Products" }, ...categories];
 
   return (
-    <nav aria-label="Filter products by category" className="border-b border-cream-dark">
+    <nav aria-label="Filter products by category" className="px-6 sm:px-10">
       <ul
         aria-busy={isPending}
-        className={`flex flex-wrap gap-2 px-4 py-4 sm:px-6 lg:px-8 ${isPending ? "pointer-events-none opacity-60" : ""}`}
+        className={`mx-auto flex max-w-[90rem] flex-wrap gap-2.5 border-t border-[var(--hairline)] py-6 ${isPending ? "pointer-events-none opacity-60" : ""}`}
       >
         {tabs.map((tab) => {
           const isActive = tab.slug === activeCategory;
@@ -48,10 +48,10 @@ export function FilterBar({ categories }: FilterBarProps) {
                 type="button"
                 onClick={() => handleSelect(tab.slug)}
                 aria-current={isActive ? "true" : undefined}
-                className={`min-h-11 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+                className={`min-h-11 rounded-pill px-5 py-2 font-body text-sm font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] ${
                   isActive
-                    ? "bg-green-primary text-cream-off"
-                    : "bg-cream text-brown-deep hover:bg-cream-dark"
+                    ? "bg-[var(--brand-deep)] text-[var(--on-brand)]"
+                    : "border border-[var(--hairline)] text-[var(--ink)] hover:border-[var(--ink)]"
                 }`}
               >
                 {tab.name}

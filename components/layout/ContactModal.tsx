@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
 import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Field, inputClass } from "@/components/ui/FormField";
 import { RevealLines } from "@/components/motion/RevealLines";
 import { useLenis } from "@/components/motion/LenisProvider";
 import { useUI } from "@/components/layout/UIProvider";
@@ -23,33 +24,6 @@ interface ApiErrorBody {
 }
 
 const INITIAL_FORM: FormState = { name: "", email: "", message: "" };
-
-// ─── Field component ──────────────────────────────────────────────────────────
-
-interface FieldProps {
-  id: string;
-  label: string;
-  required?: boolean;
-  children: React.ReactElement;
-}
-
-function Field({ id, label, required, children }: FieldProps) {
-  return (
-    <div>
-      <label
-        htmlFor={id}
-        className="block font-body text-xs font-medium uppercase tracking-[0.18em] text-[var(--ink-soft)]"
-      >
-        {label}
-        {required && <span className="sr-only"> (required)</span>}
-      </label>
-      <div className="mt-2">{children}</div>
-    </div>
-  );
-}
-
-const inputClass =
-  "w-full rounded-xl border border-[var(--hairline)] bg-[var(--background)] px-4 py-3 font-body text-sm text-[var(--ink)] transition-colors duration-150 placeholder:text-[var(--ghost)] focus:border-[var(--brand)] focus:outline-none focus:ring-1 focus:ring-[var(--brand)]";
 
 // ─── Panel (inner) ────────────────────────────────────────────────────────────
 
@@ -147,7 +121,7 @@ function Panel({ onClose }: PanelProps) {
       role="dialog"
       aria-modal="true"
       aria-label="Get a quote"
-      className="relative w-full max-w-lg overflow-y-auto rounded-[var(--radius-card-lg)] bg-[var(--surface-card)] p-6 text-[var(--ink)] shadow-[0_24px_64px_rgba(30,58,15,0.28)] sm:p-8"
+      className="relative w-full max-w-lg overflow-y-auto rounded-[var(--radius-card-lg)] bg-[var(--surface-card)] p-6 text-[var(--ink)] shadow-float sm:p-8"
       style={{ maxHeight: "92svh" }}
       initial={prefersReducedMotion ? false : { opacity: 0, y: 28, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -330,8 +304,7 @@ export function ContactModal() {
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-0 backdrop-blur-sm"
-            style={{ background: "rgba(31,58,15,0.4)" }}
+            className="absolute inset-0 bg-scrim/40 backdrop-blur-sm"
             initial={prefersReducedMotion ? false : { opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={prefersReducedMotion ? undefined : { opacity: 0 }}

@@ -47,7 +47,7 @@ export function SiteFooter() {
         {/* Left */}
         <div>
           <Eyebrow tone="light">Get started</Eyebrow>
-          <div className="mt-4 font-heading text-5xl font-medium leading-[0.92] tracking-tight sm:text-6xl">
+          <div className="mt-4 font-heading text-5xl font-normal leading-[0.92] tracking-tight sm:text-6xl">
             <RevealLines
               lines={["Ready to", "start your order?"]}
               stagger={120}
@@ -92,7 +92,7 @@ export function SiteFooter() {
               className="h-8 w-auto brightness-0 invert"
             />
           </Link>
-          <p className="mt-4 font-body text-sm leading-relaxed text-[var(--on-brand)]/65">
+          <p className="mt-4 font-body text-sm leading-relaxed text-[var(--on-brand)]/80">
             {siteContent.home.aboutShort}
           </p>
           {/* Address */}

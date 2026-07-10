@@ -48,6 +48,11 @@ interface RevealTextProps {
   className?: string;
   /** When true, applies `white-space: nowrap` to each word clip box. */
   noWrap?: boolean;
+  /**
+   * Classes applied to the final word only — the editorial accent
+   * (e.g. `"italic text-[var(--brand-light)]"`).
+   */
+  accentLastWord?: string;
   /** Additional Framer Motion props forwarded to the outer container. */
   motionProps?: Omit<HTMLMotionProps<"div">, "children" | "variants" | "initial" | "animate">;
 }
@@ -98,26 +103,21 @@ export function RevealText({
   animationKey,
   className = "",
   noWrap = false,
+  accentLastWord,
   motionProps,
 }: RevealTextProps) {
+  // Reduced motion must NOT change the rendered structure (the server always
+  // renders the animated markup, so a structural branch breaks hydration).
+  // Instead the same variants run with zero duration/stagger — content
+  // appears immediately after hydration without motion.
   const prefersReducedMotion = useReducedMotion();
 
   const words = children.split(" ").filter(Boolean);
 
-  // If motion is reduced, render plainly.
-  if (prefersReducedMotion) {
-    const MotionTag = motion[Tag as keyof typeof motion] as React.ComponentType<
-      HTMLMotionProps<"div">
-    >;
-    return (
-      <MotionTag className={className} {...(motionProps as HTMLMotionProps<"div">)}>
-        {children}
-      </MotionTag>
-    );
-  }
-
-  const shouldAnimate = gated ? ready : true;
+  const shouldAnimate = prefersReducedMotion || (gated ? ready : true);
   const animateState = shouldAnimate ? "visible" : "hidden";
+  const effectiveStagger = prefersReducedMotion ? 0 : stagger;
+  const effectiveDuration = prefersReducedMotion ? 0 : duration;
 
   // We need a motion-capable element. Use motion.div by default and render Tag
   // as the semantic element separately only when it's truly needed — but the
@@ -139,7 +139,7 @@ export function RevealText({
       variants={containerVariants}
       initial="hidden"
       animate={animateState}
-      custom={stagger}
+      custom={effectiveStagger}
       {...(motionProps as React.HTMLAttributes<HTMLElement>)}
     >
       {words.map((word, i) => (
@@ -156,8 +156,11 @@ export function RevealText({
         >
           <motion.span
             style={{ display: "inline-block" }}
+            className={
+              accentLastWord && i === words.length - 1 ? accentLastWord : undefined
+            }
             variants={wordVariants}
-            custom={duration}
+            custom={effectiveDuration}
           >
             {word}
           </motion.span>

@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { Button } from "@/components/ui/Button";
-import { Reveal } from "@/components/ui/Reveal";
+import { Field, inputClass } from "@/components/ui/FormField";
 
 interface ContactFormState {
   name: string;
@@ -58,86 +57,78 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6" noValidate>
-      <div>
-        <label htmlFor="contact-name" className="block text-sm font-medium text-brown-deep">
-          Name
-        </label>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+      <Field id="contact-name" label="Full name" required>
         <input
           id="contact-name"
           name="name"
           type="text"
           required
           maxLength={200}
+          placeholder="Your name"
           value={form.name}
           onChange={(event) => setForm((prev) => ({ ...prev, name: event.target.value }))}
-          className="mt-2 w-full rounded-md border border-cream-dark bg-cream-off px-4 py-2 text-base text-brown-deep transition-colors duration-150 focus:border-green-primary focus:outline-none"
+          className={inputClass}
         />
-      </div>
+      </Field>
 
-      <div>
-        <label htmlFor="contact-email" className="block text-sm font-medium text-brown-deep">
-          Email
-        </label>
+      <Field id="contact-email" label="Email" required>
         <input
           id="contact-email"
           name="email"
           type="email"
           required
           maxLength={254}
+          placeholder="you@company.com"
           value={form.email}
           onChange={(event) => setForm((prev) => ({ ...prev, email: event.target.value }))}
-          className="mt-2 w-full rounded-md border border-cream-dark bg-cream-off px-4 py-2 text-base text-brown-deep transition-colors duration-150 focus:border-green-primary focus:outline-none"
+          className={inputClass}
         />
-      </div>
+      </Field>
 
-      <div>
-        <label htmlFor="contact-company" className="block text-sm font-medium text-brown-deep">
-          Company <span className="text-gray-warm">(optional)</span>
-        </label>
+      <Field id="contact-company" label="Company" hint="(optional)">
         <input
           id="contact-company"
           name="company"
           type="text"
           maxLength={200}
+          placeholder="Company name"
           value={form.company}
           onChange={(event) => setForm((prev) => ({ ...prev, company: event.target.value }))}
-          className="mt-2 w-full rounded-md border border-cream-dark bg-cream-off px-4 py-2 text-base text-brown-deep transition-colors duration-150 focus:border-green-primary focus:outline-none"
+          className={inputClass}
         />
-      </div>
+      </Field>
 
-      <div>
-        <label htmlFor="contact-message" className="block text-sm font-medium text-brown-deep">
-          Message
-        </label>
+      <Field id="contact-message" label="Message" required>
         <textarea
           id="contact-message"
           name="message"
           required
           rows={5}
           maxLength={5000}
+          placeholder="Tell us about your order requirements…"
           value={form.message}
           onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value }))}
-          className="mt-2 w-full rounded-md border border-cream-dark bg-cream-off px-4 py-2 text-base text-brown-deep transition-colors duration-150 focus:border-green-primary focus:outline-none"
+          className={`${inputClass} resize-none`}
         />
-      </div>
+      </Field>
 
-      <Button type="submit" variant="primary" size="md" disabled={status === "loading"}>
-        {status === "loading" ? "Sending..." : "Send Inquiry"}
-      </Button>
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="mt-1 inline-flex items-center justify-center self-start rounded-pill bg-[var(--brand-deep)] px-7 py-3.5 font-body text-sm font-medium uppercase tracking-wide text-[var(--on-brand)] transition-colors duration-150 hover:bg-[var(--brand-deeper)] disabled:cursor-not-allowed disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
+      >
+        {status === "loading" ? "Sending…" : "Send Inquiry"}
+      </button>
 
       <div role="status" aria-live="polite">
         {status === "success" && (
-          <Reveal>
-            <p className="text-base text-green-primary">
-              Thank you. Your inquiry has been received. Our export team will respond shortly.
-            </p>
-          </Reveal>
+          <p className="font-body text-sm text-[var(--brand-deep)]">
+            Thank you. Your inquiry has been received. Our export team will respond shortly.
+          </p>
         )}
         {status === "error" && errorMessage && (
-          <Reveal>
-            <p className="text-base text-red-700">{errorMessage}</p>
-          </Reveal>
+          <p className="font-body text-sm text-red-700">{errorMessage}</p>
         )}
       </div>
     </form>

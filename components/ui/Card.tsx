@@ -15,30 +15,36 @@ interface ProductCardProps {
   product: ProductCardData;
 }
 
-/** Full-bleed image card for the products grid. */
+/**
+ * Editorial product card: full-bleed 4/5 photo with a slow hover zoom,
+ * text below the media (Playfair name, muted fabric line, MOQ chip).
+ */
 export function ProductCard({ product }: ProductCardProps) {
   return (
-    <Link
-      href={`/products/${product.id}`}
-      className="group block overflow-hidden rounded-md bg-cream-off transition-transform active:scale-[0.98]"
-    >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-cream-dark">
+    <Link href={`/products/${product.id}`} className="group block">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-[var(--surface)]">
         <Image
           src={product.image.src}
           alt={`${product.name}, ${product.categoryName} apparel by Haram Textile`}
           width={product.image.width}
           height={product.image.height}
-          className="h-full w-full object-cover transition-transform duration-200 [@media(hover:hover)]:group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out [@media(hover:hover)]:group-hover:scale-105"
         />
       </div>
-      <div className="p-4">
-        <h3 className="font-heading text-lg text-brown-deep">{product.name}</h3>
-        {product.fabricType && (
-          <p className="mt-2 text-sm text-gray-warm">{product.fabricType}</p>
-        )}
+      <div className="mt-5 flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <h3 className="font-heading text-title-sm font-normal text-[var(--ink)]">
+            {product.name}
+          </h3>
+          {product.fabricType && (
+            <p className="mt-1.5 font-body text-caption text-[var(--ink-soft)]">
+              {product.fabricType}
+            </p>
+          )}
+        </div>
         {product.moq && (
-          <Badge variant="moq" className="mt-4">
-            MOQ: {product.moq}
+          <Badge variant="moq" className="shrink-0 whitespace-nowrap">
+            MOQ {product.moq}
           </Badge>
         )}
       </div>
@@ -58,28 +64,34 @@ interface CertificationCardProps {
   certification: CertificationCardData;
 }
 
-/** Cream card with dark-cream border for the certifications grid — no box-shadow per design spec. */
+/** Surface card with hairline border that warms to gold on hover. */
 export function CertificationCard({ certification }: CertificationCardProps) {
   return (
     <Link
       href={`/certifications/${certification.id}`}
-      className="block rounded-md border border-cream-dark bg-cream p-6 transition-[transform,border-color,background-color,color] hover:border-gold-muted active:scale-[0.98]"
+      className="block rounded-card border border-[var(--hairline)] bg-[var(--surface)] p-7 transition-colors duration-200 hover:border-[var(--brand)]"
     >
-      <div className="relative h-20 w-full">
+      <div className="relative h-16 w-full">
         <Image
           src={certification.image.src}
           alt={`${certification.name} certification badge`}
           width={certification.image.width}
           height={certification.image.height}
-          className="h-20 w-auto object-contain"
+          className="h-16 w-auto object-contain"
         />
       </div>
-      <h3 className="mt-4 font-heading text-lg text-brown-deep">{certification.name}</h3>
+      <h3 className="mt-5 font-heading text-title-sm font-normal text-[var(--ink)]">
+        {certification.name}
+      </h3>
       {certification.issuingBody && (
-        <p className="mt-2 text-sm font-medium text-brown-deep">{certification.issuingBody}</p>
+        <p className="mt-1.5 font-body text-caption font-medium text-[var(--ink-soft)]">
+          {certification.issuingBody}
+        </p>
       )}
       {certification.description && (
-        <p className="mt-4 text-sm text-gray-warm">{certification.description}</p>
+        <p className="mt-4 font-body text-caption leading-relaxed text-[var(--ink-soft)]">
+          {certification.description}
+        </p>
       )}
     </Link>
   );

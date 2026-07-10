@@ -8,9 +8,10 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { StatBand } from "@/components/sections/StatBand";
-import { ContactCTABand } from "@/components/sections/ContactCTABand";
+import { PhotoHero } from "@/components/sections/PhotoHero";
 import { ProductionStepsClient } from "@/components/sections/ProductionStepsClient";
 import { isPlaceholderImageUrl } from "@/lib/product-image-fallback";
+import { getFallbackImageForProductionStep } from "@/lib/production-image-fallback";
 
 export const dynamic = "force-dynamic";
 
@@ -59,12 +60,6 @@ function formatStatValue(value: number): string {
   return value.toLocaleString();
 }
 
-/** Production step fallback images (two per step, cycling through factory photos) */
-const STEP_FALLBACKS = [
-  "/images/hero/hero-factory.jpg",
-  "/images/about/about-factory.jpg",
-];
-
 export default async function ProductionPage() {
   const steps = await listProductionSteps();
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
@@ -85,8 +80,8 @@ export default async function ProductionPage() {
     label: s.label,
   }));
 
-  /** Resolve image fallbacks server-side */
-  const stepItems = steps.map((step, i) => ({
+  /** Resolve image fallbacks server-side — per-step local photos by slug */
+  const stepItems = steps.map((step) => ({
     id: step.id,
     slug: step.slug,
     title: step.title,
@@ -94,7 +89,7 @@ export default async function ProductionPage() {
     statLabel: step.statLabel ?? null,
     statValue: step.statValue ?? null,
     imageUrl: isPlaceholderImageUrl(step.imageUrl)
-      ? STEP_FALLBACKS[i % STEP_FALLBACKS.length]
+      ? getFallbackImageForProductionStep(step.slug)
       : step.imageUrl,
   }));
 
@@ -107,19 +102,23 @@ export default async function ProductionPage() {
         ]}
       />
 
-      {/* Visually-hidden h1 for screen readers and SEO — StatBand provides the visual headline */}
+      {/* Photo hero — the visible page opener */}
+      <div className="px-2 sm:px-3">
+        <PhotoHero
+          eyebrow="In-house manufacturing"
+          title="From yarn to carton"
+          subtitle="Seven stages under one roof — knitting, dyeing, cutting, printing, embroidery, sewing, and packing."
+          imageSrc="/images/hero/hero-factory.jpg"
+          imageAlt="Haram Textile production floor in Faisalabad, Pakistan"
+          as="p"
+        />
+      </div>
+
+      {/* h1 for screen readers and SEO */}
       <h1 className="sr-only">Our Production Process</h1>
 
-      {/* Stats band header */}
-      <StatBand
-        eyebrow="In-house manufacturing"
-        title={["From yarn", "to carton"]}
-        stats={statItems}
-        tone="green"
-      />
-
       {/* Production steps */}
-      <section aria-labelledby="steps-heading" className="px-6 py-20 sm:px-10">
+      <section aria-labelledby="steps-heading" className="px-6 py-24 sm:px-10 sm:py-32">
         <div className="mx-auto max-w-[90rem]">
           <h2 id="steps-heading" className="sr-only">
             Production Stages
@@ -135,11 +134,13 @@ export default async function ProductionPage() {
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <ContactCTABand
-        eyebrow="Work with us"
-        title={["Start your", "production order"]}
-        ctaLabel="Get a Quote"
+      {/* Stats band — below the steps */}
+      <StatBand
+        eyebrow="By the numbers"
+        title={["Capacity that", "keeps delivering"]}
+        stats={statItems}
+        tone="cream"
+        className="mx-2 sm:mx-3"
       />
 
       <FaqAccordion faqs={PRODUCTION_FAQS} title="Production Process FAQs" />
