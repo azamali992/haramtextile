@@ -94,12 +94,12 @@ export function MissionVisionValues({
               from={{ opacity: 0, y: 22 }}
               to={{ opacity: 1, y: 0 }}
             >
-              <div>
+              <div className="group -mx-4 rounded-tile border-l-2 border-transparent px-4 py-1 transition-colors duration-200 hover:border-[var(--brand)] hover:bg-[var(--surface-card)]">
                 <span
-                  className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand)]"
+                  className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand)] transition-all duration-200 group-hover:h-2 group-hover:w-2"
                   aria-hidden="true"
                 />
-                <h3 className="mt-4 font-heading text-title-sm font-normal text-[var(--ink)]">
+                <h3 className="mt-4 font-heading text-title-sm font-normal text-[var(--ink)] transition-colors duration-200 group-hover:text-[var(--brand-strong)]">
                   {value.name}
                 </h3>
                 <p className="mt-2 font-body text-body leading-relaxed text-[var(--ink-soft)]">

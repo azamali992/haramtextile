@@ -1,7 +1,13 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
 import { RevealText } from "@/components/motion/RevealText";
 import { RevealLines } from "@/components/motion/RevealLines";
 import { Parallax } from "@/components/motion/Parallax";
@@ -36,6 +42,38 @@ export function HeroSection({
   const { openContact } = useUI();
   const prefersReducedMotion = useReducedMotion();
 
+  /*
+   * Scroll-consequence layer: as the hero exits the viewport (scrollYProgress
+   * goes 0 → 1), the headline floats upward at ~40 % of scroll speed while
+   * the bottom row (tagline + CTA + provenance) fades out before it's clipped.
+   * All transforms use GPU-composited properties only (transform + opacity).
+   * Reduced-motion: all output ranges collapse to static values.
+   */
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
+
+  // Headline drifts up at 40 % of page scroll speed — reads as "sticking"
+  const headlineY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, -40],
+  );
+
+  // Bottom row (tagline + CTA) fades out by 65 % scroll and slides up slightly
+  const bottomOpacity = useTransform(
+    scrollYProgress,
+    [0, 0.65],
+    prefersReducedMotion ? [1, 1] : [1, 0],
+  );
+  const bottomY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    prefersReducedMotion ? [0, 0] : [0, -24],
+  );
+
   const yearsOperating = new Date().getFullYear() - FOUNDED_YEAR;
 
   // Determine tagline lines from subtext (split at comma or midpoint)
@@ -58,13 +96,15 @@ export function HeroSection({
 
   return (
     <section
+      ref={sectionRef}
       className="relative isolate flex min-h-[36rem] flex-col overflow-hidden rounded-card-lg bg-brand-deep text-[var(--on-brand)]"
       style={{ minHeight: "calc(100svh - 1rem)" }}
       aria-label="Hero"
     >
-      {/* ── Parallax background plate ── */}
+      {/* ── Parallax background plate — range increased to 22 % for deeper
+           layer separation against the headline drift above.               ── */}
       <div className="absolute inset-0 -z-10">
-        <Parallax>
+        <Parallax range={["0%", "22%"]}>
           <Image
             src={heroImage}
             alt="Haram Textile factory floor — a world-class garment manufacturing facility in Faisalabad, Pakistan"
@@ -81,9 +121,12 @@ export function HeroSection({
         </Parallax>
       </div>
 
-      {/* ── Giant headline ── */}
+      {/* ── Giant headline — drifts upward at ~40 % of scroll speed ── */}
       {/* pt-24 (6rem) clears the absolute site header (h-20 = 5rem) with a 1rem buffer */}
-      <div className="px-6 pt-24 sm:px-10 sm:pt-28">
+      <motion.div
+        className="px-6 pt-24 sm:px-10 sm:pt-28"
+        style={{ y: headlineY }}
+      >
         <RevealText
           as="h1"
           stagger={140}
@@ -95,10 +138,13 @@ export function HeroSection({
         >
           {headline}
         </RevealText>
-      </div>
+      </motion.div>
 
-      {/* ── Bottom row ── */}
-      <div className="mt-auto px-6 pb-8 sm:px-10 sm:pb-10">
+      {/* ── Bottom row — fades + lifts as hero exits the viewport ── */}
+      <motion.div
+        className="mt-auto px-6 pb-8 sm:px-10 sm:pb-10"
+        style={{ opacity: bottomOpacity, y: bottomY }}
+      >
         <div className="flex flex-col items-start gap-10 sm:flex-row sm:items-end sm:justify-between">
           {/* Tagline + CTA */}
           <div className="max-w-2xl">
@@ -158,7 +204,7 @@ export function HeroSection({
             </div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

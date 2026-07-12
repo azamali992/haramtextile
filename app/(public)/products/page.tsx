@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { listProducts } from "@/lib/services/product.service";
+import { Parallax } from "@/components/motion/Parallax";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
@@ -7,10 +9,9 @@ import { buildMetadata, buildItemListSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
-import { FilterBar } from "@/components/ui/FilterBar";
 import { isPlaceholderImageUrl, getFallbackImageForCategory } from "@/lib/product-image-fallback";
 import { SectionHeader } from "@/components/sections/SectionHeader";
-import { ProductsGrid } from "@/components/sections/ProductsGrid";
+import { ProductsBrowser } from "@/components/sections/ProductsBrowser";
 
 export const dynamic = "force-dynamic";
 
@@ -57,13 +58,22 @@ interface ProductsPageProps {
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const activeCategory = searchParams.category;
-  const { products } = await listProducts({ category: activeCategory });
+  const activeCategory = searchParams.category ?? "";
+  // Fetch ALL products; category filtering happens client-side in
+  // ProductsBrowser so switching filters animates in place rather than
+  // re-navigating. Deep links still render the correct subset (below).
+  const { products } = await listProducts({});
 
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
 
+  // Schema reflects the initially-visible subset so a deep-linked category
+  // view describes what's actually on screen.
+  const schemaProducts = activeCategory
+    ? products.filter((product) => product.category.slug === activeCategory)
+    : products;
+
   const itemListSchema = buildItemListSchema(
-    products.map((product) => ({
+    schemaProducts.map((product) => ({
       name: product.name,
       url: `${baseUrl}/products/${product.id}`,
       imageUrl: isPlaceholderImageUrl(product.imageUrl) ? undefined : product.imageUrl,
@@ -75,7 +85,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     name: category.name,
   }));
 
-  /** Resolve image + fallback server-side so ProductsGrid stays a client component */
+  /** Resolve image + fallback server-side so ProductsBrowser stays presentational. */
   const productItems = products.map((product) => {
     const usableImage = !isPlaceholderImageUrl(product.imageUrl);
     const fallback = getFallbackImageForCategory(product.category.slug, product.id);
@@ -92,9 +102,20 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       fabricType: product.fabricType,
       moq: product.moq,
       categoryName: product.category.name,
+      categorySlug: product.category.slug,
       image,
     };
   });
+
+  // Editorial header image: use the first image of the initially-visible set
+  // (category-appropriate on deep links), falling back to a known-good asset.
+  const initialItems = activeCategory
+    ? productItems.filter((item) => item.categorySlug === activeCategory)
+    : productItems;
+  const headerImage =
+    initialItems[0]?.image.src ??
+    productItems[0]?.image.src ??
+    "/images/products/ladies/1.jpg";
 
   return (
     <main>
@@ -105,53 +126,51 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         ]}
       />
 
-      {/* Editorial page header */}
-      <div className="px-6 pb-14 pt-12 sm:px-10 sm:pt-16">
-        <div className="mx-auto max-w-[90rem]">
-          <h1 className="sr-only">Our Products</h1>
-          <SectionHeader
-            eyebrow="What we make"
-            eyebrowTone="dark"
-            title={["Our products"]}
-            body={siteContent.home.productLine}
-            titleClassName="font-normal text-[3rem] sm:text-display-lg text-[var(--ink)]"
-            bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
-          />
+      {/* Editorial page header — image panel (sm+) dissolving into the cream
+          page, with the title anchored in the faded zone so it stays legible.
+          Mobile keeps the plain text header (no image). */}
+      <div className="relative">
+        {/* Image plate — sm+ only, decorative */}
+        <div
+          className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block"
+          aria-hidden="true"
+        >
+          <Parallax range={["0%", "12%"]}>
+            <Image
+              src={headerImage}
+              alt=""
+              fill
+              sizes="100vw"
+              className="object-cover object-[center_25%]"
+              priority
+            />
+            {/* Dissolve to the cream page background toward the bottom, so the
+                dark title below reads cleanly against near-solid --background. */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)]/10 via-[var(--background)]/70 to-[var(--background)]" />
+          </Parallax>
+        </div>
+
+        <div className="relative px-6 pb-14 pt-12 sm:px-10 sm:pt-[26vh]">
+          <div className="mx-auto max-w-[90rem]">
+            <h1 className="sr-only">Our Products</h1>
+            <SectionHeader
+              eyebrow="What we make"
+              eyebrowTone="dark"
+              title={["Our products"]}
+              body={siteContent.home.productLine}
+              titleClassName="font-normal text-[3rem] sm:text-display-lg text-[var(--ink)]"
+              bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
+            />
+          </div>
         </div>
       </div>
 
-      {/* Category filter tabs */}
-      <FilterBar categories={categories} />
-
-      {/* Products grid or empty state */}
-      <section
-        aria-labelledby="product-grid-heading"
-        className="px-6 py-14 sm:px-10 sm:py-16"
-      >
-        <h2 id="product-grid-heading" className="sr-only">
-          All Products
-        </h2>
-
-        {products.length === 0 ? (
-          <div className="mx-auto max-w-[90rem] py-16">
-            <p className="font-heading text-title font-normal text-[var(--ghost)]">
-              Nothing here yet.
-            </p>
-            <p className="mt-4 max-w-xl font-body text-body text-[var(--ink-soft)]">
-              No products found in this category yet. Please check back soon or{" "}
-              <a
-                href="/contact"
-                className="text-[var(--brand-strong)] underline underline-offset-4 hover:text-[var(--brand-deep)]"
-              >
-                contact our export team
-              </a>{" "}
-              for current availability.
-            </p>
-          </div>
-        ) : (
-          <ProductsGrid products={productItems} />
-        )}
-      </section>
+      {/* Category filter + animated products grid (client-side) */}
+      <ProductsBrowser
+        products={productItems}
+        categories={categories}
+        initialCategory={activeCategory}
+      />
 
       <FaqAccordion faqs={PRODUCTS_FAQS} title="Ordering, MOQ & Customization FAQs" />
 

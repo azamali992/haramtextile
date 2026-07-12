@@ -88,14 +88,14 @@ export function ProductShowcaseCarousel({
                   aria-hidden="true"
                 />
 
-                {/* Index numeral */}
-                <span className="absolute left-6 top-6 font-heading text-caption tabular-nums text-on-brand/70">
+                {/* Ghost index numeral — oversized, intensifies on hover */}
+                <span className="pointer-events-none absolute right-4 top-1 select-none font-heading text-[4rem] leading-none tabular-nums text-on-brand/10 transition-colors duration-300 group-hover:text-on-brand/25">
                   {slide.index}
                 </span>
 
                 {/* Name + intro + hover arrow */}
                 <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-6">
-                  <div className="min-w-0">
+                  <div className="min-w-0 transition-transform duration-300 ease-out group-hover:-translate-y-1">
                     <h3 className="font-heading text-title font-normal text-[var(--on-brand)]">
                       {slide.name}
                     </h3>
@@ -106,7 +106,7 @@ export function ProductShowcaseCarousel({
                     )}
                   </div>
                   <span
-                    className="grid size-11 shrink-0 translate-y-2 place-items-center rounded-pill border border-on-brand/30 text-[var(--on-brand)] opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
+                    className="grid size-14 shrink-0 translate-y-2 place-items-center rounded-pill border border-on-brand/50 bg-on-brand/10 text-[var(--on-brand)] opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:bg-on-brand/20 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100"
                     aria-hidden="true"
                   >
                     <svg

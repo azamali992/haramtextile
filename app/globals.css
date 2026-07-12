@@ -157,6 +157,12 @@ body {
   .logo-marquee-track:hover {
     animation-play-state: paused;
   }
+  /* Second row scrolls the opposite direction (dual-row marquee). Applied
+     alongside .logo-marquee-track, so hover-pause / reduced-motion / no-JS
+     rules keyed on .logo-marquee-track all still apply. */
+  .logo-marquee-track-reverse {
+    animation-direction: reverse;
+  }
   @keyframes logo-marquee {
     from {
       transform: translateX(0);

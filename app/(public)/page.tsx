@@ -25,6 +25,7 @@ import { ProductShowcaseCarousel } from "@/components/sections/ProductShowcaseCa
 import { ProcessCarousel } from "@/components/sections/ProcessCarousel";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
+import { FactoryInterstitial } from "@/components/sections/FactoryInterstitial";
 
 export const dynamic = "force-dynamic";
 
@@ -222,6 +223,9 @@ export default async function HomePage() {
         values={siteContent.about.values}
         tone="surface"
       />
+
+      {/* 3½ ── Full-bleed factory interstitial — scale reset between sections ─ */}
+      <FactoryInterstitial />
 
       {/* 4 ── Product collections — horizontal carousel ────────────────────── */}
       <ProductShowcaseCarousel

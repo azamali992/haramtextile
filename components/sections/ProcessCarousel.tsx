@@ -88,12 +88,21 @@ export function ProcessCarousel({
                       draggable={false}
                     />
                   </div>
-                  <span
-                    className="pointer-events-none absolute -top-8 left-4 select-none font-heading text-[6rem] font-normal leading-none text-on-brand/10"
-                    aria-hidden="true"
+                  <Inview
+                    className="pointer-events-none absolute -top-10 left-4 select-none"
+                    delayIn={Math.min(i, 3) * 90 + 120}
+                    stiffness={180}
+                    damping={24}
+                    from={{ opacity: 0, scale: 0.7, y: 16 }}
+                    to={{ opacity: 1, scale: 1, y: 0 }}
                   >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+                    <span
+                      className="block font-heading text-[8rem] font-normal leading-none text-on-brand/[0.14]"
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </Inview>
                 </div>
 
                 {/* Text below media — no card-in-card */}
@@ -105,6 +114,25 @@ export function ProcessCarousel({
                     <p className="mt-2 line-clamp-2 font-body text-caption text-on-brand/80">
                       {step.description}
                     </p>
+                    {/* Hover affordance — signals the card is a link */}
+                    <span
+                      className="mt-3 inline-flex items-center gap-1.5 font-body text-caption text-[var(--brand-light)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+                      aria-hidden="true"
+                    >
+                      View step
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={1.8}
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path d="M5 12h14M13 6l6 6-6 6" />
+                      </svg>
+                    </span>
                   </div>
                   {step.statValue && (
                     <div className="shrink-0 border-l border-on-brand/15 pl-5 text-right">

@@ -38,8 +38,13 @@ export function TrustSection({
 
   const yearsOperating = new Date().getFullYear() - FOUNDED_YEAR;
 
-  // Double the logo list for seamless marquee loop
-  const marqueeLogos = [...clientLogos, ...clientLogos];
+  // With enough logos, split into two opposing rows; otherwise keep a single
+  // row. Each row is doubled so the -50% keyframe loops seamlessly.
+  const twoRows = clientLogos.length >= 6;
+  const splitAt = Math.ceil(clientLogos.length / 2);
+  const rowOne = twoRows ? clientLogos.slice(0, splitAt) : clientLogos;
+  const rowTwo = twoRows ? clientLogos.slice(splitAt) : [];
+  const loop = (logos: ClientLogoData[]) => [...logos, ...logos];
 
   const ghostStyle = { fontSize: "clamp(2.5rem, 8.2vw, 10rem)" };
 
@@ -105,26 +110,34 @@ export function TrustSection({
           </p>
         </Inview>
 
-        {/* Client logo marquee */}
+        {/* Client logo marquee — single row, or two opposing rows when there
+            are enough logos to fill both. */}
         {clientLogos.length > 0 && (
           <div className="logo-marquee-viewport mt-14" aria-label="Client logos">
-            <div className="logo-marquee-track">
-              {marqueeLogos.map((logo, i) => (
+            {[rowOne, ...(twoRows && rowTwo.length > 0 ? [rowTwo] : [])].map(
+              (row, rowIndex) => (
                 <div
-                  key={`${logo.id}-${i}`}
-                  className="relative h-10 w-28 shrink-0 sm:h-12 sm:w-36"
+                  key={rowIndex}
+                  className={`logo-marquee-track ${rowIndex === 1 ? "logo-marquee-track-reverse mt-6" : ""}`}
                 >
-                  <Image
-                    src={logo.imageUrl}
-                    alt={logo.altText}
-                    fill
-                    sizes="144px"
-                    className="object-contain"
-                    loading="lazy"
-                  />
+                  {loop(row).map((logo, i) => (
+                    <div
+                      key={`${logo.id}-${i}`}
+                      className="relative h-10 w-28 shrink-0 sm:h-12 sm:w-36"
+                    >
+                      <Image
+                        src={logo.imageUrl}
+                        alt={logo.altText}
+                        fill
+                        sizes="144px"
+                        className="object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              ),
+            )}
           </div>
         )}
 
