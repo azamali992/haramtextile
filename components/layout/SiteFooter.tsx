@@ -26,9 +26,9 @@ const COMPANY_LINKS = [
 
 const GALLERY_IMAGES = [
   { src: "/images/production/knitting.jpg", alt: "Knitting floor at Haram Textile" },
-  { src: "/images/production/cutting.jpg", alt: "Fabric cutting at Haram Textile" },
-  { src: "/images/production/sewing.jpg", alt: "Sewing line at Haram Textile" },
-  { src: "/images/production/packing.jpg", alt: "Finishing and packing at Haram Textile" },
+  { src: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/cutting", alt: "Fabric cutting at Haram Textile" },
+  { src: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/sewing", alt: "Sewing line at Haram Textile" },
+  { src: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/packing", alt: "Finishing and packing at Haram Textile" },
 ];
 
 // ─── Footer ───────────────────────────────────────────────────────────────────

@@ -6,11 +6,14 @@
 const PRODUCTION_IMAGE_BY_SLUG: Record<string, string> = {
   knitting: "/images/production/knitting.jpg",
   dyeing: "/images/production/dyeing.jpg",
-  cutting: "/images/production/cutting.jpg",
-  printing: "/images/production/printing.jpg",
+  // cutting/printing/sewing/packing are large (2-8MB) camera-quality photos,
+  // hosted on Cloudinary instead of committed to git (see
+  // prisma/upload-production-images.ts).
+  cutting: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/cutting",
+  printing: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/printing",
   embroidery: "/images/production/embroidery.jpg",
-  sewing: "/images/production/sewing.jpg",
-  packing: "/images/production/packing.jpg",
+  sewing: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/sewing",
+  packing: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/production/packing",
 };
 
 const PRODUCTION_IMAGE_DEFAULT = "/images/hero/hero-factory.jpg";

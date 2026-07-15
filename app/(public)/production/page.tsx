@@ -75,10 +75,19 @@ export default async function ProductionPage() {
     })),
   });
 
-  const statItems = siteContent.stats.map((s) => ({
-    value: formatStatValue(s.value),
-    label: s.label,
-  }));
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) —
+  // pick the 4 most machine/capacity-focused metrics for this page;
+  // "Workers & staff" is the one dropped here (kept on Home/About instead).
+  const PRODUCTION_STAT_LABELS = [
+    "Specialized machines",
+    "Sewing machines",
+    "Factory area (sq ft)",
+    "Packing capacity (Pcs/month)",
+  ];
+  const statItems = PRODUCTION_STAT_LABELS.map((label) => {
+    const s = siteContent.stats.find((stat) => stat.label === label)!;
+    return { value: formatStatValue(s.value), label: s.label };
+  });
 
   /** Resolve image fallbacks server-side — per-step local photos by slug */
   const stepItems = steps.map((step) => ({
@@ -140,6 +149,7 @@ export default async function ProductionPage() {
         title={["Capacity that", "keeps delivering"]}
         stats={statItems}
         tone="cream"
+        layout="row"
         className="mx-2 sm:mx-3"
       />
 
