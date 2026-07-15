@@ -24,6 +24,13 @@ const COMPANY_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
+const GALLERY_IMAGES = [
+  { src: "/images/production/knitting.jpg", alt: "Knitting floor at Haram Textile" },
+  { src: "/images/production/cutting.jpg", alt: "Fabric cutting at Haram Textile" },
+  { src: "/images/production/sewing.jpg", alt: "Sewing line at Haram Textile" },
+  { src: "/images/production/packing.jpg", alt: "Finishing and packing at Haram Textile" },
+];
+
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
 /**
@@ -77,6 +84,24 @@ export function SiteFooter() {
             </svg>
           </button>
         </Inview>
+      </div>
+
+      {/* Image gallery strip */}
+      <div className="grid grid-cols-2 gap-3 py-10 sm:grid-cols-4 sm:gap-4">
+        {GALLERY_IMAGES.map((image, i) => (
+          <Inview
+            key={image.src}
+            from={{ opacity: 0, y: 16 }}
+            to={{ opacity: 1, y: 0 }}
+            delayIn={i * 80}
+            stiffness={200}
+            damping={26}
+          >
+            <div className="relative aspect-[4/5] overflow-hidden rounded-tile">
+              <Image src={image.src} alt={image.alt} fill sizes="(min-width: 640px) 22vw, 45vw" className="object-cover" />
+            </div>
+          </Inview>
+        ))}
       </div>
 
       {/* Columns grid */}

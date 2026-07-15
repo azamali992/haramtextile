@@ -114,6 +114,17 @@ export function HeroSection({
             className="object-cover"
             style={{ objectPosition: "center" }}
           />
+          {/* Soft circular vignette — a quiet radial highlight behind the
+              headline, echoing a photo-mask motif without literally
+              cropping a landscape factory photo into a circle. */}
+          <div
+            className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[70%] max-w-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+            style={{
+              background:
+                "radial-gradient(circle, rgb(var(--on-brand-rgb)/0.16) 0%, rgb(var(--on-brand-rgb)/0.06) 45%, transparent 72%)",
+            }}
+            aria-hidden="true"
+          />
           <div
             className="absolute inset-0 bg-gradient-to-b from-scrim/75 via-scrim/40 to-scrim/85"
             aria-hidden="true"

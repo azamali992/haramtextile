@@ -5,12 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUI } from "@/components/layout/UIProvider";
 import { siteContent } from "@/lib/site-content";
+import { CompanyDropdown } from "@/components/layout/CompanyDropdown";
 
 const NAV_LINKS = [
   { href: "/catalog", label: "Catalog" },
   { href: "/production", label: "Production" },
-  { href: "/about", label: "About" },
-  { href: "/certifications", label: "Certifications" },
 ];
 
 interface SiteHeaderProps {
@@ -27,8 +26,9 @@ interface SiteHeaderProps {
  * route "/" (auto-detected via `usePathname()`) or when `overHero={true}`
  * is explicitly passed, solid cream bar on all other routes.
  *
- * Left: nav links (hidden <lg). Center: logo + wordmark. Right: "Get a Quote"
- * text button (opens ContactModal) + burger (opens MenuOverlay).
+ * Left: nav links + Company dropdown (hidden <lg). Center: logo + wordmark.
+ * Right: "Get a Quote" text button (opens ContactModal) + burger (opens
+ * MenuOverlay).
  *
  * The `overHero` prop is kept for backwards-compat and explicit override
  * (Phase 3b pages that have their own hero can pass it). The home-route
@@ -78,6 +78,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
               </Link>
             );
           })}
+          <CompanyDropdown textColorClass={textColor} hoverColorClass={linkHover} />
         </nav>
 
         {/* Center brand */}

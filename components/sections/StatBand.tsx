@@ -29,22 +29,31 @@ interface StatBandProps {
    * @default "green"
    */
   tone?: "green" | "cream";
+  /**
+   * `bento` — first stat is "featured" (spans 2 cols, larger CountUp).
+   * `row` — 4 equal-width columns, each with a small `01`–`04` numeral above
+   * the value. No featured stat.
+   * @default "bento"
+   */
+  layout?: "bento" | "row";
   /** Extra classes on the outer `<section>`. */
   className?: string;
 }
 
 /**
- * Statistics band: Eyebrow + RevealLines title + an asymmetric bento `<dl>`
- * grid. The first stat is the "hero stat" — it spans two grid columns and
- * counts up at a slower 2.2 s duration with a larger type size. Remaining
- * stats sit at standard size beside and below it. All values animate from 0
- * on first viewport entry via CountUp.
+ * Statistics band: Eyebrow + RevealLines title + a stats `<dl>` grid.
+ * `layout="bento"` (default): the first stat is the "hero stat" — it spans
+ * two grid columns and counts up at a slower 2.2 s duration with a larger
+ * type size, remaining stats sit at standard size beside/below it.
+ * `layout="row"`: 4 equal-width numbered columns (01–04), no featured stat.
+ * All values animate from 0 on first viewport entry via CountUp.
  */
 export function StatBand({
   eyebrow,
   title,
   stats,
   tone = "green",
+  layout = "bento",
   className = "",
 }: StatBandProps) {
   const isGreen = tone === "green";
@@ -69,16 +78,14 @@ export function StatBand({
           className={`mt-4 font-heading font-normal text-display ${titleColor}`}
         />
 
-        {/*
-         * Bento stats grid — first stat is "featured" (col-span-2 at every
-         * breakpoint) with an oversized CountUp. On mobile (grid-cols-2) the
-         * featured stat fills the full row. On desktop (lg:grid-cols-4) it
-         * occupies the left half with the remaining stats beside/below it.
-         */}
-        <dl className="mt-16 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
-          {stats.map((stat, i) => {
-            const isFeatured = i === 0;
-            return (
+        {layout === "row" ? (
+          /*
+           * Numbered row — 4 equal-width columns, each headed by a small
+           * Playfair "01"–"04" numeral above the CountUp value. No featured
+           * stat.
+           */
+          <dl className="mt-16 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
+            {stats.map((stat, i) => (
               <Inview
                 key={stat.label}
                 delayIn={Math.min(i * 110, 330)}
@@ -86,46 +93,89 @@ export function StatBand({
                 damping={24}
                 from={{ opacity: 0, y: 30 }}
                 to={{ opacity: 1, y: 0 }}
-                /* Featured stat spans 2 of 2 cols on mobile (full-width) and
-                   2 of 4 cols on desktop (left half of the bento grid).       */
-                className={isFeatured ? "col-span-2 lg:col-span-2" : ""}
               >
-                <div
-                  className={`h-full pt-5 ${
-                    isFeatured
-                      ? "border-t-2 border-[var(--brand)]"
-                      : "border-t border-[var(--brand)]"
-                  }`}
-                >
+                <div className="h-full border-t border-[var(--brand)] pt-5">
+                  <span
+                    className={`block font-heading text-sm ${
+                      isGreen ? "text-on-brand/50" : "text-[var(--ink-soft)]/70"
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <dt className="sr-only">{stat.label}</dt>
                   <dd>
                     <CountUp
                       value={stat.value}
-                      /*
-                       * Featured: larger type (up to 6.5 rem on lg) + slower
-                       * 2.2 s count-up for maximum visual drama.
-                       * Standard: unchanged from previous design.
-                       */
-                      duration={isFeatured ? 2.2 : 1.6}
-                      className={
-                        isFeatured
-                          ? `block font-heading leading-none tracking-tight ${valueColor} text-[4.5rem] sm:text-[5.5rem] lg:text-[6.5rem]`
-                          : `block font-heading text-[3.75rem] leading-none tracking-tight sm:text-[4.5rem] ${valueColor}`
-                      }
+                      duration={1.6}
+                      className={`mt-2 block font-heading text-[3.75rem] leading-none tracking-tight sm:text-[4.5rem] ${valueColor}`}
                     />
-                    <span
-                      className={`mt-3 block font-body ${labelColor} ${
-                        isFeatured ? "text-base" : "text-sm"
-                      }`}
-                    >
+                    <span className={`mt-3 block font-body text-sm ${labelColor}`}>
                       {stat.label}
                     </span>
                   </dd>
                 </div>
               </Inview>
-            );
-          })}
-        </dl>
+            ))}
+          </dl>
+        ) : (
+          /*
+           * Bento stats grid — first stat is "featured" (col-span-2 at every
+           * breakpoint) with an oversized CountUp. On mobile (grid-cols-2) the
+           * featured stat fills the full row. On desktop (lg:grid-cols-4) it
+           * occupies the left half with the remaining stats beside/below it.
+           */
+          <dl className="mt-16 grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-4">
+            {stats.map((stat, i) => {
+              const isFeatured = i === 0;
+              return (
+                <Inview
+                  key={stat.label}
+                  delayIn={Math.min(i * 110, 330)}
+                  stiffness={180}
+                  damping={24}
+                  from={{ opacity: 0, y: 30 }}
+                  to={{ opacity: 1, y: 0 }}
+                  /* Featured stat spans 2 of 2 cols on mobile (full-width) and
+                     2 of 4 cols on desktop (left half of the bento grid).       */
+                  className={isFeatured ? "col-span-2 lg:col-span-2" : ""}
+                >
+                  <div
+                    className={`h-full pt-5 ${
+                      isFeatured
+                        ? "border-t-2 border-[var(--brand)]"
+                        : "border-t border-[var(--brand)]"
+                    }`}
+                  >
+                    <dt className="sr-only">{stat.label}</dt>
+                    <dd>
+                      <CountUp
+                        value={stat.value}
+                        /*
+                         * Featured: larger type (up to 6.5 rem on lg) + slower
+                         * 2.2 s count-up for maximum visual drama.
+                         * Standard: unchanged from previous design.
+                         */
+                        duration={isFeatured ? 2.2 : 1.6}
+                        className={
+                          isFeatured
+                            ? `block font-heading leading-none tracking-tight ${valueColor} text-[4.5rem] sm:text-[5.5rem] lg:text-[6.5rem]`
+                            : `block font-heading text-[3.75rem] leading-none tracking-tight sm:text-[4.5rem] ${valueColor}`
+                        }
+                      />
+                      <span
+                        className={`mt-3 block font-body ${labelColor} ${
+                          isFeatured ? "text-base" : "text-sm"
+                        }`}
+                      >
+                        {stat.label}
+                      </span>
+                    </dd>
+                  </div>
+                </Inview>
+              );
+            })}
+          </dl>
+        )}
       </div>
     </section>
   );

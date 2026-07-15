@@ -4,7 +4,6 @@ import { listCertifications } from "@/lib/services/certification.service";
 import { getHeroConfig } from "@/lib/services/hero.service";
 import { listClientLogos } from "@/lib/services/client-logo.service";
 import { getAboutContent } from "@/lib/services/about-content.service";
-import { listProductionSteps } from "@/lib/services/production-step.service";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
@@ -15,17 +14,15 @@ import {
   isPlaceholderImageUrl,
   getFallbackImageForCategory,
 } from "@/lib/product-image-fallback";
-import { getFallbackImageForProductionStep } from "@/lib/production-image-fallback";
 
 // ─── Section components ───────────────────────────────────────────────────────
 import { HeroSection } from "@/components/sections/HeroSection";
+import { CapabilityBand } from "@/components/sections/CapabilityBand";
 import { TrustSection } from "@/components/sections/TrustSection";
 import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
-import { ProductCylinderShowcase } from "@/components/sections/ProductCylinderShowcase";
-import { ProcessCarousel } from "@/components/sections/ProcessCarousel";
+import { ProductShowcaseGrid } from "@/components/sections/ProductShowcaseGrid";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
-import { FactoryInterstitial } from "@/components/sections/FactoryInterstitial";
 
 export const dynamic = "force-dynamic";
 
@@ -90,14 +87,12 @@ export default async function HomePage() {
     // aboutContent consumed by hero/trust if needed — kept for admin-editable field
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _aboutContent,
-    productionSteps,
   ] = await Promise.all([
     listProducts({}),
     listCertifications(),
     getHeroConfig(),
     listClientLogos(),
     getAboutContent(),
-    listProductionSteps(),
   ]);
 
   // ── Hero image (fallback as before) ────────────────────────────────────────
@@ -118,66 +113,58 @@ export default async function HomePage() {
     openingHours: ["Mo-Sa 09:30-18:00"],
   });
 
-  // ── Product cylinder: a curated cross-category sample of real products —
-  //    up to 3 per category so every collection is represented without
-  //    overcrowding the 3D carousel ────────────────────────────────────────
+  // ── Product showcase grid: a curated cross-category sample of real
+  //    products — up to 3 per category so every collection is represented
+  //    without overcrowding the flat grid ───────────────────────────────────
   const productsByCategory = new Map<string, typeof products>();
   for (const product of products) {
     const bucket = productsByCategory.get(product.category.slug) ?? [];
     bucket.push(product);
     productsByCategory.set(product.category.slug, bucket);
   }
-  const CYLINDER_PER_CATEGORY = 3;
-  const cylinderProducts = Array.from(productsByCategory.values()).flatMap(
-    (bucket) => bucket.slice(0, CYLINDER_PER_CATEGORY),
+  const SHOWCASE_PER_CATEGORY = 3;
+  const showcaseProducts = Array.from(productsByCategory.values()).flatMap(
+    (bucket) => bucket.slice(0, SHOWCASE_PER_CATEGORY),
   );
 
-  const cylinderItems = cylinderProducts.map((product) => {
+  const showcaseItems = showcaseProducts.map((product) => {
     const usableImage = !isPlaceholderImageUrl(product.imageUrl);
     const fallback = getFallbackImageForCategory(product.category.slug, product.id);
-    const src = usableImage
-      ? product.imageUrl
-      : (fallback?.src ?? "/images/hero/hero-factory.jpg");
+    const image = usableImage
+      ? { src: product.imageUrl, width: 1200, height: 1500 }
+      : (fallback ?? { src: "/images/hero/hero-factory.jpg", width: 1200, height: 1500 });
     return {
-      src,
-      alt: `${product.name} — Haram Textile ${product.category.name}`,
-      caption: product.name,
-      href: `/catalog/${product.id}`,
+      id: product.id,
+      name: product.name,
+      categoryName: product.category.name,
+      fabricType: product.fabricType,
+      moq: product.moq,
+      image,
     };
   });
 
-  // ── Process carousel slides (DB steps; siteContent fallback if DB empty) ───
-  const processSteps =
-    productionSteps.length > 0
-      ? productionSteps.map((step) => ({
-          slug: step.slug,
-          title: step.title,
-          description: step.description,
-          statLabel: step.statLabel ?? null,
-          statValue: step.statValue ?? null,
-          imageUrl: isPlaceholderImageUrl(step.imageUrl)
-            ? getFallbackImageForProductionStep(step.slug)
-            : step.imageUrl,
-        }))
-      : siteContent.manufacturing.map((step) => ({
-          slug: step.slug,
-          title: step.name,
-          description: step.description,
-          statLabel: null,
-          statValue: null,
-          imageUrl: getFallbackImageForProductionStep(step.slug),
-        }));
-
-  // ── Stats formatted for StatBand ───────────────────────────────────────────
-  const statItems = siteContent.stats.map((s) => ({
-    label: s.label,
-    value:
-      s.value >= 1_000_000
-        ? `${(s.value / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`
-        : s.value >= 1_000
-          ? `${Math.round(s.value / 1_000)}K+`
-          : String(s.value),
-  }));
+  // ── Stats formatted for StatBand ────────────────────────────────────────
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) — pick
+  // the 4 most distinct scale metrics; siteContent.stats has 5 entries, and
+  // "Sewing machines" overlaps narratively with "Specialized machines".
+  const HOME_STAT_LABELS = [
+    "Specialized machines",
+    "Workers & staff",
+    "Factory area (sq ft)",
+    "Packing capacity (Pcs/month)",
+  ];
+  const statItems = HOME_STAT_LABELS.map((label) => {
+    const s = siteContent.stats.find((stat) => stat.label === label)!;
+    return {
+      label: s.label,
+      value:
+        s.value >= 1_000_000
+          ? `${(s.value / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`
+          : s.value >= 1_000
+            ? `${Math.round(s.value / 1_000)}K+`
+            : String(s.value),
+    };
+  });
 
   // ── Pull-quote certification badges ────────────────────────────────────────
   const certBadges = certifications.map((c) => ({
@@ -200,11 +187,8 @@ export default async function HomePage() {
         heroImage={heroImage}
       />
 
-      {/* 2 ── Trust / social proof ─────────────────────────────────────────── */}
-      <TrustSection
-        clientLogos={clientLogos}
-        certifications={certifications}
-      />
+      {/* 2 ── Capability band — what we do, at a glance ─────────────────────── */}
+      <CapabilityBand />
 
       {/* 3 ── Mission, Vision & Values ──────────────────────────────────────── */}
       <MissionVisionValues
@@ -214,38 +198,35 @@ export default async function HomePage() {
         tone="surface"
       />
 
-      {/* 3½ ── Full-bleed factory interstitial — scale reset between sections ─ */}
-      <FactoryInterstitial />
-
-      {/* 4 ── Product collections — 3D cylinder carousel ────────────────────── */}
-      <ProductCylinderShowcase
-        eyebrow="What we make"
-        title={["Our collections"]}
-        body={siteContent.home.productLine}
-        items={cylinderItems}
+      {/* 4 ── Trust / social proof ─────────────────────────────────────────── */}
+      <TrustSection
+        clientLogos={clientLogos}
+        certifications={certifications}
       />
 
-      {/* 5 ── Production process — horizontal carousel on green ────────────── */}
-      <ProcessCarousel
-        eyebrow="Our process"
-        title={["From yarn", "to carton"]}
-        body="Every stage happens in-house across 30,000 sq ft of purpose-built facilities in Faisalabad."
-        steps={processSteps}
-      />
-
-      {/* 6 ── Stats band ───────────────────────────────────────────────────── */}
+      {/* 5 ── Stats band — numbered row ──────────────────────────────────────── */}
       <StatBand
         title={["Manufacturing", "at scale"]}
         stats={statItems}
         tone="cream"
+        layout="row"
         className="mt-3"
       />
 
-      {/* 7 ── Pull-quote ───────────────────────────────────────────────────── */}
+      {/* 6 ── Pull-quote — full-bleed dark photo band ────────────────────────── */}
       <PullQuote
         quote={siteContent.site.quote}
         attribution="Haram Textile — Faisalabad, Pakistan"
         certBadges={certBadges.length > 0 ? certBadges : undefined}
+        photoBackground="/images/about/about-factory.jpg"
+      />
+
+      {/* 7 ── Product collections — flat editorial grid ──────────────────────── */}
+      <ProductShowcaseGrid
+        eyebrow="What we make"
+        title={["Our collections"]}
+        body={siteContent.home.productLine}
+        items={showcaseItems}
       />
 
       {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
