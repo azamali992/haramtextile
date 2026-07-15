@@ -17,6 +17,7 @@ const NAV_LINKS = [
   { href: "/production", label: "Production" },
   { href: "/about", label: "About" },
   { href: "/certifications", label: "Certifications" },
+  { href: "/sustainability", label: "Sustainability" },
   { href: "/contact", label: "Contact" },
 ];
 
