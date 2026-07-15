@@ -14,6 +14,7 @@ import {
   isPlaceholderImageUrl,
   getFallbackImageForCategory,
 } from "@/lib/product-image-fallback";
+import { getFallbackImageForProductionStep } from "@/lib/production-image-fallback";
 
 // ─── Section components ───────────────────────────────────────────────────────
 import { HeroSection } from "@/components/sections/HeroSection";
@@ -23,6 +24,7 @@ import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
 import { ProductCylinderShowcase } from "@/components/sections/ProductCylinderShowcase";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
+import { ProcessShowcase } from "@/components/sections/ProcessShowcase";
 
 export const dynamic = "force-dynamic";
 
@@ -136,10 +138,16 @@ export default async function HomePage() {
     return {
       src,
       alt: `${product.name} — Haram Textile ${product.category.name}`,
-      caption: product.name,
       href: `/catalog/${product.id}`,
     };
   });
+
+  // ── Process gallery — a vertical cylinder of real factory photos, one per
+  //    manufacturing stage ────────────────────────────────────────────────
+  const processImages = siteContent.manufacturing.map((step) => ({
+    src: getFallbackImageForProductionStep(step.slug),
+    alt: `${step.name} stage at Haram Textile's Faisalabad factory`,
+  }));
 
   // ── Stats formatted for StatBand ────────────────────────────────────────
   // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) — pick
@@ -229,6 +237,15 @@ export default async function HomePage() {
 
       {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
       <FaqAccordion faqs={HOME_FAQS} />
+
+      {/* 9 ── Process gallery — vertical cylinder, sits directly above the
+              footer ─────────────────────────────────────────────────────── */}
+      <ProcessShowcase
+        eyebrow="Our process"
+        title={["From yarn", "to carton"]}
+        body="Every stage happens in-house across 30,000 sq ft of purpose-built facilities in Faisalabad — knitting, dyeing, cutting, printing, embroidery, sewing, and finishing & packing, all under one roof."
+        images={processImages}
+      />
 
       {/* JSON-LD (kept exactly as before) */}
       <JsonLd data={localBusinessSchema} />
