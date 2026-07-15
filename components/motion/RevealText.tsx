@@ -148,8 +148,8 @@ export function RevealText({
           style={{
             display: "inline-block",
             overflow: "hidden",
-            paddingBottom: "0.14em",
-            marginBottom: "-0.14em",
+            paddingBottom: "0.2em",
+            marginBottom: "-0.2em",
             verticalAlign: "bottom",
             whiteSpace: noWrap ? "nowrap" : undefined,
           }}

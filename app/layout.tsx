@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import { Fraunces, DM_Sans } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { config } from "@/lib/config";
@@ -8,9 +8,10 @@ import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { siteContent } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
 
-const playfairDisplay = Playfair_Display({
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  axes: ["opsz"],
+  style: ["normal", "italic"],
   variable: "--font-heading",
   display: "swap",
   preload: true,
@@ -61,7 +62,7 @@ export default async function RootLayout({
   });
 
   return (
-    <html lang="en" className={`${playfairDisplay.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${dmSans.variable}`}>
       {/*
         Adaptive rem-grid scale-UP bootstrap (runs before paint to avoid FOUC).
         Below 1920px the CSS media queries handle scaling via vw units.

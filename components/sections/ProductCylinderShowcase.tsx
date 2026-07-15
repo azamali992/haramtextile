@@ -43,7 +43,7 @@ export function ProductCylinderShowcase({
         </PillButton>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-24 sm:mt-32">
         <CylinderCarousel images={items} radius={620} faceWidth={260} perspective={2000} />
       </div>
     </section>

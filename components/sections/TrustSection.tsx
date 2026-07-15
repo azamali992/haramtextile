@@ -60,7 +60,7 @@ export function TrustSection({
           id="trust-heading"
           aria-label="Trusted by global brands"
         >
-          <div className="overflow-hidden pb-[0.12em]">
+          <div className="overflow-hidden pb-[0.3em]">
             <RevealText
               as="span"
               stagger={60}
@@ -71,7 +71,7 @@ export function TrustSection({
               Trusted by
             </RevealText>
           </div>
-          <div className="flex flex-wrap items-baseline gap-x-[0.28em] overflow-hidden pb-[0.12em]">
+          <div className="flex flex-wrap items-baseline gap-x-[0.28em] overflow-hidden pb-[0.3em]">
             <RevealText
               as="span"
               stagger={60}
