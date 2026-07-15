@@ -20,7 +20,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { CapabilityBand } from "@/components/sections/CapabilityBand";
 import { TrustSection } from "@/components/sections/TrustSection";
 import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
-import { ProductShowcaseGrid } from "@/components/sections/ProductShowcaseGrid";
+import { ProductCylinderShowcase } from "@/components/sections/ProductCylinderShowcase";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
 
@@ -113,33 +113,31 @@ export default async function HomePage() {
     openingHours: ["Mo-Sa 09:30-18:00"],
   });
 
-  // ── Product showcase grid: a curated cross-category sample of real
-  //    products — up to 3 per category so every collection is represented
-  //    without overcrowding the flat grid ───────────────────────────────────
+  // ── Product cylinder: a curated cross-category sample of real products —
+  //    up to 3 per category so every collection is represented without
+  //    overcrowding the 3D carousel ────────────────────────────────────────
   const productsByCategory = new Map<string, typeof products>();
   for (const product of products) {
     const bucket = productsByCategory.get(product.category.slug) ?? [];
     bucket.push(product);
     productsByCategory.set(product.category.slug, bucket);
   }
-  const SHOWCASE_PER_CATEGORY = 3;
-  const showcaseProducts = Array.from(productsByCategory.values()).flatMap(
-    (bucket) => bucket.slice(0, SHOWCASE_PER_CATEGORY),
+  const CYLINDER_PER_CATEGORY = 3;
+  const cylinderProducts = Array.from(productsByCategory.values()).flatMap(
+    (bucket) => bucket.slice(0, CYLINDER_PER_CATEGORY),
   );
 
-  const showcaseItems = showcaseProducts.map((product) => {
+  const cylinderItems = cylinderProducts.map((product) => {
     const usableImage = !isPlaceholderImageUrl(product.imageUrl);
     const fallback = getFallbackImageForCategory(product.category.slug, product.id);
-    const image = usableImage
-      ? { src: product.imageUrl, width: 1200, height: 1500 }
-      : (fallback ?? { src: "/images/hero/hero-factory.jpg", width: 1200, height: 1500 });
+    const src = usableImage
+      ? product.imageUrl
+      : (fallback?.src ?? "/images/hero/hero-factory.jpg");
     return {
-      id: product.id,
-      name: product.name,
-      categoryName: product.category.name,
-      fabricType: product.fabricType,
-      moq: product.moq,
-      image,
+      src,
+      alt: `${product.name} — Haram Textile ${product.category.name}`,
+      caption: product.name,
+      href: `/catalog/${product.id}`,
     };
   });
 
@@ -221,12 +219,12 @@ export default async function HomePage() {
         photoBackground="/images/about/about-factory.jpg"
       />
 
-      {/* 7 ── Product collections — flat editorial grid ──────────────────────── */}
-      <ProductShowcaseGrid
+      {/* 7 ── Product collections — 3D cylinder carousel ─────────────────────── */}
+      <ProductCylinderShowcase
         eyebrow="What we make"
         title={["Our collections"]}
         body={siteContent.home.productLine}
-        items={showcaseItems}
+        items={cylinderItems}
       />
 
       {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
