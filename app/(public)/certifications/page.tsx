@@ -8,8 +8,11 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { isPlaceholderImageUrl } from "@/lib/product-image-fallback";
+import { getFallbackImageForProductionStep } from "@/lib/production-image-fallback";
 import { SectionHeader } from "@/components/sections/SectionHeader";
 import { CertificationsGrid } from "@/components/sections/CertificationsGrid";
+import { PhotoHero } from "@/components/sections/PhotoHero";
+import { PullQuote } from "@/components/sections/PullQuote";
 
 export const dynamic = "force-dynamic";
 
@@ -81,26 +84,38 @@ export default async function CertificationsPage() {
         ]}
       />
 
-      {/* Editorial page header */}
-      <div className="px-6 pb-14 pt-12 sm:px-10 sm:pt-16">
-        <div className="mx-auto max-w-[90rem]">
-          <h1 className="sr-only">Our Certifications</h1>
-          <SectionHeader
-            eyebrow="Quality assurance"
-            eyebrowTone="dark"
-            title={["Our certifications"]}
-            body={siteContent.certifications.intro}
-            titleClassName="font-normal text-[3rem] sm:text-display-lg text-[var(--ink)]"
-            bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
-          />
-        </div>
+      {/* Photo hero — the visible page opener */}
+      <div className="px-2 sm:px-3">
+        <PhotoHero
+          eyebrow="Quality assurance"
+          title="Audited to global standards"
+          subtitle={siteContent.certifications.intro}
+          imageSrc={getFallbackImageForProductionStep("packing")}
+          imageAlt="Quality inspection and finishing at Haram Textile, Faisalabad"
+          as="p"
+        />
       </div>
+
+      {/* h1 for screen readers and SEO */}
+      <h1 className="sr-only">Our Certifications</h1>
 
       {/* Certifications grid */}
       <section
         aria-labelledby="certifications-grid-heading"
-        className="px-6 pb-16 sm:px-10"
+        className="px-6 py-24 sm:px-10 sm:py-32"
       >
+        <div className="mx-auto max-w-[90rem]">
+          <SectionHeader
+            eyebrow="What we hold"
+            eyebrowTone="dark"
+            title={["Our certifications"]}
+            body={`Independently audited and renewed on each issuing body's cycle — ${siteContent.certifications.list.join(", ")}.`}
+            titleClassName="text-display text-[var(--ink)]"
+            bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
+            className="mb-14"
+          />
+        </div>
+
         <h2 id="certifications-grid-heading" className="sr-only">
           All Certifications
         </h2>
@@ -115,6 +130,17 @@ export default async function CertificationsPage() {
           <CertificationsGrid certifications={certItems} />
         )}
       </section>
+
+      {/* Pull quote — full-bleed dark photo band with the cert chips */}
+      <PullQuote
+        quote={siteContent.site.quote}
+        attribution={`Haram Textile — ${siteContent.contact.address.split(",").slice(-2).join(",").trim()}`}
+        certBadges={certifications.map((c) => ({
+          name: c.name,
+          issuingBody: c.issuingBody ?? null,
+        }))}
+        photoBackground="/images/about/about-factory.jpg"
+      />
 
       <FaqAccordion faqs={CERTIFICATIONS_FAQS} title="Validity, Audits & Compliance FAQs" />
 

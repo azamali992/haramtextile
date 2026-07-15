@@ -70,10 +70,19 @@ export default async function AboutPage() {
 
   const faqSchema = ABOUT_FAQS;
 
-  const statItems = siteContent.stats.map((s) => ({
-    value: formatStatValue(s.value),
-    label: s.label,
-  }));
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) —
+  // siteContent.stats has 5; drop "Sewing machines", which overlaps
+  // narratively with "Specialized machines" (it leads on /production instead).
+  const ABOUT_STAT_LABELS = [
+    "Specialized machines",
+    "Workers & staff",
+    "Factory area (sq ft)",
+    "Packing capacity (Pcs/month)",
+  ];
+  const statItems = ABOUT_STAT_LABELS.map((label) => {
+    const s = siteContent.stats.find((stat) => stat.label === label)!;
+    return { value: formatStatValue(s.value), label: s.label };
+  });
 
   return (
     <main>
@@ -84,7 +93,7 @@ export default async function AboutPage() {
         ]}
       />
 
-      {/* Hero — editorial intro with word-by-word reveal */}
+      {/* Hero — photo band + two-column story */}
       <AboutHero
         storyText={aboutContent?.storyText ?? siteContent.about.intro}
         imageUrl={
@@ -95,12 +104,29 @@ export default async function AboutPage() {
         }
       />
 
+      {/* Stats band — numbered row, straight after the story */}
+      <StatBand
+        eyebrow="By the numbers"
+        title={["Haram Textile", "at scale"]}
+        stats={statItems}
+        tone="cream"
+        layout="row"
+        className="mx-2 sm:mx-3"
+      />
+
       {/* Mission, Vision & Values — shared with Home */}
       <MissionVisionValues
         mission={siteContent.about.mission}
         vision={siteContent.about.vision}
         values={siteContent.about.values}
-        tone="surface"
+        tone="background"
+      />
+
+      {/* Pull quote — full-bleed dark photo band, this page's one dark moment */}
+      <PullQuote
+        quote={siteContent.site.quote}
+        attribution={`${siteContent.team[0]?.name ?? "Rashid Mehmood"}, CEO — ${siteContent.site.name}`}
+        photoBackground="/images/about/about-factory.jpg"
       />
 
       {/* About content sections — USP, why pakistan, team */}
@@ -108,21 +134,6 @@ export default async function AboutPage() {
         whyPakistan={siteContent.about.whyPakistan}
         usp={siteContent.about.usp}
         team={siteContent.team}
-      />
-
-      {/* Pull quote — centered editorial blockquote */}
-      <PullQuote
-        quote={siteContent.site.quote}
-        attribution={`${siteContent.team[0]?.name ?? "Rashid Mehmood"}, CEO — ${siteContent.site.name}`}
-      />
-
-      {/* Stats band — this page's one dark moment */}
-      <StatBand
-        eyebrow="By the numbers"
-        title={["Haram Textile", "at scale"]}
-        stats={statItems}
-        tone="green"
-        className="mx-2 sm:mx-3"
       />
 
       <FaqAccordion faqs={faqSchema} title="Company History & Export Experience FAQs" />

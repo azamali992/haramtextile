@@ -4,6 +4,7 @@ import { listCertifications } from "@/lib/services/certification.service";
 import { getHeroConfig } from "@/lib/services/hero.service";
 import { listClientLogos } from "@/lib/services/client-logo.service";
 import { getAboutContent } from "@/lib/services/about-content.service";
+import { listProductionSteps } from "@/lib/services/production-step.service";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
@@ -89,12 +90,14 @@ export default async function HomePage() {
     // aboutContent consumed by hero/trust if needed — kept for admin-editable field
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _aboutContent,
+    productionSteps,
   ] = await Promise.all([
     listProducts({}),
     listCertifications(),
     getHeroConfig(),
     listClientLogos(),
     getAboutContent(),
+    listProductionSteps(),
   ]);
 
   // ── Hero image (fallback as before) ────────────────────────────────────────
@@ -142,12 +145,28 @@ export default async function HomePage() {
     };
   });
 
-  // ── Process gallery — a vertical cylinder of real factory photos, one per
-  //    manufacturing stage ────────────────────────────────────────────────
-  const processImages = siteContent.manufacturing.map((step) => ({
-    src: getFallbackImageForProductionStep(step.slug),
-    alt: `${step.name} stage at Haram Textile's Faisalabad factory`,
-  }));
+  // ── Process stack — DB steps (admin-editable), with the static
+  //    siteContent stages as a fallback if the table is empty ─────────────
+  const processSteps =
+    productionSteps.length > 0
+      ? productionSteps.map((step) => ({
+          slug: step.slug,
+          title: step.title,
+          description: step.description,
+          statLabel: step.statLabel ?? null,
+          statValue: step.statValue ?? null,
+          imageUrl: isPlaceholderImageUrl(step.imageUrl)
+            ? getFallbackImageForProductionStep(step.slug)
+            : step.imageUrl,
+        }))
+      : siteContent.manufacturing.map((step) => ({
+          slug: step.slug,
+          title: step.name,
+          description: step.description,
+          statLabel: null,
+          statValue: null,
+          imageUrl: getFallbackImageForProductionStep(step.slug),
+        }));
 
   // ── Stats formatted for StatBand ────────────────────────────────────────
   // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) — pick
@@ -238,14 +257,9 @@ export default async function HomePage() {
       {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
       <FaqAccordion faqs={HOME_FAQS} />
 
-      {/* 9 ── Process gallery — vertical cylinder, sits directly above the
+      {/* 9 ── Process stack — 3D vertical carousel, sits directly above the
               footer ─────────────────────────────────────────────────────── */}
-      <ProcessShowcase
-        eyebrow="Our process"
-        title={["From yarn", "to carton"]}
-        body="Every stage happens in-house across 30,000 sq ft of purpose-built facilities in Faisalabad — knitting, dyeing, cutting, printing, embroidery, sewing, and finishing & packing, all under one roof."
-        images={processImages}
-      />
+      <ProcessShowcase eyebrow="Our process" steps={processSteps} />
 
       {/* JSON-LD (kept exactly as before) */}
       <JsonLd data={localBusinessSchema} />
