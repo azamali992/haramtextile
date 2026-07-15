@@ -44,7 +44,7 @@ export function CountUp({ value, duration = 1.6, className = "" }: CountUpProps)
   const inView = useInView(ref, { once: true, margin: "-10% 0px" });
   const parsed = parseValue(value);
   // Initial state must match the server render (which never sees the reduced-
-  // motion media query) — the effect below snaps to the final value on mount.
+  // motion media query) - the effect below snaps to the final value on mount.
   const [display, setDisplay] = useState(() =>
     !parsed ? value : `${parsed.prefix}0${parsed.suffix}`,
   );

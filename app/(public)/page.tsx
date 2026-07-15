@@ -87,7 +87,7 @@ export default async function HomePage() {
     certifications,
     heroConfig,
     clientLogos,
-    // aboutContent consumed by hero/trust if needed — kept for admin-editable field
+    // aboutContent consumed by hero/trust if needed - kept for admin-editable field
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _aboutContent,
     productionSteps,
@@ -118,7 +118,7 @@ export default async function HomePage() {
     openingHours: ["Mo-Sa 09:30-18:00"],
   });
 
-  // ── Product cylinder: a curated cross-category sample of real products —
+  // ── Product cylinder: a curated cross-category sample of real products -
   //    up to 3 per category so every collection is represented without
   //    overcrowding the 3D carousel ────────────────────────────────────────
   const productsByCategory = new Map<string, typeof products>();
@@ -140,12 +140,12 @@ export default async function HomePage() {
       : (fallback?.src ?? "/images/hero/hero-factory.jpg");
     return {
       src,
-      alt: `${product.name} — Haram Textile ${product.category.name}`,
+      alt: `${product.name} - Haram Textile ${product.category.name}`,
       href: `/catalog/${product.id}`,
     };
   });
 
-  // ── Process stack — DB steps (admin-editable), with the static
+  // ── Process stack - DB steps (admin-editable), with the static
   //    siteContent stages as a fallback if the table is empty ─────────────
   const processSteps =
     productionSteps.length > 0
@@ -169,7 +169,7 @@ export default async function HomePage() {
         }));
 
   // ── Stats formatted for StatBand ────────────────────────────────────────
-  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) — pick
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) - pick
   // the 4 most distinct scale metrics; siteContent.stats has 5 entries, and
   // "Sewing machines" overlaps narratively with "Specialized machines".
   const HOME_STAT_LABELS = [
@@ -212,7 +212,7 @@ export default async function HomePage() {
         heroImage={heroImage}
       />
 
-      {/* 2 ── Capability band — what we do, at a glance ─────────────────────── */}
+      {/* 2 ── Capability band - what we do, at a glance ─────────────────────── */}
       <CapabilityBand />
 
       {/* 3 ── Mission, Vision & Values ──────────────────────────────────────── */}
@@ -229,7 +229,7 @@ export default async function HomePage() {
         certifications={certifications}
       />
 
-      {/* 5 ── Stats band — numbered row ──────────────────────────────────────── */}
+      {/* 5 ── Stats band - numbered row ──────────────────────────────────────── */}
       <StatBand
         title={["Manufacturing", "at scale"]}
         stats={statItems}
@@ -238,15 +238,15 @@ export default async function HomePage() {
         className="mt-3"
       />
 
-      {/* 6 ── Pull-quote — full-bleed dark photo band ────────────────────────── */}
+      {/* 6 ── Pull-quote - full-bleed dark photo band ────────────────────────── */}
       <PullQuote
         quote={siteContent.site.quote}
-        attribution="Haram Textile — Faisalabad, Pakistan"
+        attribution="Haram Textile - Faisalabad, Pakistan"
         certBadges={certBadges.length > 0 ? certBadges : undefined}
         photoBackground="/images/about/about-factory.jpg"
       />
 
-      {/* 7 ── Product collections — 3D cylinder carousel ─────────────────────── */}
+      {/* 7 ── Product collections - 3D cylinder carousel ─────────────────────── */}
       <ProductCylinderShowcase
         eyebrow="What we make"
         title={["Our collections"]}
@@ -257,7 +257,7 @@ export default async function HomePage() {
       {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
       <FaqAccordion faqs={HOME_FAQS} />
 
-      {/* 9 ── Process stack — 3D vertical carousel, sits directly above the
+      {/* 9 ── Process stack - 3D vertical carousel, sits directly above the
               footer ─────────────────────────────────────────────────────── */}
       <ProcessShowcase eyebrow="Our process" steps={processSteps} />
 

@@ -15,7 +15,7 @@ interface BadgeProps {
   className?: string;
 }
 
-/** Small pill label — gold wash for MOQ callouts, hairline for category tags. */
+/** Small pill label - gold wash for MOQ callouts, hairline for category tags. */
 export function Badge({ variant = "category", children, className = "" }: BadgeProps) {
   return (
     <span

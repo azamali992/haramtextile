@@ -8,7 +8,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 interface PhotoHeroProps {
   /** Small kicker above the headline. */
   eyebrow?: string;
-  /** Headline text — final word rendered italic gold. */
+  /** Headline text - final word rendered italic gold. */
   title: string;
   /** Optional supporting line under the headline. */
   subtitle?: string;
@@ -27,7 +27,7 @@ interface PhotoHeroProps {
 /**
  * Inner-page photo hero: a rounded deep-green band with a parallax photo,
  * scrim gradient, and a large sentence-case Playfair headline with an italic
- * gold accent word. Shorter than the home hero — a chapter opener, not a cover.
+ * gold accent word. Shorter than the home hero - a chapter opener, not a cover.
  */
 export function PhotoHero({
   eyebrow,

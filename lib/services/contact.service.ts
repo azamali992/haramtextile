@@ -6,8 +6,8 @@ import type { ContactSubmissionInput } from "@/lib/validators/contact";
  * Persists the contact submission first (this is the durable record of
  * the inquiry), then attempts to send the notification email. If the
  * email fails to send (e.g. SMTP misconfigured), we still return success
- * to the visitor — the submission is safely stored and visible in the
- * admin panel — but we log the failure for operators to notice.
+ * to the visitor - the submission is safely stored and visible in the
+ * admin panel - but we log the failure for operators to notice.
  */
 export async function submitContactForm(input: ContactSubmissionInput) {
   const submission = await contactRepository.createContactSubmission(input);

@@ -17,7 +17,7 @@ export function getClientLogoById(id: string) {
 
 /**
  * Deletes a client logo, then best-effort deletes its Cloudinary image
- * afterwards (fire-and-forget — a Cloudinary failure never blocks the DB
+ * afterwards (fire-and-forget - a Cloudinary failure never blocks the DB
  * delete, which has already succeeded by the time this runs).
  */
 export async function deleteClientLogo(id: string) {

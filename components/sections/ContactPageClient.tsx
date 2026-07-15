@@ -20,7 +20,7 @@ interface ContactPageClientProps {
 }
 
 /**
- * Contact page: editorial header, then a two-column layout — one hairline-
+ * Contact page: editorial header, then a two-column layout - one hairline-
  * divided details panel (address / phone / email / hours / map link) beside
  * the shared ContactForm. No stacked card boxes, no fake map block.
  */
@@ -63,7 +63,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
 
         {/* Two-column layout */}
         <div className="grid grid-cols-1 gap-14 lg:grid-cols-2 lg:gap-20">
-          {/* Left: contact details — one hairline-divided panel */}
+          {/* Left: contact details - one hairline-divided panel */}
           <section aria-labelledby="contact-details-heading">
             <h2 id="contact-details-heading" className="sr-only">
               Contact Details

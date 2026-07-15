@@ -9,9 +9,9 @@ export type PillButtonVariant = "light" | "solid" | "outline";
 interface PillButtonBaseProps {
   children: ReactNode;
   /**
-   * `light` — cream/white bg with deep-green text, hover to light-gold bg.
-   * `solid` — deep-green bg with on-brand text, hover to deeper green.
-   * `outline` — transparent with border, hover fills.
+   * `light` - cream/white bg with deep-green text, hover to light-gold bg.
+   * `solid` - deep-green bg with on-brand text, hover to deeper green.
+   * `outline` - transparent with border, hover fills.
    * @default "solid"
    */
   variant?: PillButtonVariant;

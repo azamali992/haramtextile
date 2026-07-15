@@ -61,7 +61,7 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
                   />
                 </div>
                 <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
-                  {step.title} — Haram Textile, Faisalabad
+                  {step.title} - Haram Textile, Faisalabad
                 </figcaption>
               </figure>
             </Inview>
@@ -87,7 +87,7 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
                 <div className="relative">
                   {/* Step counter */}
                   <p className="font-body text-eyebrow font-medium uppercase text-[var(--ink-soft)]">
-                    {numeral} — {String(totalSteps).padStart(2, "0")}
+                    {numeral} - {String(totalSteps).padStart(2, "0")}
                   </p>
 
                   <RevealLines
@@ -101,7 +101,7 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
                     {step.description}
                   </p>
 
-                  {/* Stat callout — admin-editable statLabel + statValue */}
+                  {/* Stat callout - admin-editable statLabel + statValue */}
                   {step.statLabel && step.statValue && (
                     <div className="mt-8 inline-flex items-baseline gap-3 border-t border-[var(--brand)] pt-4">
                       <span className="font-heading text-[2.25rem] leading-none italic text-[var(--brand-strong)]">

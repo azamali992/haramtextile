@@ -10,7 +10,7 @@ export function getAboutContent() {
 /**
  * Saves the singleton about-content row. If the image is being replaced
  * (`imagePublicId` differs from the existing row), the old Cloudinary
- * asset is deleted afterwards on a best-effort basis — fire-and-forget,
+ * asset is deleted afterwards on a best-effort basis - fire-and-forget,
  * wrapped so a Cloudinary failure never blocks or fails the save.
  */
 export async function saveAboutContent(data: AboutContentUpdateInput) {

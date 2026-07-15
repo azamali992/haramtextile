@@ -16,16 +16,16 @@ export interface PullQuoteCertBadge {
 }
 
 interface PullQuoteProps {
-  /** Optional eyebrow kicker (omit on home — the quote speaks for itself). */
+  /** Optional eyebrow kicker (omit on home - the quote speaks for itself). */
   eyebrow?: string;
   /** Optional header lines above the quote. */
   title?: string[];
   /**
-   * The pull-quote text (without surrounding quotation marks — the component
+   * The pull-quote text (without surrounding quotation marks - the component
    * renders the opening quote glyph).
    */
   quote: string;
-  /** Attribution line, e.g. "Rashid Mehmood, CEO — Haram Textile". */
+  /** Attribution line, e.g. "Rashid Mehmood, CEO - Haram Textile". */
   attribution?: string;
   /** Optional list of certification chips shown as trust markers. */
   certBadges?: PullQuoteCertBadge[];
@@ -46,10 +46,10 @@ interface PullQuoteProps {
  * that spins into place before the words begin.
  *
  * Animation sequence (triggered once on viewport entry):
- *   1. Opening `"` glyph — spring scale+rotate from hidden
- *   2. Quote words — clip-mask slide-up staggered at 55 ms intervals
- *   3. Attribution — Inview rise-in with 600 ms delay
- *   4. Cert badges — staggered Inview rise-ins
+ *   1. Opening `"` glyph - spring scale+rotate from hidden
+ *   2. Quote words - clip-mask slide-up staggered at 55 ms intervals
+ *   3. Attribution - Inview rise-in with 600 ms delay
+ *   4. Cert badges - staggered Inview rise-ins
  *
  * All motion collapses to instant-visible under prefers-reduced-motion.
  *
@@ -154,7 +154,7 @@ export function PullQuote({
             className={`border-y py-14 sm:py-16 ${borderColor}`}
           >
             {/*
-             * Opening quote glyph — springs in from scale(0.5) + rotate(-15°).
+             * Opening quote glyph - springs in from scale(0.5) + rotate(-15°).
              * Controlled by quoteInView (same trigger as the word reveals).
              * prefers-reduced-motion: transition duration collapses to 0.
              */}
@@ -177,7 +177,7 @@ export function PullQuote({
             </motion.span>
 
             {/*
-             * Quote text — word-by-word clip-mask slide-up via RevealText.
+             * Quote text - word-by-word clip-mask slide-up via RevealText.
              * Uses the `gated` + `ready` API so the animation only fires once
              * `quoteInView` becomes true, rather than on page mount.
              *
@@ -200,7 +200,7 @@ export function PullQuote({
             </blockquote>
 
             {/*
-             * Attribution — Inview rise-in with a 600 ms delay so it arrives
+             * Attribution - Inview rise-in with a 600 ms delay so it arrives
              * after the first wave of quote words has revealed.
              */}
             {attribution && (
@@ -222,7 +222,7 @@ export function PullQuote({
             )}
           </figure>
 
-          {/* Certification chips — inline hairline row */}
+          {/* Certification chips - inline hairline row */}
           {certBadges && certBadges.length > 0 && (
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               {certBadges.map((badge, i) => (

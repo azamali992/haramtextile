@@ -24,14 +24,14 @@ interface StatBandProps {
   stats: StatItem[];
   /**
    * Visual tone of the band.
-   * `green` — deep-green bg (`--brand-deep`), on-brand text.
-   * `cream` — cream surface bg, ink text.
+   * `green` - deep-green bg (`--brand-deep`), on-brand text.
+   * `cream` - cream surface bg, ink text.
    * @default "green"
    */
   tone?: "green" | "cream";
   /**
-   * `bento` — first stat is "featured" (spans 2 cols, larger CountUp).
-   * `row` — 4 equal-width columns, each with a small `01`–`04` numeral above
+   * `bento` - first stat is "featured" (spans 2 cols, larger CountUp).
+   * `row` - 4 equal-width columns, each with a small `01`–`04` numeral above
    * the value. No featured stat.
    * @default "bento"
    */
@@ -42,7 +42,7 @@ interface StatBandProps {
 
 /**
  * Statistics band: Eyebrow + RevealLines title + a stats `<dl>` grid.
- * `layout="bento"` (default): the first stat is the "hero stat" — it spans
+ * `layout="bento"` (default): the first stat is the "hero stat" - it spans
  * two grid columns and counts up at a slower 2.2 s duration with a larger
  * type size, remaining stats sit at standard size beside/below it.
  * `layout="row"`: 4 equal-width numbered columns (01–04), no featured stat.
@@ -80,7 +80,7 @@ export function StatBand({
 
         {layout === "row" ? (
           /*
-           * Numbered row — 4 equal-width columns, each headed by a small
+           * Numbered row - 4 equal-width columns, each headed by a small
            * Playfair "01"–"04" numeral above the CountUp value. No featured
            * stat.
            */
@@ -119,7 +119,7 @@ export function StatBand({
           </dl>
         ) : (
           /*
-           * Bento stats grid — first stat is "featured" (col-span-2 at every
+           * Bento stats grid - first stat is "featured" (col-span-2 at every
            * breakpoint) with an oversized CountUp. On mobile (grid-cols-2) the
            * featured stat fills the full row. On desktop (lg:grid-cols-4) it
            * occupies the left half with the remaining stats beside/below it.

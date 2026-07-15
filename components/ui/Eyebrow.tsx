@@ -5,8 +5,8 @@ export type EyebrowTone = "dark" | "light";
 interface EyebrowProps {
   children: ReactNode;
   /**
-   * `dark` — warm ink text with a gold dot. For use on light backgrounds.
-   * `light` — on-brand text at 70% opacity with a light-gold dot. For use on
+   * `dark` - warm ink text with a gold dot. For use on light backgrounds.
+   * `light` - on-brand text at 70% opacity with a light-gold dot. For use on
    * dark/green section backgrounds.
    * @default "dark"
    */
@@ -15,7 +15,7 @@ interface EyebrowProps {
 }
 
 /**
- * Eyebrow label component — a small uppercase tracking label with a leading
+ * Eyebrow label component - a small uppercase tracking label with a leading
  * dot accent, used as a section kicker above large headlines.
  *
  * Size: `text-xs` (12px), medium weight, `letter-spacing: 0.22em`.

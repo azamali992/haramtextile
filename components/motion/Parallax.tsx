@@ -6,7 +6,7 @@ import { useScrollParallax } from "@/components/motion/useScrollParallax";
 
 interface ParallaxProps {
   /**
-   * The media to parallax — typically a `next/image` with `fill`.
+   * The media to parallax - typically a `next/image` with `fill`.
    * Rendered inside an oversized plate so the translate never exposes edges.
    */
   children: ReactNode;
@@ -24,7 +24,7 @@ interface ParallaxProps {
  * plate pattern (top: -16%, height: 132%) so the image can translate without
  * revealing its edges. Place inside a `relative overflow-hidden` container.
  *
- * Respects `prefers-reduced-motion` — renders a static, full-cover plate.
+ * Respects `prefers-reduced-motion` - renders a static, full-cover plate.
  *
  * @example
  * <div className="relative aspect-[21/9] overflow-hidden rounded-card-lg">
@@ -40,7 +40,7 @@ export function Parallax({
 }: ParallaxProps) {
   const prefersReducedMotion = useReducedMotion();
   // Same DOM in both modes (SSR renders the non-reduced branch, so a
-  // structural branch here would break hydration) — reduced motion simply
+  // structural branch here would break hydration) - reduced motion simply
   // collapses the parallax range to zero.
   const { ref, value: y } = useScrollParallax<HTMLDivElement>({
     outputRange: prefersReducedMotion ? ["0%", "0%"] : range,

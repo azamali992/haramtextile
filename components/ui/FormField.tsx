@@ -30,6 +30,6 @@ export function Field({ id, label, required, hint, children }: FieldProps) {
   );
 }
 
-/** Shared input/textarea styling — rounded, hairline border, gold focus ring. */
+/** Shared input/textarea styling - rounded, hairline border, gold focus ring. */
 export const inputClass =
   "w-full rounded-xl border border-[var(--hairline)] bg-[var(--background)] px-4 py-3 font-body text-sm text-[var(--ink)] transition-colors duration-150 placeholder:text-[var(--ghost)] focus:border-[var(--brand)] focus:outline-none focus:ring-1 focus:ring-[var(--brand)]";

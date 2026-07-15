@@ -111,8 +111,8 @@ export function ProductsClient({ initialProducts, categories }: ProductsClientPr
                   </td>
                   <td className="px-4 py-3">{product.name}</td>
                   <td className="px-4 py-3">{product.category.name}</td>
-                  <td className="px-4 py-3">{product.moq ?? "—"}</td>
-                  <td className="px-4 py-3">{product.tags.join(", ") || "—"}</td>
+                  <td className="px-4 py-3">{product.moq ?? "-"}</td>
+                  <td className="px-4 py-3">{product.tags.join(", ") || "-"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button

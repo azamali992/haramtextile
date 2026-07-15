@@ -6,7 +6,7 @@ import { Inview } from "@/components/motion/Inview";
  * The UN Sustainable Development Goals that Haram Textile's manufacturing most
  * directly supports. Colors are the official UN SDG palette. Copy is framed as
  * commitments/focus areas and anchored only to independently verifiable facts
- * (BSCI, OEKO-TEX Standard 100, ISO 9001, in-house dyeing, workforce size) —
+ * (BSCI, OEKO-TEX Standard 100, ISO 9001, in-house dyeing, workforce size) -
  * no fabricated metrics. Replace/extend with audited data as it is confirmed.
  */
 const GOALS = [

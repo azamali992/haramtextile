@@ -12,7 +12,7 @@ interface FilterBarProps {
   categories: FilterBarCategory[];
   /**
    * Controlled active slug. When `onSelect` is provided the bar is fully
-   * controlled and performs no navigation — the parent owns the state (used
+   * controlled and performs no navigation - the parent owns the state (used
    * by ProductsBrowser for client-side animated filtering). When omitted,
    * the bar falls back to reading/writing the `?category=` URL param.
    */
@@ -20,7 +20,7 @@ interface FilterBarProps {
   onSelect?: (slug: string) => void;
 }
 
-/** Pill-tab category filter — controlled via `onSelect`, or URL-driven by default. */
+/** Pill-tab category filter - controlled via `onSelect`, or URL-driven by default. */
 export function FilterBar({ categories, active, onSelect }: FilterBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();

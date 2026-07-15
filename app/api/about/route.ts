@@ -2,7 +2,7 @@ import { ok, notFound, internalError } from "@/lib/api-response";
 import { logger, newRequestId } from "@/lib/logger";
 import { getAboutContent } from "@/lib/services/about-content.service";
 
-// DB-backed and admin-editable — never statically cache at build time.
+// DB-backed and admin-editable - never statically cache at build time.
 export const dynamic = "force-dynamic";
 
 /** Strips internal-only fields (e.g. the Cloudinary `imagePublicId`) before sending to a public client. */
@@ -16,7 +16,7 @@ function toPublicAboutContent(about: Awaited<ReturnType<typeof getAboutContent>>
   };
 }
 
-/** GET /api/about — public lookup of the current About page content. */
+/** GET /api/about - public lookup of the current About page content. */
 export async function GET() {
   const requestId = newRequestId();
   try {

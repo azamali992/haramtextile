@@ -1,5 +1,5 @@
 /**
- * One-off content-correction script — fixes rows that were seeded before
+ * One-off content-correction script - fixes rows that were seeded before
  * the 2026-07-06 brand-questionnaire update and are NOT touched by
  * `prisma/seed.ts` on re-run (its upserts use `update: {}` so they never
  * overwrite existing rows). Safe to re-run (idempotent) against any
@@ -20,7 +20,7 @@ async function main() {
   // AboutContent.storyText was seeded verbatim from the old about.intro;
   // missionText held a composed "Mission: X. Vision: Y. Values: Z." string
   // that is no longer rendered (superseded by the shared MissionVisionValues
-  // section) — clear it so it doesn't show stale duplicate copy if it's
+  // section) - clear it so it doesn't show stale duplicate copy if it's
   // ever surfaced again.
   const about = await prisma.aboutContent.findUnique({ where: { id: 1 } });
   if (about) {
@@ -33,10 +33,10 @@ async function main() {
     });
     console.log("[update-content] AboutContent(id=1) storyText updated, missionText cleared.");
   } else {
-    console.log("[update-content] No AboutContent row found — skipped (run db:seed first).");
+    console.log("[update-content] No AboutContent row found - skipped (run db:seed first).");
   }
 
-  // ProductionStep "packing" — description + statValue were seeded with the
+  // ProductionStep "packing" - description + statValue were seeded with the
   // old 600,000 pcs/month figure; the client's updated figure is 70,000.
   const packing = await prisma.productionStep.findUnique({ where: { slug: "packing" } });
   if (packing) {
@@ -50,7 +50,7 @@ async function main() {
     });
     console.log("[update-content] ProductionStep(packing) description + statValue updated.");
   } else {
-    console.log("[update-content] No ProductionStep(packing) row found — skipped.");
+    console.log("[update-content] No ProductionStep(packing) row found - skipped.");
   }
 
   console.log("[update-content] Done.");

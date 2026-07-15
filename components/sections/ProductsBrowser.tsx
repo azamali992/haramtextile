@@ -11,7 +11,7 @@ export interface BrowserProduct extends ProductCardData {
 }
 
 interface ProductsBrowserProps {
-  /** All products (unfiltered) — filtering happens client-side. */
+  /** All products (unfiltered) - filtering happens client-side. */
   products: BrowserProduct[];
   categories: FilterBarCategory[];
   /** Initial active category slug (from the `?category=` URL param). */

@@ -11,7 +11,7 @@ interface RouteParams {
   params: { id: string };
 }
 
-/** PUT /api/admin/submissions/[id] — toggles the read/unread state of a submission. */
+/** PUT /api/admin/submissions/[id] - toggles the read/unread state of a submission. */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   const requestId = newRequestId();
 

@@ -50,7 +50,7 @@ const ABOUT_FAQS = [
   },
 ];
 
-/** Format stats for StatBand — abbreviate large numbers */
+/** Format stats for StatBand - abbreviate large numbers */
 function formatStatValue(value: number): string {
   if (value >= 1_000_000) return `${Math.round(value / 1_000_000)}M+`;
   if (value >= 1_000) return `${Math.round(value / 1_000)}K+`;
@@ -70,7 +70,7 @@ export default async function AboutPage() {
 
   const faqSchema = ABOUT_FAQS;
 
-  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) —
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) -
   // siteContent.stats has 5; drop "Sewing machines", which overlaps
   // narratively with "Specialized machines" (it leads on /production instead).
   const ABOUT_STAT_LABELS = [
@@ -93,7 +93,7 @@ export default async function AboutPage() {
         ]}
       />
 
-      {/* Hero — photo band + two-column story */}
+      {/* Hero - photo band + two-column story */}
       <AboutHero
         storyText={aboutContent?.storyText ?? siteContent.about.intro}
         imageUrl={
@@ -104,7 +104,7 @@ export default async function AboutPage() {
         }
       />
 
-      {/* Stats band — numbered row, straight after the story */}
+      {/* Stats band - numbered row, straight after the story */}
       <StatBand
         eyebrow="By the numbers"
         title={["Haram Textile", "at scale"]}
@@ -114,7 +114,7 @@ export default async function AboutPage() {
         className="mx-2 sm:mx-3"
       />
 
-      {/* Mission, Vision & Values — shared with Home */}
+      {/* Mission, Vision & Values - shared with Home */}
       <MissionVisionValues
         mission={siteContent.about.mission}
         vision={siteContent.about.vision}
@@ -122,14 +122,14 @@ export default async function AboutPage() {
         tone="background"
       />
 
-      {/* Pull quote — full-bleed dark photo band, this page's one dark moment */}
+      {/* Pull quote - full-bleed dark photo band, this page's one dark moment */}
       <PullQuote
         quote={siteContent.site.quote}
-        attribution={`${siteContent.team[0]?.name ?? "Rashid Mehmood"}, CEO — ${siteContent.site.name}`}
+        attribution={`${siteContent.team[0]?.name ?? "Rashid Mehmood"}, CEO - ${siteContent.site.name}`}
         photoBackground="/images/about/about-factory.jpg"
       />
 
-      {/* About content sections — USP, why pakistan, team */}
+      {/* About content sections - USP, why pakistan, team */}
       <AboutSections
         whyPakistan={siteContent.about.whyPakistan}
         usp={siteContent.about.usp}

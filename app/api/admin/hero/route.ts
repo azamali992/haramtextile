@@ -30,7 +30,7 @@ export async function GET() {
   }
 }
 
-/** PUT /api/admin/hero — creates the row on first save, updates thereafter (id is always 1). */
+/** PUT /api/admin/hero - creates the row on first save, updates thereafter (id is always 1). */
 export async function PUT(request: NextRequest) {
   const requestId = newRequestId();
 

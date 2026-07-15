@@ -52,7 +52,7 @@ export function AboutSections({ whyPakistan, usp, team }: AboutSectionsProps) {
         </div>
       </section>
 
-      {/* ── Why Pakistan — numbered hairline rows ── */}
+      {/* ── Why Pakistan - numbered hairline rows ── */}
       <section
         aria-labelledby="why-pakistan-heading"
         className="bg-[var(--surface)] px-6 py-24 sm:px-10"
@@ -96,7 +96,7 @@ export function AboutSections({ whyPakistan, usp, team }: AboutSectionsProps) {
         </div>
       </section>
 
-      {/* ── Leadership team — ledger rows ── */}
+      {/* ── Leadership team - ledger rows ── */}
       <section
         aria-labelledby="team-heading"
         className="bg-[var(--background)] px-6 py-24 sm:px-10"

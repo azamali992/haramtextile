@@ -5,7 +5,7 @@ import { listSubmissions } from "@/lib/services/contact.service";
 
 export const dynamic = "force-dynamic";
 
-/** GET /api/admin/submissions — lists all contact form submissions, newest first. */
+/** GET /api/admin/submissions - lists all contact form submissions, newest first. */
 export async function GET() {
   const requestId = newRequestId();
 

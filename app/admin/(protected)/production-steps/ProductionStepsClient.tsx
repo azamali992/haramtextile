@@ -147,7 +147,7 @@ export function ProductionStepsClient({ initialProductionSteps }: ProductionStep
                   <td className="px-4 py-3">{step.order}</td>
                   <td className="px-4 py-3">{step.title}</td>
                   <td className="px-4 py-3">
-                    {step.statLabel && step.statValue ? `${step.statValue} ${step.statLabel}` : "—"}
+                    {step.statLabel && step.statValue ? `${step.statValue} ${step.statLabel}` : "-"}
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">

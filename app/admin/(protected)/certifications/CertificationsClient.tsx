@@ -99,7 +99,7 @@ export function CertificationsClient({ initialCertifications }: CertificationsCl
                     />
                   </td>
                   <td className="px-4 py-3">{certification.name}</td>
-                  <td className="px-4 py-3">{certification.issuingBody ?? "—"}</td>
+                  <td className="px-4 py-3">{certification.issuingBody ?? "-"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button

@@ -45,7 +45,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       <div className="mx-auto max-w-[90rem]">
         {/* ── Product hero layout ── */}
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2">
-          {/* Cover image — glassy/tilted hover */}
+          {/* Cover image - glassy/tilted hover */}
           <Inview
             delayIn={0}
             stiffness={180}
@@ -69,7 +69,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 />
               </motion.div>
               <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
-                {product.categoryName} — Haram Textile, Faisalabad
+                {product.categoryName} - Haram Textile, Faisalabad
               </figcaption>
             </figure>
           </Inview>
@@ -111,7 +111,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               </Inview>
             )}
 
-            {/* Specs — rise-in list */}
+            {/* Specs - rise-in list */}
             {(product.fabricType || product.moq) && (
               <Inview
                 delayIn={180}

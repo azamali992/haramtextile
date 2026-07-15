@@ -19,7 +19,7 @@ const EDGE_BLEED = "max(1.5rem, calc((100vw - 90rem) / 2))";
 interface HorizontalScrollerProps {
   /** Accessible name for the carousel region. */
   ariaLabel: string;
-  /** Slides — each child should be `shrink-0 snap-start` and set its own width. */
+  /** Slides - each child should be `shrink-0 snap-start` and set its own width. */
   children: ReactNode;
   /** Header content (SectionHeader etc.) rendered container-aligned, left of the arrows. */
   header?: ReactNode;
@@ -192,7 +192,7 @@ export function HorizontalScroller({
       aria-label={ariaLabel}
       className={className}
     >
-      {/* Header row — container-aligned */}
+      {/* Header row - container-aligned */}
       {(header || count > 1) && (
         <div
           className="mx-auto flex max-w-[90rem] flex-col gap-8 px-6 sm:flex-row sm:items-end sm:justify-between sm:px-10"
@@ -220,7 +220,7 @@ export function HorizontalScroller({
         </div>
       )}
 
-      {/* Scroller track — edge-bleed */}
+      {/* Scroller track - edge-bleed */}
       <div
         ref={scrollerRef}
         data-lenis-prevent
@@ -240,7 +240,7 @@ export function HorizontalScroller({
         {children}
       </div>
 
-      {/* Progress hairline + counter — container-aligned */}
+      {/* Progress hairline + counter - container-aligned */}
       {count > 1 && (
         <div className="mx-auto mt-10 flex max-w-[90rem] items-center gap-6 px-6 sm:px-10">
           <div className={`relative h-px flex-1 overflow-hidden ${trackColor}`}>

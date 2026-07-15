@@ -3,7 +3,7 @@ import { ok, internalError } from "@/lib/api-response";
 import { logger, newRequestId } from "@/lib/logger";
 import { listProducts } from "@/lib/services/product.service";
 
-// DB-backed and admin-editable — never statically cache at build time.
+// DB-backed and admin-editable - never statically cache at build time.
 export const dynamic = "force-dynamic";
 
 /**

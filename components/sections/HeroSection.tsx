@@ -55,7 +55,7 @@ export function HeroSection({
     offset: ["start start", "end start"],
   });
 
-  // Headline drifts up at 40 % of page scroll speed — reads as "sticking"
+  // Headline drifts up at 40 % of page scroll speed - reads as "sticking"
   const headlineY = useTransform(
     scrollYProgress,
     [0, 1],
@@ -101,20 +101,20 @@ export function HeroSection({
       style={{ minHeight: "calc(100svh - 1rem)" }}
       aria-label="Hero"
     >
-      {/* ── Parallax background plate — range increased to 22 % for deeper
+      {/* ── Parallax background plate - range increased to 22 % for deeper
            layer separation against the headline drift above.               ── */}
       <div className="absolute inset-0 -z-10">
         <Parallax range={["0%", "22%"]}>
           <Image
             src={heroImage}
-            alt="Haram Textile factory floor — a world-class garment manufacturing facility in Faisalabad, Pakistan"
+            alt="Haram Textile factory floor - a world-class garment manufacturing facility in Faisalabad, Pakistan"
             fill
             priority
             sizes="100vw"
             className="object-cover"
             style={{ objectPosition: "center" }}
           />
-          {/* Soft circular vignette — a quiet radial highlight behind the
+          {/* Soft circular vignette - a quiet radial highlight behind the
               headline, echoing a photo-mask motif without literally
               cropping a landscape factory photo into a circle. */}
           <div
@@ -132,7 +132,7 @@ export function HeroSection({
         </Parallax>
       </div>
 
-      {/* ── Giant headline — drifts upward at ~40 % of scroll speed ── */}
+      {/* ── Giant headline - drifts upward at ~40 % of scroll speed ── */}
       {/* pt-24 (6rem) clears the absolute site header (h-20 = 5rem) with a 1rem buffer */}
       <motion.div
         className="px-6 pt-24 sm:px-10 sm:pt-28"
@@ -151,7 +151,7 @@ export function HeroSection({
         </RevealText>
       </motion.div>
 
-      {/* ── Bottom row — fades + lifts as hero exits the viewport ── */}
+      {/* ── Bottom row - fades + lifts as hero exits the viewport ── */}
       <motion.div
         className="mt-auto px-6 pb-8 sm:px-10 sm:pb-10"
         style={{ opacity: bottomOpacity, y: bottomY }}

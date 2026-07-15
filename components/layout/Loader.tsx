@@ -35,7 +35,7 @@ interface LoaderContextValue {
 const LoaderContext = createContext<LoaderContextValue>({ ready: true });
 
 /**
- * Returns `{ ready }` — when `false` the loader curtain is still showing;
+ * Returns `{ ready }` - when `false` the loader curtain is still showing;
  * when `true` the hero title and gated entrance animations may play.
  */
 export function useLoader(): LoaderContextValue {

@@ -39,7 +39,7 @@ export function CertificationDetailClient({ certification }: CertificationDetail
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-start">
           {/* Left: Badge + context text */}
           <div>
-            {/* Badge image — Inview scale reveal */}
+            {/* Badge image - Inview scale reveal */}
             <Inview
               delayIn={0}
               stiffness={220}
@@ -71,7 +71,7 @@ export function CertificationDetailClient({ certification }: CertificationDetail
               <Eyebrow tone="dark">Quality certification</Eyebrow>
             </Inview>
 
-            {/* h1 — clip-mask RevealText */}
+            {/* h1 - clip-mask RevealText */}
             <RevealText
               as="h1"
               stagger={80}

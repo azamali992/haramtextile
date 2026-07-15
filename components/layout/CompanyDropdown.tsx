@@ -20,7 +20,7 @@ interface CompanyDropdownProps {
 }
 
 /**
- * Desktop-nav "Company ▾" dropdown — groups About/Certifications/Contact
+ * Desktop-nav "Company ▾" dropdown - groups About/Certifications/Contact
  * under a single hover/click-triggered panel. Opens on hover (desktop mouse)
  * or click (keyboard/touch), closes on outside-click, Esc, or link select.
  */

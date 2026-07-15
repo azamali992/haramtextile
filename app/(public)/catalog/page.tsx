@@ -126,11 +126,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         ]}
       />
 
-      {/* Editorial page header — image panel (sm+) dissolving into the cream
+      {/* Editorial page header - image panel (sm+) dissolving into the cream
           page, with the title anchored in the faded zone so it stays legible.
           Mobile keeps the plain text header (no image). */}
       <div className="relative">
-        {/* Image plate — sm+ only, decorative */}
+        {/* Image plate - sm+ only, decorative */}
         <div
           className="pointer-events-none absolute inset-0 hidden overflow-hidden sm:block"
           aria-hidden="true"

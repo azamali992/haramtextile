@@ -175,7 +175,7 @@ export function MenuOverlay() {
               </motion.button>
             </div>
 
-            {/* Nav links — centered */}
+            {/* Nav links - centered */}
             <nav
               aria-label="Main menu"
               className="flex flex-1 flex-col justify-center gap-2 px-4 sm:px-8"

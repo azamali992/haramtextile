@@ -15,7 +15,7 @@ interface MissionVisionValuesProps {
 }
 
 /**
- * Mission / Vision / Values band — shared between the About and Home pages.
+ * Mission / Vision / Values band - shared between the About and Home pages.
  * Mission renders as a large serif statement (2/3 width), Vision as the
  * single dark card, and the six Values as a hairline-divided grid, each
  * with a gold dot, name, and description.
@@ -83,7 +83,7 @@ export function MissionVisionValues({
           </Inview>
         </div>
 
-        {/* Values grid — hairline-divided, dot + name + description */}
+        {/* Values grid - hairline-divided, dot + name + description */}
         <div className="mt-16 grid grid-cols-1 gap-x-10 gap-y-10 border-t border-[var(--hairline)] pt-12 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((value, i) => (
             <Inview

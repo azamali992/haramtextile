@@ -2,7 +2,7 @@ import { ok, internalError } from "@/lib/api-response";
 import { logger, newRequestId } from "@/lib/logger";
 import { listCertifications } from "@/lib/services/certification.service";
 
-// DB-backed and admin-editable — never statically cache at build time.
+// DB-backed and admin-editable - never statically cache at build time.
 export const dynamic = "force-dynamic";
 
 /**
@@ -24,7 +24,7 @@ function toPublicCertification(certification: Awaited<ReturnType<typeof listCert
   };
 }
 
-/** GET /api/certifications — public listing of all certifications. */
+/** GET /api/certifications - public listing of all certifications. */
 export async function GET() {
   const requestId = newRequestId();
   try {

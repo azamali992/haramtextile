@@ -3,7 +3,7 @@
  *
  * This is the ONLY file in the codebase allowed to import the Cloudinary
  * SDK. Every other module (routes, services, components) must go through
- * `uploadImage` / `deleteImage` exported here — never call Cloudinary
+ * `uploadImage` / `deleteImage` exported here - never call Cloudinary
  * directly elsewhere.
  */
 import { v2 as cloudinary } from "cloudinary";
@@ -23,7 +23,7 @@ const UPLOAD_FOLDER = "haram-textile";
 /**
  * Detects an image's real MIME type from its file signature ("magic
  * bytes"), independent of whatever `Content-Type`/`file.type` the
- * client/browser declared. `file.type` is attacker-controlled — a malicious
+ * client/browser declared. `file.type` is attacker-controlled - a malicious
  * client can label arbitrary bytes (e.g. an HTML/SVG/script payload) as
  * `image/jpeg` to slip past a check that only inspects the declared type.
  * Returns `null` when the buffer doesn't match any allowed signature.
@@ -67,7 +67,7 @@ function withAutoTransformation(secureUrl: string): string {
   const markerIndex = secureUrl.indexOf(uploadMarker);
 
   if (markerIndex === -1) {
-    // Unexpected URL shape — return as-is rather than risk corrupting it.
+    // Unexpected URL shape - return as-is rather than risk corrupting it.
     return secureUrl;
   }
 
@@ -88,7 +88,7 @@ function withAutoTransformation(secureUrl: string): string {
  * client-supplied and untrustworthy on its own, so after the cheap
  * declared-type/size checks we also sniff the actual file signature
  * ("magic bytes") from the buffer and require it to match both the
- * allow-list and the client's declared type before uploading — and use the
+ * allow-list and the client's declared type before uploading - and use the
  * sniffed (not declared) MIME type when building the data URI.
  *
  * @throws Error if the file type is unsupported or the file is too large.

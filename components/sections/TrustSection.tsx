@@ -27,7 +27,7 @@ const FOUNDED_YEAR = 2009;
 
 /**
  * Trust / social proof: an oversized ghost editorial headline ("Trusted by
- * global brands" — "global" in italic ink), a computed years-of-operation
+ * global brands" - "global" in italic ink), a computed years-of-operation
  * stat line, the client logo marquee, and certification chips.
  */
 export function TrustSection({
@@ -105,12 +105,12 @@ export function TrustSection({
             <span className="font-heading text-title-sm italic text-[var(--ink)]">
               {yearsOperating}+ years
             </span>{" "}
-            manufacturing for European and American labels — consistent quality
+            manufacturing for European and American labels - consistent quality
             at scale from Faisalabad, Pakistan.
           </p>
         </Inview>
 
-        {/* Client logo marquee — single row, or two opposing rows when there
+        {/* Client logo marquee - single row, or two opposing rows when there
             are enough logos to fill both. */}
         {clientLogos.length > 0 && (
           <div className="logo-marquee-viewport mt-14" aria-label="Client logos">

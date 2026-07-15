@@ -84,7 +84,7 @@ export default async function CertificationsPage() {
         ]}
       />
 
-      {/* Photo hero — the visible page opener */}
+      {/* Photo hero - the visible page opener */}
       <div className="px-2 sm:px-3">
         <PhotoHero
           eyebrow="Quality assurance"
@@ -109,7 +109,7 @@ export default async function CertificationsPage() {
             eyebrow="What we hold"
             eyebrowTone="dark"
             title={["Our certifications"]}
-            body={`Independently audited and renewed on each issuing body's cycle — ${siteContent.certifications.list.join(", ")}.`}
+            body={`Independently audited and renewed on each issuing body's cycle - ${siteContent.certifications.list.join(", ")}.`}
             titleClassName="text-display text-[var(--ink)]"
             bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
             className="mb-14"
@@ -131,10 +131,10 @@ export default async function CertificationsPage() {
         )}
       </section>
 
-      {/* Pull quote — full-bleed dark photo band with the cert chips */}
+      {/* Pull quote - full-bleed dark photo band with the cert chips */}
       <PullQuote
         quote={siteContent.site.quote}
-        attribution={`Haram Textile — ${siteContent.contact.address.split(",").slice(-2).join(",").trim()}`}
+        attribution={`Haram Textile - ${siteContent.contact.address.split(",").slice(-2).join(",").trim()}`}
         certBadges={certifications.map((c) => ({
           name: c.name,
           issuingBody: c.issuingBody ?? null,

@@ -1,5 +1,5 @@
 /**
- * Seed script — populates Category, Product (one row per legacy product
+ * Seed script - populates Category, Product (one row per legacy product
  * category, since the scraped legacy site only ever had image galleries
  * with no per-photo names/descriptions/prices/MOQs), Certification,
  * ClientLogo (17 real legacy client-logo images), ProductionStep (the
@@ -58,7 +58,7 @@ const SITE_CONTENT_PATH = join(__dirname, "..", "extracted-data", "site-content.
  * Splits a legacy certification string like
  * "ISO 9001:2008 (certified by ACS)" into a clean name + issuing body.
  * Falls back to the whole string as the name with a null issuingBody when
- * no recognizable pattern is present — never invents an issuer that isn't
+ * no recognizable pattern is present - never invents an issuer that isn't
  * in the source text.
  */
 function parseCertification(raw: string): { name: string; issuingBody: string | null } {
@@ -100,7 +100,7 @@ async function main() {
         data: {
           name: category.name,
           description: category.intro,
-          // Placeholder gallery cover image — the legacy site had no
+          // Placeholder gallery cover image - the legacy site had no
           // single "hero" image per category, only numbered gallery
           // photos. Real per-product images get uploaded via the admin
           // panel (lib/storage.ts) post-launch.
@@ -146,7 +146,7 @@ async function main() {
   // 17 real legacy client-logo images already exist at
   // public/images/clients/clogo<n>.jpg (n = 1..17), copied in ahead of this
   // seed run. `ClientLogo` has no unique/slug-like field to upsert against
-  // (just a `cuid()` id), so — same as Product above — we guard with a
+  // (just a `cuid()` id), so - same as Product above - we guard with a
   // count check rather than per-row upserts, keeping re-runs idempotent.
   // No real client/brand names exist anywhere in the scrape, so per the
   // same "don't invent data that wasn't in the source" principle as the
@@ -173,7 +173,7 @@ async function main() {
   // Real, correctly-attributed legacy factory photos already exist per step
   // (copied into public/images/production/<slug>.jpg ahead of this seed run),
   // so unlike Product/Certification we do NOT use the haramtextile.com
-  // placeholder-URL convention here — imageUrl points straight at a real,
+  // placeholder-URL convention here - imageUrl points straight at a real,
   // working local photo. imagePublicId uses a "local/production-<slug>"
   // label (not a real Cloudinary public ID) purely so the service layer's
   // image-replacement diffing has a non-empty string to compare against
@@ -221,7 +221,7 @@ async function main() {
   // --- About content (id = 1) ----------------------------------------------
   // `storyText` uses the source `about.intro` verbatim. Mission, Vision, and
   // Values are rendered publicly from `siteContent.about` directly (shared
-  // `MissionVisionValues` section on About + Home) — `missionText` is left
+  // `MissionVisionValues` section on About + Home) - `missionText` is left
   // unset since there's no separate, non-duplicative content for it.
   // No image was captured for the About page in the scrape (the legacy
   // about page used generic site graphics like about_chik.jpg/dairy_about.jpg
@@ -244,7 +244,7 @@ async function main() {
     where: { id: 1 },
     create: {
       id: 1,
-      siteTitleSuffix: `${siteContent.site.name} — Apparel Manufacturer Pakistan`,
+      siteTitleSuffix: `${siteContent.site.name} - Apparel Manufacturer Pakistan`,
       defaultMetaDescription: siteContent.home.aboutShort,
       googleAnalyticsId: null,
       organizationSameAs: [],
@@ -256,7 +256,7 @@ async function main() {
   // Credentials come from ADMIN_SEED_EMAIL / ADMIN_SEED_PASSWORD env vars
   // when set. If they are not set, we fall back to a clearly-labeled
   // placeholder so the seed never silently ships a guessable production
-  // credential — operators MUST override these in `.env` (see
+  // credential - operators MUST override these in `.env` (see
   // `.env.example`) and/or change the password after first login.
   const adminEmail =
     process.env.ADMIN_SEED_EMAIL?.trim() ||
@@ -267,7 +267,7 @@ async function main() {
 
   // Only set the password on first creation. Re-running the seed script
   // (e.g. to pick up new product categories or certifications) must NOT
-  // silently overwrite a real admin's password back to the seed value —
+  // silently overwrite a real admin's password back to the seed value -
   // that would lock out an admin who already changed it, or reset a
   // production credential to a known placeholder. A force-reset is still
   // available, explicitly, via ADMIN_SEED_FORCE_RESET=true.
@@ -279,7 +279,7 @@ async function main() {
 
     if (!process.env.ADMIN_SEED_PASSWORD) {
       console.warn(
-        `\n[seed] ADMIN_SEED_PASSWORD was not set — created admin "${adminEmail}" with the ` +
+        `\n[seed] ADMIN_SEED_PASSWORD was not set - created admin "${adminEmail}" with the ` +
           `placeholder password "CHANGE-ME-PLACEHOLDER-PASSWORD". Set ADMIN_SEED_EMAIL and ` +
           `ADMIN_SEED_PASSWORD in your .env and re-run \`npm run db:seed\` before deploying, ` +
           `or log in once and change it manually.\n`,
@@ -291,10 +291,10 @@ async function main() {
       where: { email: adminEmail },
       data: { password: hashedPassword },
     });
-    console.warn(`[seed] ADMIN_SEED_FORCE_RESET=true — admin "${adminEmail}" password was reset.`);
+    console.warn(`[seed] ADMIN_SEED_FORCE_RESET=true - admin "${adminEmail}" password was reset.`);
   } else {
     console.log(
-      `[seed] Admin "${adminEmail}" already exists — password left unchanged. Set ` +
+      `[seed] Admin "${adminEmail}" already exists - password left unchanged. Set ` +
         `ADMIN_SEED_FORCE_RESET=true to force a reset.`,
     );
   }

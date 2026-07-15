@@ -1,5 +1,5 @@
 /**
- * Typed accessor for `extracted-data/site-content.json` — the scraped
+ * Typed accessor for `extracted-data/site-content.json` - the scraped
  * legacy-site content (team, stats, manufacturing process descriptions,
  * contact details, etc.) that has no equivalent DB table. Imported as a
  * static JSON module (via `resolveJsonModule`), so this has no runtime
@@ -90,7 +90,7 @@ export interface SiteContent {
 
 export const siteContent = siteContentJson as SiteContent;
 
-/** Maps a legacy `productCategories[].slug` to the DB `Category.slug` ("gents" is the only mismatch — legacy used "gents" too, so this is an identity map kept explicit for clarity). */
+/** Maps a legacy `productCategories[].slug` to the DB `Category.slug` ("gents" is the only mismatch - legacy used "gents" too, so this is an identity map kept explicit for clarity). */
 export function getSiteContentCategory(slug: string) {
   return siteContent.productCategories.find((category) => category.slug === slug);
 }

@@ -1,6 +1,6 @@
 /**
- * One-off bulk upload — pushes the newly updated production step photos
- * (cutting, printing, sewing, packing — each 2-8MB) to Cloudinary instead of
+ * One-off bulk upload - pushes the newly updated production step photos
+ * (cutting, printing, sewing, packing - each 2-8MB) to Cloudinary instead of
  * committing them to git, then prints the values for
  * lib/production-image-fallback.ts.
  *

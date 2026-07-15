@@ -1,11 +1,11 @@
 /**
- * Pure SEO helper functions — no DB calls, no I/O. Callers (route handlers,
+ * Pure SEO helper functions - no DB calls, no I/O. Callers (route handlers,
  * server components) are responsible for fetching data and passing it in.
  */
 import type { Metadata } from "next";
 
 const COMPANY_NAME = "Haram Textile";
-const SITE_TITLE_SUFFIX_FALLBACK = `${COMPANY_NAME} — Apparel Manufacturer Pakistan`;
+const SITE_TITLE_SUFFIX_FALLBACK = `${COMPANY_NAME} - Apparel Manufacturer Pakistan`;
 const DEFAULT_META_DESCRIPTION_FALLBACK =
   "Haram Textile is a leading manufacturer and exporter of textile and knitted garments in Pakistan, specializing in knitwear, T-shirts, polo shirts, and sweatshirts for boys, girls, ladies, and men.";
 
@@ -35,7 +35,7 @@ export interface GlobalSeoDefaults {
  * - Removes HTML tags entirely.
  * - Neutralizes the literal sequence `</script` (case-insensitive) which
  *   is the classic JSON-LD escape vector, even though JSON.stringify
- *   already escapes quotes — the closing tag itself is the danger here.
+ *   already escapes quotes - the closing tag itself is the danger here.
  */
 export function sanitizeForJsonLd(value: string): string {
   return value
@@ -65,7 +65,7 @@ function sanitizeDeep<T>(value: T): T {
 
 /**
  * Builds a Next.js `Metadata` object by merging page-specific overrides
- * with site-wide defaults. Title pattern: "[Page Name] | [Company Name] —
+ * with site-wide defaults. Title pattern: "[Page Name] | [Company Name] -
  * Apparel Manufacturer Pakistan" (or just the suffix on its own for the
  * homepage, when no page-specific title is given).
  */
@@ -84,7 +84,12 @@ export function buildMetadata(
   const canonicalPath = overrides.path ?? "";
   const url = siteUrl ? `${siteUrl}${canonicalPath}` : canonicalPath || undefined;
 
-  const images = overrides.imageUrl ? [{ url: overrides.imageUrl }] : undefined;
+  // Default social-share image (logo card in public/og-image.png) used on
+  // every page unless a page passes its own imageUrl. Needs an absolute URL,
+  // so it is only emitted when a siteUrl is configured.
+  const defaultImageUrl = siteUrl ? `${siteUrl}/og-image.png` : undefined;
+  const imageUrl = overrides.imageUrl ?? defaultImageUrl;
+  const images = imageUrl ? [{ url: imageUrl, width: 1200, height: 630 }] : undefined;
 
   return {
     title,
@@ -105,7 +110,7 @@ export function buildMetadata(
       card: "summary_large_image",
       title,
       description,
-      images: overrides.imageUrl ? [overrides.imageUrl] : undefined,
+      images: imageUrl ? [imageUrl] : undefined,
     },
   };
 }

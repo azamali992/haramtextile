@@ -49,7 +49,7 @@ interface RevealTextProps {
   /** When true, applies `white-space: nowrap` to each word clip box. */
   noWrap?: boolean;
   /**
-   * Classes applied to the final word only — the editorial accent
+   * Classes applied to the final word only - the editorial accent
    * (e.g. `"italic text-[var(--brand-light)]"`).
    */
   accentLastWord?: string;
@@ -81,10 +81,10 @@ const wordVariants: Variants = {
 /**
  * Reveals text word-by-word using a clip-mask slide-up animation powered by
  * Framer Motion. Each word is wrapped in an `overflow-hidden` span so the
- * animation is clipped (no descender cut — a `padding-bottom: 0.14em` guard
+ * animation is clipped (no descender cut - a `padding-bottom: 0.14em` guard
  * is applied to each clip box).
  *
- * Respects `prefers-reduced-motion` — when the user has opted out of motion
+ * Respects `prefers-reduced-motion` - when the user has opted out of motion
  * the text renders immediately at full opacity.
  *
  * @example
@@ -108,7 +108,7 @@ export function RevealText({
 }: RevealTextProps) {
   // Reduced motion must NOT change the rendered structure (the server always
   // renders the animated markup, so a structural branch breaks hydration).
-  // Instead the same variants run with zero duration/stagger — content
+  // Instead the same variants run with zero duration/stagger - content
   // appears immediately after hydration without motion.
   const prefersReducedMotion = useReducedMotion();
 
@@ -120,7 +120,7 @@ export function RevealText({
   const effectiveDuration = prefersReducedMotion ? 0 : duration;
 
   // We need a motion-capable element. Use motion.div by default and render Tag
-  // as the semantic element separately only when it's truly needed — but the
+  // as the semantic element separately only when it's truly needed - but the
   // simplest idiomatic approach is to render a motion wrapper matching the tag.
   // For h1/h2/p/span we use the motion[tag] factory.
   const MotionTag = motion[Tag as keyof typeof motion] as React.ComponentType<

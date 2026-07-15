@@ -82,7 +82,7 @@ export function RevealLines({
   className = "",
   lineClassName = "",
 }: RevealLinesProps) {
-  // Reduced motion keeps the same DOM (a structural branch breaks hydration —
+  // Reduced motion keeps the same DOM (a structural branch breaks hydration -
   // the server always renders the animated markup) and runs the variants with
   // zero duration/stagger instead, so lines appear immediately.
   const prefersReducedMotion = useReducedMotion();

@@ -7,9 +7,9 @@ export type ArrowButtonVariant = "outline" | "outlineLight" | "solid";
 
 interface ArrowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /**
-   * `outline` — hairline border, transparent bg, ink text.
-   * `outlineLight` — translucent on-brand border/text, for dark green bands.
-   * `solid` — deep-green bg, on-brand text.
+   * `outline` - hairline border, transparent bg, ink text.
+   * `outlineLight` - translucent on-brand border/text, for dark green bands.
+   * `solid` - deep-green bg, on-brand text.
    * @default "outline"
    */
   variant?: ArrowButtonVariant;
@@ -18,7 +18,7 @@ interface ArrowButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
    * @default false
    */
   prev?: boolean;
-  /** Accessible label — required since the button contains only an icon. */
+  /** Accessible label - required since the button contains only an icon. */
   "aria-label": string;
 }
 

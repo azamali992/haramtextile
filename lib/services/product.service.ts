@@ -28,7 +28,7 @@ export function createProduct(data: ProductCreateInput) {
 /**
  * Updates a product. If the image is being replaced (`imagePublicId`
  * differs from the existing row), the old Cloudinary asset is deleted
- * afterwards on a best-effort basis — fire-and-forget, wrapped so a
+ * afterwards on a best-effort basis - fire-and-forget, wrapped so a
  * Cloudinary failure never blocks or fails the DB update itself.
  */
 export async function updateProduct(id: string, data: ProductUpdateInput) {
@@ -46,7 +46,7 @@ export async function updateProduct(id: string, data: ProductUpdateInput) {
 
 /**
  * Deletes a product, then best-effort deletes its Cloudinary image
- * afterwards (fire-and-forget — a Cloudinary failure never blocks the DB
+ * afterwards (fire-and-forget - a Cloudinary failure never blocks the DB
  * delete, which has already succeeded by the time this runs).
  */
 export async function deleteProduct(id: string) {

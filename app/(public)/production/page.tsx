@@ -40,7 +40,7 @@ const PRODUCTION_FAQS = [
   {
     question: "How many stages does Haram Textile's production process have?",
     answer:
-      "Production runs through seven stages: Knitting, Dyeing, Cutting, Printing, Embroidery, Sewing, and Finishing & Packing — all completed in-house at our Faisalabad facility.",
+      "Production runs through seven stages: Knitting, Dyeing, Cutting, Printing, Embroidery, Sewing, and Finishing & Packing - all completed in-house at our Faisalabad facility.",
   },
   {
     question: "What is Haram Textile's sewing and packing capacity?",
@@ -75,7 +75,7 @@ export default async function ProductionPage() {
     })),
   });
 
-  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) —
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) -
   // pick the 4 most machine/capacity-focused metrics for this page;
   // "Workers & staff" is the one dropped here (kept on Home/About instead).
   const PRODUCTION_STAT_LABELS = [
@@ -89,7 +89,7 @@ export default async function ProductionPage() {
     return { value: formatStatValue(s.value), label: s.label };
   });
 
-  /** Resolve image fallbacks server-side — per-step local photos by slug */
+  /** Resolve image fallbacks server-side - per-step local photos by slug */
   const stepItems = steps.map((step) => ({
     id: step.id,
     slug: step.slug,
@@ -111,12 +111,12 @@ export default async function ProductionPage() {
         ]}
       />
 
-      {/* Photo hero — the visible page opener */}
+      {/* Photo hero - the visible page opener */}
       <div className="px-2 sm:px-3">
         <PhotoHero
           eyebrow="In-house manufacturing"
           title="From yarn to carton"
-          subtitle="Seven stages under one roof — knitting, dyeing, cutting, printing, embroidery, sewing, and packing."
+          subtitle="Seven stages under one roof - knitting, dyeing, cutting, printing, embroidery, sewing, and packing."
           imageSrc="/images/hero/hero-factory.jpg"
           imageAlt="Haram Textile production floor in Faisalabad, Pakistan"
           as="p"
@@ -143,7 +143,7 @@ export default async function ProductionPage() {
         </div>
       </section>
 
-      {/* Stats band — below the steps */}
+      {/* Stats band - below the steps */}
       <StatBand
         eyebrow="By the numbers"
         title={["Capacity that", "keeps delivering"]}

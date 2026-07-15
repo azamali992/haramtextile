@@ -11,9 +11,9 @@ export default function PublicLayout({ children }: { children: ReactNode }) {
   return (
     /*
      * Provider nesting order (outermost → innermost):
-     * LenisProvider — initialises Lenis smooth-scroll and exposes start/stop
-     * UIProvider    — manages contact modal + menu open/close booleans
-     * LoaderProvider — shows the intro curtain; exposes `ready` via useLoader()
+     * LenisProvider - initialises Lenis smooth-scroll and exposes start/stop
+     * UIProvider    - manages contact modal + menu open/close booleans
+     * LoaderProvider - shows the intro curtain; exposes `ready` via useLoader()
      *
      * ContactModal and MenuOverlay are rendered here (inside UIProvider) so
      * they portal to document.body and are present on every public page.

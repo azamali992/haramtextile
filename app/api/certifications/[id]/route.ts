@@ -24,7 +24,7 @@ function toPublicCertification(certification: Awaited<ReturnType<typeof getCerti
   };
 }
 
-/** GET /api/certifications/[id] — public single-certification lookup. 404 if missing. */
+/** GET /api/certifications/[id] - public single-certification lookup. 404 if missing. */
 export async function GET(_request: Request, { params }: { params: { id: string } }) {
   const requestId = newRequestId();
   try {

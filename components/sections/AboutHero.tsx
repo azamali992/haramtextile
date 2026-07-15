@@ -16,7 +16,7 @@ interface AboutHeroProps {
 }
 
 /**
- * About page opener — a photo hero band (matching the Production page's
+ * About page opener - a photo hero band (matching the Production page's
  * chapter-opener treatment) followed by a two-column story: the
  * admin-editable narrative and a CTA on the left, a parallax factory photo
  * on the right.
@@ -91,7 +91,7 @@ export function AboutHero({ storyText, imageUrl }: AboutHeroProps) {
                 </Parallax>
               </div>
               <figcaption className="mt-4 flex items-baseline justify-between gap-6 font-body text-caption text-[var(--ink-soft)]">
-                <span>Knitting &amp; dyeing floor — West Millat Industrial Estate</span>
+                <span>Knitting &amp; dyeing floor - West Millat Industrial Estate</span>
                 <span className="shrink-0 uppercase tracking-[0.14em]">Since 2009</span>
               </figcaption>
             </figure>

@@ -6,7 +6,7 @@ import { RevealLines } from "@/components/motion/RevealLines";
 interface SectionHeaderProps {
   /** Optional kicker label rendered above the headline. */
   eyebrow?: string;
-  /** Eyebrow tone — passed through to the Eyebrow component. */
+  /** Eyebrow tone - passed through to the Eyebrow component. */
   eyebrowTone?: EyebrowTone;
   /**
    * Title lines. Each string renders on its own line with the clip-mask

@@ -31,7 +31,7 @@ function truncate(text: string, length: number): string {
  *
  * Security note: `name`, `company`, and `message` below are untrusted
  * public input from the contact form. They are rendered exclusively via
- * JSX expressions (`{value}`), which React escapes automatically — never
+ * JSX expressions (`{value}`), which React escapes automatically - never
  * via `dangerouslySetInnerHTML`. This is the one screen where these
  * fields are shown back to a privileged (admin) user, so this is the
  * critical stored-XSS choke point for this app.
@@ -101,7 +101,7 @@ export function SubmissionsClient({ initialSubmissions }: SubmissionsClientProps
                   >
                     <td className="px-4 py-3 align-top">{formatDate(submission.createdAt)}</td>
                     <td className="px-4 py-3 align-top">{submission.name}</td>
-                    <td className="px-4 py-3 align-top">{submission.company ?? "—"}</td>
+                    <td className="px-4 py-3 align-top">{submission.company ?? "-"}</td>
                     <td className="px-4 py-3 align-top">{submission.email}</td>
                     <td className="px-4 py-3 align-top">
                       {isExpanded ? (

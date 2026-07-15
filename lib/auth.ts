@@ -14,7 +14,7 @@ import { checkRateLimit } from "@/lib/rate-limit";
  * A precomputed bcrypt hash of a value nobody will ever submit as a
  * password. Used as the comparison target when no matching admin account
  * exists, so `bcrypt.compare` always runs (same cost factor, same rough
- * duration) regardless of whether the email is registered — this closes a
+ * duration) regardless of whether the email is registered - this closes a
  * timing side-channel that would otherwise let an attacker enumerate valid
  * admin emails by measuring response latency (missing user = fast `null`,
  * wrong password = slow `bcrypt.compare`).
@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
           where: { email: credentials.email },
         });
 
-        // Always run bcrypt.compare — even when no user was found — against
+        // Always run bcrypt.compare - even when no user was found - against
         // a fixed dummy hash, so the response timing is the same whether or
         // not the email belongs to a real admin account. This prevents an
         // attacker from enumerating valid admin emails via timing analysis

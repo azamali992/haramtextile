@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 /**
  * POST /api/admin/upload
  * Accepts a multipart/form-data file under the `file` field and proxies
- * it to `lib/storage.ts`'s `uploadImage` — the only place in the app
+ * it to `lib/storage.ts`'s `uploadImage` - the only place in the app
  * permitted to talk to the Cloudinary SDK. Returns the resulting URL and
  * Cloudinary's real public ID.
  *

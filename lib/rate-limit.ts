@@ -45,7 +45,7 @@ export function checkRateLimit(key: string, limit: number, windowMs: number): bo
  * Clears all rate-limit state. Exported solely for test isolation (so one
  * test's requests don't exhaust another test's quota when both share the
  * same key, e.g. requests with no `x-forwarded-for` header all falling back
- * to "unknown") — never call this from application code.
+ * to "unknown") - never call this from application code.
  */
 export function _resetRateLimitsForTests(): void {
   buckets.clear();

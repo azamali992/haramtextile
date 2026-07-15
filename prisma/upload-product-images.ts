@@ -1,5 +1,5 @@
 /**
- * One-off bulk upload — pushes the `products_new` category fallback photos
+ * One-off bulk upload - pushes the `products_new` category fallback photos
  * (boys/girls/ladies) to Cloudinary instead of committing them to git, then
  * prints the manifest snippet for `lib/product-image-fallback.ts`.
  *

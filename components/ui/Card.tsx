@@ -18,7 +18,7 @@ interface ProductCardProps {
 /**
  * Editorial product card: full-bleed 4/5 photo with a hover zoom + a
  * two-layer info panel that slides up from the card bottom on hover.
- * The panel is aria-hidden — the accessible name/fabric/MOQ live in the
+ * The panel is aria-hidden - the accessible name/fabric/MOQ live in the
  * text block below the image, which is always visible on touch devices.
  */
 export function ProductCard({ product }: ProductCardProps) {
@@ -34,7 +34,7 @@ export function ProductCard({ product }: ProductCardProps) {
         />
 
         {/*
-         * Hover info panel — sits at translateY(100%) at rest (hidden below
+         * Hover info panel - sits at translateY(100%) at rest (hidden below
          * the card edge) and slides to translateY(0) on group-hover.
          * Restricted to hover-capable devices via [@media(hover:hover)] so
          * touch users always see the accessible text below instead.

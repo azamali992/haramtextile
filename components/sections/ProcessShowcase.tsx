@@ -40,7 +40,7 @@ function wrappedOffset(i: number, active: number, total: number): number {
 }
 
 /**
- * Home process section — a 3D vertical photo stack (one card per
+ * Home process section - a 3D vertical photo stack (one card per
  * manufacturing stage) with up/down controls, paired with a text panel that
  * swaps to match whichever stage is currently front-and-centre.
  *
@@ -80,7 +80,7 @@ export function ProcessShowcase({
       aria-labelledby="process-showcase-heading"
     >
       <div className="mx-auto grid max-w-[90rem] grid-cols-1 items-center gap-16 lg:grid-cols-2">
-        {/* ── Text panel — swaps with the active card ── */}
+        {/* ── Text panel - swaps with the active card ── */}
         <div>
           {eyebrow && <Eyebrow tone="dark">{eyebrow}</Eyebrow>}
           <h2 id="process-showcase-heading" className="sr-only">
@@ -161,7 +161,7 @@ export function ProcessShowcase({
           className="relative h-[28rem] sm:h-[36rem]"
           style={{ perspective: "1200px" }}
         >
-          {/* Depth fade — receding cards dissolve into the section tone at
+          {/* Depth fade - receding cards dissolve into the section tone at
               the top and bottom edges rather than hard-clipping. */}
           <div
             className="pointer-events-none absolute inset-0 z-20 bg-[linear-gradient(to_bottom,var(--surface),transparent_18%,transparent_82%,var(--surface))]"
@@ -211,7 +211,7 @@ export function ProcessShowcase({
                     className="object-cover"
                     loading={i < 2 ? "eager" : "lazy"}
                   />
-                  {/* Depth scrim — back cards sink into the section tone */}
+                  {/* Depth scrim - back cards sink into the section tone */}
                   <div
                     className="absolute inset-0 bg-scrim transition-opacity duration-300"
                     style={{ opacity: isActive ? 0 : 0.4 }}

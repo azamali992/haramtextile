@@ -66,7 +66,7 @@ export default async function RootLayout({
         Adaptive rem-grid scale-UP bootstrap (runs before paint to avoid FOUC).
         Below 1920px the CSS media queries handle scaling via vw units.
         Above 1920px this script computes an enlarged font-size and writes it
-        inline to <html>. The string is fully static — no user-controlled input.
+        inline to <html>. The string is fully static - no user-controlled input.
         FONT_BASE=16, BASE_W=1920, COEF=0.6666
       */}
       <head>

@@ -6,7 +6,7 @@ import { signIn } from "next-auth/react";
 
 /**
  * Admin login page. Rendered outside the `(protected)` route group, so it
- * has no sidebar chrome and no session guard of its own — `middleware.ts`
+ * has no sidebar chrome and no session guard of its own - `middleware.ts`
  * explicitly allows this single path through unauthenticated.
  *
  * Security note: on failure we always show the same generic message

@@ -35,8 +35,8 @@ interface AboutFormClientProps {
 }
 
 /**
- * Plain `<textarea>` editor for the About page copy — intentionally NOT a
- * rich text editor, per spec — plus an image swap/upload.
+ * Plain `<textarea>` editor for the About page copy - intentionally NOT a
+ * rich text editor, per spec - plus an image swap/upload.
  */
 export function AboutFormClient({ initialAbout }: AboutFormClientProps) {
   const [values, setValues] = useState<AboutFormValues>(toFormValues(initialAbout));

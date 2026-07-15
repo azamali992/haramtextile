@@ -14,7 +14,7 @@ import { SustainabilityGoals } from "@/components/sections/SustainabilityGoals";
 export const dynamic = "force-dynamic";
 
 const SUSTAINABILITY_DESCRIPTION =
-  "How Haram Textile manufactures responsibly — BSCI social compliance, OEKO-TEX Standard 100 fabric safety, and ISO 9001 quality, mapped to the UN Sustainable Development Goals for apparel manufacturing.";
+  "How Haram Textile manufactures responsibly: BSCI social compliance, OEKO-TEX Standard 100 fabric safety, and ISO 9001 quality, mapped to the UN Sustainable Development Goals for apparel manufacturing.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seoSettings = await getSeoSettings().catch(() => null);
@@ -36,7 +36,7 @@ const SUSTAINABILITY_FAQS = [
   {
     question: "Is Haram Textile socially compliant?",
     answer:
-      "Yes. We are BSCI certified — an independently audited standard for safe and fair working conditions — and we also hold OEKO-TEX Standard 100 and ISO 9001:2008 certifications.",
+      "Yes. We are BSCI certified (an independently audited standard for safe and fair working conditions), and we also hold OEKO-TEX Standard 100 and ISO 9001:2008 certifications.",
   },
   {
     question: "Which UN Sustainable Development Goals does Haram Textile support?",
@@ -68,7 +68,7 @@ export default function SustainabilityPage() {
         ]}
       />
 
-      {/* Photo hero — the visible page opener */}
+      {/* Photo hero - the visible page opener */}
       <div className="px-2 sm:px-3">
         <PhotoHero
           eyebrow="Responsibility"
@@ -100,7 +100,7 @@ export default function SustainabilityPage() {
             </p>
             <p className="mt-6 font-body text-body leading-relaxed text-[var(--ink-soft)]">
               We align that commitment with the United Nations Sustainable
-              Development Goals — the shared global framework for responsible
+              Development Goals, the shared global framework for responsible
               business. Below are the goals our manufacturing supports most
               directly, and the independent certifications that back them up.
             </p>

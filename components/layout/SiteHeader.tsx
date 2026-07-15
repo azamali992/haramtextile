@@ -14,7 +14,7 @@ const NAV_LINKS = [
 
 interface SiteHeaderProps {
   /**
-   * When true the header sits absolutely over a dark hero section —
+   * When true the header sits absolutely over a dark hero section -
    * transparent bg, light text. When false (default) it renders as a solid
    * cream-off bordered bar.
    */

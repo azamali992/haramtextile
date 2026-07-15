@@ -7,7 +7,7 @@ import { listProducts, createProduct } from "@/lib/services/product.service";
 
 export const dynamic = "force-dynamic";
 
-/** GET /api/admin/products — admin listing (same filters as the public route). */
+/** GET /api/admin/products - admin listing (same filters as the public route). */
 export async function GET(request: NextRequest) {
   const requestId = newRequestId();
 
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-/** POST /api/admin/products — creates a new product. */
+/** POST /api/admin/products - creates a new product. */
 export async function POST(request: NextRequest) {
   const requestId = newRequestId();
 

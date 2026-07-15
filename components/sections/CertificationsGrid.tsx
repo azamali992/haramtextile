@@ -12,7 +12,7 @@ interface CertificationsGridProps {
  * Motion-wrapped certifications card grid. Each CertificationCard gets an
  * Inview rise-in (stagger i × 80ms) plus a subtle hover lift (HoverSpring).
  *
- * Client component — data resolved server-side in the page.
+ * Client component - data resolved server-side in the page.
  */
 export function CertificationsGrid({ certifications }: CertificationsGridProps) {
   const MAX_STAGGER_MS = 480;

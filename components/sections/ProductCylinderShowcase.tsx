@@ -11,7 +11,7 @@ interface ProductCylinderShowcaseProps {
 }
 
 /**
- * Home signature section — a full-bleed 3D rotating cylinder of real product
+ * Home signature section - a full-bleed 3D rotating cylinder of real product
  * photos (drag to spin, auto-rotates, each face links to its catalog detail
  * page). Breaks out of the page's px-2/px-3 inset via negative margins so
  * the carousel spans the true viewport edge. Reduced motion falls back to a

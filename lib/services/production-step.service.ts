@@ -21,7 +21,7 @@ export function createProductionStep(data: ProductionStepCreateInput) {
 /**
  * Updates a production step. If the image is being replaced
  * (`imagePublicId` differs from the existing row), the old Cloudinary
- * asset is deleted afterwards on a best-effort basis — fire-and-forget,
+ * asset is deleted afterwards on a best-effort basis - fire-and-forget,
  * wrapped so a Cloudinary failure never blocks or fails the DB update.
  */
 export async function updateProductionStep(id: string, data: ProductionStepUpdateInput) {
@@ -41,7 +41,7 @@ export async function updateProductionStep(id: string, data: ProductionStepUpdat
 
 /**
  * Deletes a production step, then best-effort deletes its Cloudinary image
- * afterwards (fire-and-forget — a Cloudinary failure never blocks the DB
+ * afterwards (fire-and-forget - a Cloudinary failure never blocks the DB
  * delete, which has already succeeded by the time this runs).
  */
 export async function deleteProductionStep(id: string) {

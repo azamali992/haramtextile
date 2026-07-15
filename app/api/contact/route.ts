@@ -13,7 +13,7 @@ const CONTACT_RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
  * POST /api/contact
  * Public contact form submission. Validates input with Zod, persists it
  * (untrusted `name`/`company`/`message` are stored via Prisma's
- * parameterized queries — never concatenated into raw SQL — and are
+ * parameterized queries - never concatenated into raw SQL - and are
  * HTML-escaped again at email-render time in `lib/email.ts`), and sends a
  * notification email. Safe to retry: duplicate submissions simply create
  * additional rows, there is no unique constraint to violate.

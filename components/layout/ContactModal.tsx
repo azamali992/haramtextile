@@ -168,7 +168,7 @@ function Panel({ onClose }: PanelProps) {
           </div>
           <p className="mt-4 font-body text-lg font-medium text-[var(--ink)]">Request received</p>
           <p className="mt-2 font-body text-sm text-[var(--ink-soft)]">
-            Thanks, {firstName} — our export team will be in touch shortly.
+            Thanks, {firstName}. Our export team will be in touch shortly.
           </p>
           <button
             type="button"
@@ -247,7 +247,7 @@ function Panel({ onClose }: PanelProps) {
  * (`useUI().openContact()` / `useUI().closeContact()`).
  *
  * This component should be mounted once inside `UIProvider` in the public
- * layout — it renders itself into `document.body` via a portal.
+ * layout - it renders itself into `document.body` via a portal.
  *
  * Features:
  * - Backdrop blur + green-deep @ 40% overlay

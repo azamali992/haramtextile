@@ -6,7 +6,7 @@
  * module checks that every required variable is present and throws a
  * single, clear error listing all of the missing ones if not.
  *
- * `NEXT_PUBLIC_GA_ID` is intentionally optional — analytics is opt-in.
+ * `NEXT_PUBLIC_GA_ID` is intentionally optional - analytics is opt-in.
  */
 
 interface RequiredEnvVars {

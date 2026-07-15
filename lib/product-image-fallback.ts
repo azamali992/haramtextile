@@ -3,11 +3,11 @@
  *
  * The DB's seeded `Product.imageUrl` is currently a placeholder string
  * pointing at the old legacy domain (no real Cloudinary upload has
- * happened yet — that comes later via the admin panel). Until then, we
+ * happened yet - that comes later via the admin panel). Until then, we
  * fall back to a fixed set of photos, keyed by category slug:
  * boys/girls/ladies use a newer set hosted on Cloudinary (uploaded via
  * `prisma/upload-product-images.ts`, source files in
- * `public/images/products_new/{category}` — not deployed, kept local only);
+ * `public/images/products_new/{category}` - not deployed, kept local only);
  * gents still uses the original scraped `public/images/products/gents` set
  * committed to the repo (no replacement photos exist for that category yet).
  *
@@ -39,7 +39,7 @@ interface CategoryManifest {
   /**
    * Either a directory under `public/images/` (e.g. "products/gents") or a
    * full Cloudinary delivery URL prefix (e.g.
-   * "https://res.cloudinary.com/<cloud>/image/upload/f_auto,q_auto,w_auto/haram-textile/products_new/boys") —
+   * "https://res.cloudinary.com/<cloud>/image/upload/f_auto,q_auto,w_auto/haram-textile/products_new/boys") -
    * `buildSrc` below tells the two apart.
    */
   dir: string;

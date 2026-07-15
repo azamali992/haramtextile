@@ -18,7 +18,7 @@ interface ApiErrorBody {
   error?: { code?: string; message?: string };
 }
 
-/** Public contact form — posts to `/api/contact`, which validates with Zod and persists via Prisma. */
+/** Public contact form - posts to `/api/contact`, which validates with Zod and persists via Prisma. */
 export function ContactForm() {
   const [form, setForm] = useState<ContactFormState>(INITIAL_STATE);
   const [status, setStatus] = useState<SubmitStatus>("idle");

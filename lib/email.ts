@@ -2,7 +2,7 @@
  * Nodemailer-based notification sender for the public contact form.
  *
  * All SMTP configuration comes from the validated `config` object in
- * `lib/config.ts` — never read `process.env` directly here.
+ * `lib/config.ts` - never read `process.env` directly here.
  */
 import nodemailer from "nodemailer";
 import { config } from "@/lib/config";
@@ -53,7 +53,7 @@ export async function sendContactNotification(
 
   const safeName = escapeHtml(submission.name);
   const safeEmail = escapeHtml(submission.email);
-  const safeCompany = submission.company ? escapeHtml(submission.company) : "—";
+  const safeCompany = submission.company ? escapeHtml(submission.company) : "-";
   const safeMessage = escapeHtml(submission.message).replace(/\n/g, "<br />");
 
   await transporter.sendMail({
@@ -64,7 +64,7 @@ export async function sendContactNotification(
     text: [
       `Name: ${submission.name}`,
       `Email: ${submission.email}`,
-      `Company: ${submission.company ?? "—"}`,
+      `Company: ${submission.company ?? "-"}`,
       "",
       submission.message,
     ].join("\n"),

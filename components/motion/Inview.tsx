@@ -39,7 +39,7 @@ interface InviewProps {
  * element enters the viewport. Animation plays **once** (viewport `once: true`).
  *
  * Spring config maps reference `{tension, friction}` → `{stiffness, damping}`.
- * Respects `prefers-reduced-motion` — skips animation when set.
+ * Respects `prefers-reduced-motion` - skips animation when set.
  *
  * @example
  * // Match reference: from {opacity:0, y:28} delayIn 120ms {tension:200, friction:26}
@@ -56,7 +56,7 @@ export function Inview({
   damping = 26,
   className = "",
 }: InviewProps) {
-  // Reduced motion keeps the same DOM (a structural branch breaks hydration —
+  // Reduced motion keeps the same DOM (a structural branch breaks hydration -
   // the server always renders the animated markup) and snaps straight to the
   // visible state with a zero-duration tween instead.
   const prefersReducedMotion = useReducedMotion();

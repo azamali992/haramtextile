@@ -15,7 +15,7 @@ export interface CylinderCarouselItem {
   alt: string;
   /** Optional caption shown under the image on the active/hovered face. */
   caption?: string;
-  /** Optional link — wraps the face in a `<Link>` when provided. */
+  /** Optional link - wraps the face in a `<Link>` when provided. */
   href?: string;
 }
 
@@ -27,14 +27,14 @@ interface CylinderCarouselProps {
   radius?: number;
   /** Face width in pixels. @default 200 */
   faceWidth?: number;
-  /** CSS perspective distance in pixels — larger flattens the curve so side
+  /** CSS perspective distance in pixels - larger flattens the curve so side
    * faces reach further toward the edges before receding. @default 1400 */
   perspective?: number;
   className?: string;
 }
 
 /**
- * 3D rotating cylinder carousel — images arranged radially around a Y-axis
+ * 3D rotating cylinder carousel - images arranged radially around a Y-axis
  * cylinder, auto-rotating and drag-to-spin. Pauses on hover/drag/focus.
  *
  * Reduced motion: renders a static horizontal scroll row instead of the 3D
