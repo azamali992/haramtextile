@@ -107,15 +107,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
     };
   });
 
-  // Editorial header image: use the first image of the initially-visible set
-  // (category-appropriate on deep links), falling back to a known-good asset.
-  const initialItems = activeCategory
-    ? productItems.filter((item) => item.categorySlug === activeCategory)
-    : productItems;
-  const headerImage =
-    initialItems[0]?.image.src ??
-    productItems[0]?.image.src ??
-    "/images/products/ladies/1.jpg";
+  // Editorial header image: an atmospheric fabric photograph, not a
+  // product-on-white studio shot (those read as cut-outs and dissolve muddily
+  // into the cream page). The signature fabric-stack image carries the
+  // editorial register the catalog opener needs.
+  const headerImage = "/images/hero/hero-factory.jpg";
 
   return (
     <main>
@@ -144,9 +140,17 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
               className="object-cover object-[center_25%]"
               priority
             />
-            {/* Dissolve to the cream page background toward the bottom, so the
-                dark title below reads cleanly against near-solid --background. */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[var(--background)]/10 via-[var(--background)]/70 to-[var(--background)]" />
+            {/* Dissolve to the cream page background: fabric reads across the
+                top half, then resolves to solid --background by the midpoint so
+                the eyebrow/title/body below sit on clean cream and stay legible
+                regardless of what colors fall behind them. */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent 0%, var(--background) 52%, var(--background) 100%)",
+              }}
+            />
           </Parallax>
         </div>
 
