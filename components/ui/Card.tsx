@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/Badge";
+import { TiltCard } from "@/components/motion/TiltCard";
 
 export interface ProductCardData {
   id: string;
@@ -18,13 +21,13 @@ interface ProductCardProps {
 /**
  * Editorial product card: full-bleed 4/5 photo with a hover zoom + a
  * two-layer info panel that slides up from the card bottom on hover.
- * The panel is aria-hidden - the accessible name/fabric/MOQ live in the
+ * The panel is aria-hidden; the accessible name/fabric/MOQ live in the
  * text block below the image, which is always visible on touch devices.
  */
 export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link href={`/catalog/${product.id}`} className="group block">
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-[var(--surface)]">
+      <TiltCard className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-[var(--surface)]">
         <Image
           src={product.image.src}
           alt={`${product.name}, ${product.categoryName} apparel by Haram Textile`}
@@ -34,14 +37,14 @@ export function ProductCard({ product }: ProductCardProps) {
         />
 
         {/*
-         * Hover info panel - sits at translateY(100%) at rest (hidden below
+         * Hover info panel: sits at translateY(100%) at rest (hidden below
          * the card edge) and slides to translateY(0) on group-hover.
          * Restricted to hover-capable devices via [@media(hover:hover)] so
          * touch users always see the accessible text below instead.
          */}
         <div
           aria-hidden="true"
-          className="absolute inset-x-0 bottom-0 translate-y-full bg-gradient-to-t from-scrim/90 via-scrim/55 to-transparent px-6 pb-7 pt-20 transition-transform duration-[280ms] ease-out [@media(hover:hover)]:group-hover:translate-y-0"
+          className="absolute inset-x-0 bottom-0 z-20 translate-y-full bg-gradient-to-t from-scrim/90 via-scrim/55 to-transparent px-6 pb-7 pt-20 transition-transform duration-[280ms] ease-out [@media(hover:hover)]:group-hover:translate-y-0"
         >
           <p className="font-heading text-title-sm font-normal text-[var(--on-brand)]">
             {product.name}
@@ -68,7 +71,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </svg>
           </span>
         </div>
-      </div>
+      </TiltCard>
       <div className="mt-5 flex items-start justify-between gap-4">
         <div className="min-w-0">
           <h3 className="font-heading text-title-sm font-normal text-[var(--ink)]">

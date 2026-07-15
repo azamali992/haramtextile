@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { RevealText } from "@/components/motion/RevealText";
 import { Inview } from "@/components/motion/Inview";
 import { HoverSpring } from "@/components/motion/HoverSpring";
+import { TiltCard } from "@/components/motion/TiltCard";
 import { Badge } from "@/components/ui/Badge";
 import { PillButton } from "@/components/ui/PillButton";
 import { useUI } from "@/components/layout/UIProvider";
@@ -54,10 +54,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
             to={{ opacity: 1, y: 0 }}
           >
             <figure>
-              <motion.div
+              <TiltCard
+                maxTilt={7}
                 className="relative aspect-[4/5] w-full overflow-hidden rounded-card bg-[var(--surface)]"
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300, damping: 22 }}
               >
                 <Image
                   src={product.coverImage.src}
@@ -67,7 +66,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                   priority
                   className="h-full w-full object-cover"
                 />
-              </motion.div>
+              </TiltCard>
               <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
                 {product.categoryName} - Haram Textile, Faisalabad
               </figcaption>
