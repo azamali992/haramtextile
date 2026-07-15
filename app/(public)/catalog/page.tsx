@@ -20,9 +20,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return buildMetadata(
     {
-      title: "Our Products",
+      title: "Our Catalog",
       description: siteContent.home.productLine,
-      path: "/products",
+      path: "/catalog",
     },
     {
       siteTitleSuffix: seoSettings?.siteTitleSuffix,
@@ -75,7 +75,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const itemListSchema = buildItemListSchema(
     schemaProducts.map((product) => ({
       name: product.name,
-      url: `${baseUrl}/products/${product.id}`,
+      url: `${baseUrl}/catalog/${product.id}`,
       imageUrl: isPlaceholderImageUrl(product.imageUrl) ? undefined : product.imageUrl,
     })),
   );
@@ -122,7 +122,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       <Breadcrumb
         items={[
           { name: "Home", url: baseUrl, href: "/" },
-          { name: "Products", url: `${baseUrl}/products` },
+          { name: "Catalog", url: `${baseUrl}/catalog` },
         ]}
       />
 
@@ -152,11 +152,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
         <div className="relative px-6 pb-14 pt-12 sm:px-10 sm:pt-[26vh]">
           <div className="mx-auto max-w-[90rem]">
-            <h1 className="sr-only">Our Products</h1>
+            <h1 className="sr-only">Our Catalog</h1>
             <SectionHeader
               eyebrow="What we make"
               eyebrowTone="dark"
-              title={["Our products"]}
+              title={["Our catalog"]}
               body={siteContent.home.productLine}
               titleClassName="font-normal text-[3rem] sm:text-display-lg text-[var(--ink)]"
               bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"

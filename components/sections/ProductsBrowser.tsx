@@ -44,7 +44,7 @@ export function ProductsBrowser({
   function handleSelect(slug: string) {
     setActive(slug);
     if (typeof window !== "undefined") {
-      const url = slug ? `/products?category=${slug}` : "/products";
+      const url = slug ? `/catalog?category=${slug}` : "/catalog";
       window.history.replaceState(window.history.state, "", url);
     }
   }

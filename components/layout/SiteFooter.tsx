@@ -11,10 +11,10 @@ import { siteContent } from "@/lib/site-content";
 // ─── Nav columns ──────────────────────────────────────────────────────────────
 
 const PRODUCT_LINKS = [
-  { href: "/products?category=boys", label: "Boys Collection" },
-  { href: "/products?category=girls", label: "Girls Collection" },
-  { href: "/products?category=gents", label: "Gents Collection" },
-  { href: "/products?category=ladies", label: "Ladies Collection" },
+  { href: "/catalog?category=boys", label: "Boys Collection" },
+  { href: "/catalog?category=girls", label: "Girls Collection" },
+  { href: "/catalog?category=gents", label: "Gents Collection" },
+  { href: "/catalog?category=ladies", label: "Ladies Collection" },
 ];
 
 const COMPANY_LINKS = [
@@ -117,12 +117,12 @@ export function SiteFooter() {
           </address>
         </div>
 
-        {/* Products links */}
-        <nav aria-label="Products">
+        {/* Catalog links */}
+        <nav aria-label="Catalog">
           <p
             className="font-body text-xs font-medium uppercase tracking-[0.2em] text-[var(--on-brand)]/50"
           >
-            Products
+            Catalog
           </p>
           <ul className="mt-4 space-y-3">
             {PRODUCT_LINKS.map((link) => (

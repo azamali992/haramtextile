@@ -32,7 +32,7 @@ export async function generateMetadata({ params }: ProductDetailPageProps): Prom
     {
       title: product.seoTitle ?? product.name,
       description: product.seoDescription ?? product.description ?? undefined,
-      path: `/products/${product.id}`,
+      path: `/catalog/${product.id}`,
     },
     {
       siteTitleSuffix: seoSettings?.siteTitleSuffix,
@@ -61,7 +61,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     name: product.name,
     description: product.description,
     imageUrl: usableImage ? product.imageUrl : `${baseUrl}${coverImage.src}`,
-    url: `${baseUrl}/products/${product.id}`,
+    url: `${baseUrl}/catalog/${product.id}`,
     categoryName: product.category.name,
     brandName: siteContent.site.name,
   });
@@ -76,7 +76,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       "@type": "Offer",
       priceCurrency: "PKR",
       availability: "https://schema.org/InStock",
-      url: `${baseUrl}/products/${product.id}`,
+      url: `${baseUrl}/catalog/${product.id}`,
     },
   };
 
@@ -85,8 +85,8 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       <Breadcrumb
         items={[
           { name: "Home", url: baseUrl, href: "/" },
-          { name: "Products", url: `${baseUrl}/products`, href: "/products" },
-          { name: product.name, url: `${baseUrl}/products/${product.id}` },
+          { name: "Catalog", url: `${baseUrl}/catalog`, href: "/catalog" },
+          { name: product.name, url: `${baseUrl}/catalog/${product.id}` },
         ]}
       />
 

@@ -57,7 +57,7 @@ export default async function RootLayout({
   const webSiteSchema = buildWebSiteSchema({
     name: siteContent.site.name,
     url: config.NEXT_PUBLIC_SITE_URL,
-    searchPath: "/products?search={query}",
+    searchPath: "/catalog?search={query}",
   });
 
   return (

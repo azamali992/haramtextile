@@ -15,7 +15,7 @@ export interface MetadataOverrides {
   description?: string;
   /** Absolute or relative path to a representative OG/Twitter image. */
   imageUrl?: string;
-  /** Canonical path for this page, e.g. "/products/boys". */
+  /** Canonical path for this page, e.g. "/catalog/boys". */
   path?: string;
   /** Override the default "index, follow" robots directive. */
   noIndex?: boolean;
@@ -202,7 +202,7 @@ export function buildFaqSchema(faqs: FaqEntry[]): object {
 export interface WebSiteSchemaInput {
   name?: string | null;
   url?: string | null;
-  /** Path pattern containing the literal token `{query}`, e.g. "/products?search={query}". */
+  /** Path pattern containing the literal token `{query}`, e.g. "/catalog?search={query}". */
   searchPath?: string | null;
 }
 

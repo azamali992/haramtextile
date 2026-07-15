@@ -7,7 +7,7 @@ import { useUI } from "@/components/layout/UIProvider";
 import { siteContent } from "@/lib/site-content";
 
 const NAV_LINKS = [
-  { href: "/products", label: "Products" },
+  { href: "/catalog", label: "Catalog" },
   { href: "/production", label: "Production" },
   { href: "/about", label: "About" },
   { href: "/certifications", label: "Certifications" },

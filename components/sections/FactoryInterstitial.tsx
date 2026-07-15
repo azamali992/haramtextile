@@ -10,7 +10,7 @@ interface FactoryInterstitialProps {
 
 /**
  * Full-bleed factory interstitial — a viewport-height dark image panel that
- * sits between MissionVisionValues and ProductShowcaseCarousel on the homepage.
+ * sits between MissionVisionValues and ProductCylinderShowcase on the homepage.
  *
  * Breaks out of the main px-2/px-3 page inset via negative margins so the
  * image bleeds edge-to-edge with no border-radius, creating a visual "reset"

@@ -21,7 +21,7 @@ import { getFallbackImageForProductionStep } from "@/lib/production-image-fallba
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TrustSection } from "@/components/sections/TrustSection";
 import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
-import { ProductShowcaseCarousel } from "@/components/sections/ProductShowcaseCarousel";
+import { ProductCylinderShowcase } from "@/components/sections/ProductCylinderShowcase";
 import { ProcessCarousel } from "@/components/sections/ProcessCarousel";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
@@ -118,41 +118,31 @@ export default async function HomePage() {
     openingHours: ["Mo-Sa 09:30-18:00"],
   });
 
-  // ── Product showcase slides: one card per category — DB categories first
-  //    (admin-controlled naming/order), then any siteContent category not yet
-  //    represented, so the carousel always shows the full range ───────────────
-  const categoriesSeen = new Set<string>();
-  const showcaseCategories = products
-    .filter((product) => {
-      if (categoriesSeen.has(product.category.slug)) return false;
-      categoriesSeen.add(product.category.slug);
-      return true;
-    })
-    .map((product) => ({
-      slug: product.category.slug,
-      name: product.category.name,
-    }));
-  for (const cat of siteContent.productCategories) {
-    if (!categoriesSeen.has(cat.slug)) {
-      categoriesSeen.add(cat.slug);
-      showcaseCategories.push({ slug: cat.slug, name: cat.name });
-    }
+  // ── Product cylinder: a curated cross-category sample of real products —
+  //    up to 3 per category so every collection is represented without
+  //    overcrowding the 3D carousel ────────────────────────────────────────
+  const productsByCategory = new Map<string, typeof products>();
+  for (const product of products) {
+    const bucket = productsByCategory.get(product.category.slug) ?? [];
+    bucket.push(product);
+    productsByCategory.set(product.category.slug, bucket);
   }
+  const CYLINDER_PER_CATEGORY = 3;
+  const cylinderProducts = Array.from(productsByCategory.values()).flatMap(
+    (bucket) => bucket.slice(0, CYLINDER_PER_CATEGORY),
+  );
 
-  const showcaseSlides = showcaseCategories.map((category, i) => {
-    const fallback = getFallbackImageForCategory(category.slug);
+  const cylinderItems = cylinderProducts.map((product) => {
+    const usableImage = !isPlaceholderImageUrl(product.imageUrl);
+    const fallback = getFallbackImageForCategory(product.category.slug, product.id);
+    const src = usableImage
+      ? product.imageUrl
+      : (fallback?.src ?? "/images/hero/hero-factory.jpg");
     return {
-      index: String(i + 1).padStart(2, "0"),
-      slug: category.slug,
-      name: category.name,
-      intro:
-        siteContent.productCategories.find((c) => c.slug === category.slug)
-          ?.intro ?? "",
-      image: fallback ?? {
-        src: "/images/hero/hero-factory.jpg",
-        width: 800,
-        height: 600,
-      },
+      src,
+      alt: `${product.name} — Haram Textile ${product.category.name}`,
+      caption: product.name,
+      href: `/catalog/${product.id}`,
     };
   });
 
@@ -227,12 +217,12 @@ export default async function HomePage() {
       {/* 3½ ── Full-bleed factory interstitial — scale reset between sections ─ */}
       <FactoryInterstitial />
 
-      {/* 4 ── Product collections — horizontal carousel ────────────────────── */}
-      <ProductShowcaseCarousel
+      {/* 4 ── Product collections — 3D cylinder carousel ────────────────────── */}
+      <ProductCylinderShowcase
         eyebrow="What we make"
         title={["Our collections"]}
         body={siteContent.home.productLine}
-        slides={showcaseSlides}
+        items={cylinderItems}
       />
 
       {/* 5 ── Production process — horizontal carousel on green ────────────── */}

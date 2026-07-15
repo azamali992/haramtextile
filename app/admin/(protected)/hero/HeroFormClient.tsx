@@ -151,7 +151,7 @@ export function HeroFormClient({ initialHero }: HeroFormClientProps) {
               maxLength={300}
               value={values.ctaLink}
               onChange={(e) => update("ctaLink", e.target.value)}
-              placeholder="/products"
+              placeholder="/catalog"
               className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
             />
           </div>

@@ -15,6 +15,14 @@ const nextConfig = {
   // and a strict CSP without proper nonce-based script wiring would break
   // those — shipping a half-correct CSP is worse than shipping none, so this
   // is left for a follow-up pass once nonce support is wired through.
+  // /products was renamed to /catalog — permanent redirects so old
+  // bookmarks/search-indexed links keep working instead of 404ing.
+  async redirects() {
+    return [
+      { source: "/products", destination: "/catalog", permanent: true },
+      { source: "/products/:id", destination: "/catalog/:id", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

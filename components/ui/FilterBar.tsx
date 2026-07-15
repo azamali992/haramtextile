@@ -42,7 +42,7 @@ export function FilterBar({ categories, active, onSelect }: FilterBarProps) {
     }
     const query = params.toString();
     startTransition(() => {
-      router.push(query ? `/products?${query}` : "/products");
+      router.push(query ? `/catalog?${query}` : "/catalog");
     });
   }
 
