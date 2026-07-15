@@ -85,15 +85,19 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
               <Badge variant="category">{product.categoryName}</Badge>
             </Inview>
 
-            {/* Clip-mask RevealText for product name (h1) */}
-            <RevealText
-              as="h1"
-              stagger={80}
-              duration={0.95}
-              className="mt-5 font-heading font-normal text-[2.5rem] leading-[0.98] tracking-tight text-[var(--ink)] sm:text-display"
-            >
-              {product.name}
-            </RevealText>
+            {/* Clip-mask RevealText for product name (h1). RevealText renders
+                inline, so the gap below the category badge lives on this
+                wrapper (margin-top is ignored on inline elements). */}
+            <div className="mt-7">
+              <RevealText
+                as="h1"
+                stagger={80}
+                duration={0.95}
+                className="font-heading font-normal text-[2.5rem] leading-[0.98] tracking-tight text-[var(--ink)] sm:text-display"
+              >
+                {product.name}
+              </RevealText>
+            </div>
 
             {/* Description */}
             {product.description && (

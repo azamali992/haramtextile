@@ -71,15 +71,19 @@ export function CertificationDetailClient({ certification }: CertificationDetail
               <Eyebrow tone="dark">Quality certification</Eyebrow>
             </Inview>
 
-            {/* h1 - clip-mask RevealText */}
-            <RevealText
-              as="h1"
-              stagger={80}
-              duration={0.95}
-              className="mt-4 font-heading font-normal text-[2.5rem] leading-[0.98] tracking-tight text-[var(--ink)] sm:text-display"
-            >
-              {certification.name}
-            </RevealText>
+            {/* h1 - clip-mask RevealText. RevealText renders inline, so the gap
+                below the eyebrow lives on this wrapper (margin-top is ignored on
+                inline elements). */}
+            <div className="mt-5">
+              <RevealText
+                as="h1"
+                stagger={80}
+                duration={0.95}
+                className="font-heading font-normal text-[2.5rem] leading-[0.98] tracking-tight text-[var(--ink)] sm:text-display"
+              >
+                {certification.name}
+              </RevealText>
+            </div>
 
             {/* Issuing body */}
             {certification.issuingBody && (
