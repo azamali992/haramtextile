@@ -162,13 +162,35 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="flex flex-col gap-4 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
         <p className="font-body text-sm text-[var(--on-brand)]/60">
           &copy; {year} {siteContent.site.name}. All rights reserved.
         </p>
-        <p className="font-body text-sm text-[var(--on-brand)]/60">
-          {siteContent.certifications.list.join(" · ")}
-        </p>
+
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
+          <p className="font-body text-sm text-[var(--on-brand)]/60">
+            {siteContent.certifications.list.join(" · ")}
+          </p>
+
+          {/* Powered by Azektra */}
+          <a
+            href="https://azektra.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2.5 transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
+          >
+            <span className="font-body text-sm text-[var(--on-brand)]/60">Powered by</span>
+            <span className="inline-flex items-center rounded-md bg-white px-3 py-1.5">
+              <Image
+                src="/images/azektra.png"
+                alt="Azektra"
+                width={547}
+                height={228}
+                className="h-5 w-auto"
+              />
+            </span>
+          </a>
+        </div>
       </div>
     </footer>
   );
