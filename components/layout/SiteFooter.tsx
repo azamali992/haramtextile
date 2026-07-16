@@ -40,11 +40,11 @@ export function SiteFooter() {
 
   return (
     <footer
-      className="mt-3 rounded-[var(--radius-card-lg)] bg-[var(--brand-deep)] px-6 py-14 text-[var(--on-brand)] sm:px-10 sm:py-16"
+      className="mt-3 rounded-[var(--radius-card-lg)] bg-[var(--brand-deep)] px-6 py-10 text-[var(--on-brand)] sm:px-10 sm:py-12"
       id="footer"
     >
       {/* CTA band */}
-      <div className="flex flex-col items-start justify-between gap-8 border-b border-white/15 pb-14 sm:flex-row sm:items-end">
+      <div className="flex flex-col items-start justify-between gap-6 border-b border-white/15 pb-10 sm:flex-row sm:items-end">
         {/* Left */}
         <div>
           <Eyebrow tone="light">Get started</Eyebrow>
@@ -81,7 +81,7 @@ export function SiteFooter() {
       </div>
 
       {/* Columns grid */}
-      <div className="grid grid-cols-1 gap-10 py-14 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
         {/* Brand column */}
         <div className="max-w-xs">
           <Link href="/" aria-label={siteContent.site.name}>
@@ -162,37 +162,32 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/15 pt-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-body text-sm text-[var(--on-brand)]/60">
-            &copy; {year} {siteContent.site.name}. All rights reserved.
-          </p>
-          <p className="font-body text-sm text-[var(--on-brand)]/60">
-            {siteContent.certifications.list.join(" · ")}
-          </p>
-        </div>
+      <div className="flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <p className="font-body text-sm text-[var(--on-brand)]/60">
+          &copy; {year} {siteContent.site.name}. All rights reserved.
+        </p>
 
-        {/* Powered by Azektra — centered, prominent */}
-        <div className="mt-12 flex flex-col items-center gap-4">
-          <span className="font-body text-xs font-medium uppercase tracking-[0.28em] text-[var(--on-brand)]/70">
+        {/* Powered by Azektra */}
+        <a
+          href="https://azektra.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-deep)] rounded"
+          aria-label="Azektra — visit azektra.com"
+        >
+          <span className="font-body text-xs font-medium uppercase tracking-[0.24em] text-[var(--on-brand)]/60">
             Powered by
           </span>
-          <a
-            href="https://azektra.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center rounded-lg bg-white px-6 py-4 shadow-card transition-transform duration-200 hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-deep)]"
-            aria-label="Azektra — visit azektra.com"
-          >
+          <span className="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 transition-transform duration-200 group-hover:scale-[1.03]">
             <Image
               src="/images/azektra.png"
               alt="Azektra"
               width={477}
               height={119}
-              className="h-9 w-auto sm:h-10"
+              className="h-5 w-auto"
             />
-          </a>
-        </div>
+          </span>
+        </a>
       </div>
     </footer>
   );
