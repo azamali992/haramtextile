@@ -15,6 +15,10 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
+// Links are split symmetrically around the centered logo.
+const LEFT_LINKS = NAV_LINKS.slice(0, 3);
+const RIGHT_LINKS = NAV_LINKS.slice(3);
+
 interface SiteHeaderProps {
   /**
    * When true the header sits absolutely over a dark hero section -
@@ -29,10 +33,10 @@ interface SiteHeaderProps {
  * route "/" (auto-detected via `usePathname()`) or when `overHero={true}`
  * is explicitly passed, solid cream bar on all other routes.
  *
- * Left: logo + wordmark. Right: flat nav links (all pages, no dropdown) with
- * an animated underline-on-hover + "Get a Quote" text button (opens
- * ContactModal) + burger (opens MenuOverlay). Nav collapses to the burger
- * below `lg`.
+ * Center: logo + wordmark. Nav links (all pages, no dropdown) are split
+ * symmetrically on either side of the logo, each with an animated
+ * underline-on-hover. Far right: a green "Get a Quote" pill (opens
+ * ContactModal). Nav collapses to the burger (opens MenuOverlay) below `lg`.
  *
  * The `overHero` prop is kept for backwards-compat and explicit override
  * (Phase 3b pages that have their own hero can pass it). The home-route
@@ -53,13 +57,43 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
   const linkHover = isOverHero ? "hover:text-[var(--brand-light)]" : "hover:text-[var(--brand-deep)]";
   const logoFilter = isOverHero ? "brightness-0 invert" : "";
 
+  /** A single nav link with the gold underline that wipes in on hover and
+   *  stays lit for the active route. */
+  const navLink = (link: { href: string; label: string }) => {
+    const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+    return (
+      <Link
+        key={link.href}
+        href={link.href}
+        aria-current={isActive ? "page" : undefined}
+        className={`group relative font-body text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${linkHover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] rounded-sm`}
+      >
+        {link.label}
+        <span
+          className={`pointer-events-none absolute -bottom-1.5 left-0 h-[1.5px] w-full origin-left rounded-full bg-[var(--brand)] transition-transform duration-300 ease-out ${
+            isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+          }`}
+          aria-hidden="true"
+        />
+      </Link>
+    );
+  };
+
   return (
     <header className={wrapperClasses}>
       <div
-        className="mx-auto flex h-20 max-w-[90rem] items-center justify-between px-6 sm:px-10"
+        className="mx-auto flex h-20 max-w-[90rem] items-center justify-between gap-4 px-6 sm:px-10"
       >
-        {/* Left brand */}
-        <div className="flex flex-1 justify-start lg:flex-none">
+        {/* Left nav (hidden <lg) */}
+        <nav
+          aria-label="Primary"
+          className={`hidden flex-1 items-center justify-start gap-7 lg:flex ${textColor}`}
+        >
+          {LEFT_LINKS.map(navLink)}
+        </nav>
+
+        {/* Center brand */}
+        <div className="flex flex-1 justify-center lg:flex-none">
           <Link
             href="/"
             aria-label={siteContent.site.name}
@@ -76,54 +110,20 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
           </Link>
         </div>
 
-        {/* Right: full nav + controls */}
-        <div className={`flex items-center justify-end gap-4 ${textColor}`}>
-          {/* Nav links (hidden <lg) */}
-          <nav
-            aria-label="Primary"
-            className="hidden items-center gap-7 lg:flex"
-          >
-            {NAV_LINKS.map((link) => {
-              const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
-              return (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  aria-current={isActive ? "page" : undefined}
-                  className={`group relative font-body text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${linkHover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] rounded-sm`}
-                >
-                  {link.label}
-                  {/* Animated underline: wipes in from the left on hover,
-                      stays put when the route is active. */}
-                  <span
-                    className={`pointer-events-none absolute -bottom-1.5 left-0 h-[1.5px] w-full origin-left rounded-full bg-[var(--brand)] transition-transform duration-300 ease-out ${
-                      isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                    }`}
-                    aria-hidden="true"
-                  />
-                </Link>
-              );
-            })}
-
-            {/* Get a Quote — same underline treatment */}
-            <button
-              type="button"
-              onClick={openContact}
-              className={`group relative font-body text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${linkHover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] rounded-sm`}
-            >
-              Get a Quote
-              <span
-                className="pointer-events-none absolute -bottom-1.5 left-0 h-[1.5px] w-full origin-left scale-x-0 rounded-full bg-[var(--brand)] transition-transform duration-300 ease-out group-hover:scale-x-100"
-                aria-hidden="true"
-              />
-            </button>
+        {/* Right: nav + green Get a Quote pill + burger */}
+        <div className={`flex flex-1 items-center justify-end gap-4 lg:gap-7 ${textColor}`}>
+          {/* Right nav links (hidden <lg) */}
+          <nav aria-label="Company" className="hidden items-center gap-7 lg:flex">
+            {RIGHT_LINKS.map(navLink)}
           </nav>
 
-          {/* Get a Quote (text button, <lg only — nav hidden there) */}
+          {/* Get a Quote — green pill */}
           <button
             type="button"
             onClick={openContact}
-            className={`hidden font-body text-sm font-medium uppercase tracking-wide opacity-90 transition-opacity duration-150 hover:opacity-100 ${linkHover} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] sm:block lg:hidden`}
+            className={`hidden items-center rounded-[var(--radius-pill)] bg-[var(--brand-deep)] px-5 py-2.5 font-body text-sm font-medium uppercase tracking-wide text-[var(--on-brand)] transition-colors duration-200 hover:bg-[var(--brand-deeper)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 sm:inline-flex ${
+              isOverHero ? "ring-1 ring-white/25" : ""
+            }`}
           >
             Get a Quote
           </button>
