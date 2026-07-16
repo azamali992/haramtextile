@@ -84,10 +84,10 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
       <div
         className="mx-auto flex h-20 max-w-[90rem] items-center justify-between gap-4 px-6 sm:px-10"
       >
-        {/* Left nav (hidden <lg) */}
+        {/* Left nav — hugs the logo from the left (hidden <lg) */}
         <nav
           aria-label="Primary"
-          className={`hidden flex-1 items-center justify-start gap-7 lg:flex ${textColor}`}
+          className={`hidden flex-1 items-center justify-end gap-7 lg:flex ${textColor}`}
         >
           {LEFT_LINKS.map(navLink)}
         </nav>
@@ -110,25 +110,27 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
           </Link>
         </div>
 
-        {/* Right: nav + green Get a Quote pill + burger */}
-        <div className={`flex flex-1 items-center justify-end gap-4 lg:gap-7 ${textColor}`}>
+        {/* Right: nav hugs the logo; green pill + burger pushed to the edge */}
+        <div className={`flex flex-1 items-center gap-7 ${textColor}`}>
           {/* Right nav links (hidden <lg) */}
-          <nav aria-label="Company" className="hidden items-center gap-7 lg:flex">
+          <nav aria-label="Company" className="hidden items-center justify-start gap-7 lg:flex">
             {RIGHT_LINKS.map(navLink)}
           </nav>
 
-          {/* Get a Quote — green pill */}
-          <button
-            type="button"
-            onClick={openContact}
-            className={`hidden items-center rounded-[var(--radius-pill)] bg-[var(--brand-deep)] px-5 py-2.5 font-body text-sm font-medium uppercase tracking-wide text-[var(--on-brand)] transition-colors duration-200 hover:bg-[var(--brand-deeper)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 sm:inline-flex ${
-              isOverHero ? "ring-1 ring-white/25" : ""
-            }`}
-          >
-            Get a Quote
-          </button>
+          {/* Trailing controls — pinned to the far right edge */}
+          <div className="ml-auto flex items-center gap-4">
+            {/* Get a Quote — green pill */}
+            <button
+              type="button"
+              onClick={openContact}
+              className={`hidden items-center rounded-[var(--radius-pill)] bg-[var(--brand-deep)] px-5 py-2.5 font-body text-sm font-medium uppercase tracking-wide text-[var(--on-brand)] transition-colors duration-200 hover:bg-[var(--brand-deeper)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] focus-visible:ring-offset-2 sm:inline-flex ${
+                isOverHero ? "ring-1 ring-white/25" : ""
+              }`}
+            >
+              Get a Quote
+            </button>
 
-          {/* Burger (mobile nav; hidden ≥lg where the full nav shows) */}
+            {/* Burger (mobile nav; hidden ≥lg where the full nav shows) */}
           <button
             type="button"
             aria-label="Open menu"
@@ -150,6 +152,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
               <rect y="10" width="20" height="1" rx="0.5" fill="currentColor" />
             </svg>
           </button>
+          </div>
         </div>
       </div>
     </header>
