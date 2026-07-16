@@ -11,6 +11,8 @@ const NAV_ITEMS = [
   { href: "/admin/hero", label: "Hero" },
   { href: "/admin/clients", label: "Clients" },
   { href: "/admin/about", label: "About" },
+  { href: "/admin/stats", label: "Stats" },
+  { href: "/admin/team", label: "Team" },
   { href: "/admin/submissions", label: "Submissions" },
   { href: "/admin/seo", label: "SEO Settings" },
 ];

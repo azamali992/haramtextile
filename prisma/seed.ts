@@ -29,6 +29,8 @@ interface SiteContent {
   contact: {
     emails: { label: string; email: string }[];
   };
+  stats: { label: string; value: number }[];
+  team: { name: string; role: string; email: string }[];
   certifications: {
     intro: string;
     list: string[];
@@ -166,6 +168,30 @@ async function main() {
           order: i,
         };
       }),
+    });
+  }
+
+  // --- Stats ---------------------------------------------------------------
+  // Admin-editable figures powering the numbered stat rows across the site.
+  // Count-guarded so re-runs never duplicate.
+  const existingStatCount = await prisma.stat.count();
+  if (existingStatCount === 0) {
+    await prisma.stat.createMany({
+      data: siteContent.stats.map((s, i) => ({ label: s.label, value: s.value, order: i })),
+    });
+  }
+
+  // --- Team members --------------------------------------------------------
+  // Admin-editable leadership team shown on the About page. Count-guarded.
+  const existingTeamCount = await prisma.teamMember.count();
+  if (existingTeamCount === 0) {
+    await prisma.teamMember.createMany({
+      data: siteContent.team.map((m, i) => ({
+        name: m.name,
+        role: m.role,
+        email: m.email,
+        order: i,
+      })),
     });
   }
 

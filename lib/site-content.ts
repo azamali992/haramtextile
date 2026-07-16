@@ -94,3 +94,25 @@ export const siteContent = siteContentJson as SiteContent;
 export function getSiteContentCategory(slug: string) {
   return siteContent.productCategories.find((category) => category.slug === slug);
 }
+
+/**
+ * Stats/team are now admin-editable DB tables (`Stat`, `TeamMember`). These
+ * resolvers return the DB rows when present, otherwise fall back to the
+ * static siteContent values - so the site keeps rendering even before the
+ * tables are seeded, mirroring the production-steps fallback pattern.
+ */
+export function resolveStats(
+  dbStats: ReadonlyArray<{ label: string; value: number }>,
+): SiteContentStat[] {
+  return dbStats.length > 0
+    ? dbStats.map((s) => ({ label: s.label, value: s.value }))
+    : siteContent.stats;
+}
+
+export function resolveTeam(
+  dbTeam: ReadonlyArray<{ name: string; role: string; email: string }>,
+): SiteContentTeamMember[] {
+  return dbTeam.length > 0
+    ? dbTeam.map((m) => ({ name: m.name, role: m.role, email: m.email }))
+    : siteContent.team;
+}

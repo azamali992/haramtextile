@@ -5,9 +5,10 @@ import { getHeroConfig } from "@/lib/services/hero.service";
 import { listClientLogos } from "@/lib/services/client-logo.service";
 import { getAboutContent } from "@/lib/services/about-content.service";
 import { listProductionSteps } from "@/lib/services/production-step.service";
+import { listStats } from "@/lib/services/stat.service";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
-import { siteContent } from "@/lib/site-content";
+import { siteContent, resolveStats } from "@/lib/site-content";
 import { buildMetadata, buildLocalBusinessSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -45,39 +46,36 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-// ─── FAQ data (kept exactly as before) ───────────────────────────────────────
+// ─── FAQ data ─────────────────────────────────────────────────────────────────
 
-const HOME_FAQS = [
-  {
-    question: "What does Haram Textile manufacture?",
-    answer: siteContent.home.productLine,
-  },
-  {
-    question: "Where is Haram Textile located?",
-    answer: `Our factory is located at ${siteContent.contact.address}.`,
-  },
-  {
-    question: "What certifications does Haram Textile hold?",
-    answer: `Haram Textile holds ${siteContent.certifications.list.join(", ")}. ${siteContent.certifications.intro}`,
-  },
-  {
-    question: "What is Haram Textile's production capacity?",
-    answer: `We operate ${
-      siteContent.stats.find((s) => s.label === "Specialized machines")
-        ?.value ?? ""
-    } specialized machines and ${
-      siteContent.stats.find((s) => s.label === "Sewing machines")?.value ?? ""
-    } sewing machines across a ${
-      siteContent.stats
-        .find((s) => s.label === "Factory area (sq ft)")
-        ?.value.toLocaleString() ?? ""
-    } sq ft facility, with a packing capacity of ${
-      siteContent.stats
-        .find((s) => s.label === "Packing capacity (Pcs/month)")
-        ?.value.toLocaleString() ?? ""
-    } pieces per month.`,
-  },
-];
+/** Builds the home FAQ list from the resolved (DB-or-fallback) stats. */
+function buildHomeFaqs(stats: ReadonlyArray<{ label: string; value: number }>) {
+  const byLabel = (label: string) => stats.find((s) => s.label === label)?.value;
+  return [
+    {
+      question: "What does Haram Textile manufacture?",
+      answer: siteContent.home.productLine,
+    },
+    {
+      question: "Where is Haram Textile located?",
+      answer: `Our factory is located at ${siteContent.contact.address}.`,
+    },
+    {
+      question: "What certifications does Haram Textile hold?",
+      answer: `Haram Textile holds ${siteContent.certifications.list.join(", ")}. ${siteContent.certifications.intro}`,
+    },
+    {
+      question: "What is Haram Textile's production capacity?",
+      answer: `We operate ${byLabel("Specialized machines") ?? ""} specialized machines and ${
+        byLabel("Sewing machines") ?? ""
+      } sewing machines across a ${
+        byLabel("Factory area (sq ft)")?.toLocaleString() ?? ""
+      } sq ft facility, with a packing capacity of ${
+        byLabel("Packing capacity (Pcs/month)")?.toLocaleString() ?? ""
+      } pieces per month.`,
+    },
+  ];
+}
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -91,6 +89,7 @@ export default async function HomePage() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _aboutContent,
     productionSteps,
+    dbStats,
   ] = await Promise.all([
     listProducts({}),
     listCertifications(),
@@ -98,7 +97,13 @@ export default async function HomePage() {
     listClientLogos(),
     getAboutContent(),
     listProductionSteps(),
+    listStats(),
   ]);
+
+  // Stats: DB rows (admin-editable) with static fallback. The row layout
+  // shows 4 columns, so take the first 4 in admin order.
+  const resolvedStats = resolveStats(dbStats);
+  const HOME_FAQS = buildHomeFaqs(resolvedStats);
 
   // ── Hero image (fallback as before) ────────────────────────────────────────
   const heroImage =
@@ -169,27 +174,17 @@ export default async function HomePage() {
         }));
 
   // ── Stats formatted for StatBand ────────────────────────────────────────
-  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) - pick
-  // the 4 most distinct scale metrics; siteContent.stats has 5 entries, and
-  // "Sewing machines" overlaps narratively with "Specialized machines".
-  const HOME_STAT_LABELS = [
-    "Specialized machines",
-    "Workers & staff",
-    "Factory area (sq ft)",
-    "Packing capacity (Pcs/month)",
-  ];
-  const statItems = HOME_STAT_LABELS.map((label) => {
-    const s = siteContent.stats.find((stat) => stat.label === label)!;
-    return {
-      label: s.label,
-      value:
-        s.value >= 1_000_000
-          ? `${(s.value / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`
-          : s.value >= 1_000
-            ? `${Math.round(s.value / 1_000)}K+`
-            : String(s.value),
-    };
-  });
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx), so
+  // take the first 4 resolved stats in admin order.
+  const statItems = resolvedStats.slice(0, 4).map((s) => ({
+    label: s.label,
+    value:
+      s.value >= 1_000_000
+        ? `${(s.value / 1_000_000).toFixed(1).replace(/\.0$/, "")}M+`
+        : s.value >= 1_000
+          ? `${Math.round(s.value / 1_000)}K+`
+          : String(s.value),
+  }));
 
   // ── Pull-quote certification badges ────────────────────────────────────────
   const certBadges = certifications.map((c) => ({

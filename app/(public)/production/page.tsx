@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { listProductionSteps } from "@/lib/services/production-step.service";
+import { listStats } from "@/lib/services/stat.service";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
-import { siteContent } from "@/lib/site-content";
+import { siteContent, resolveStats } from "@/lib/site-content";
 import { buildMetadata, buildHowToSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -31,27 +32,30 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-const SEWING_MACHINES_STAT = siteContent.stats.find((s) => s.label === "Sewing machines")?.value;
-const PACKING_CAPACITY_STAT = siteContent.stats.find(
-  (s) => s.label === "Packing capacity (Pcs/month)",
-)?.value;
-
-const PRODUCTION_FAQS = [
-  {
-    question: "How many stages does Haram Textile's production process have?",
-    answer:
-      "Production runs through seven stages: Knitting, Dyeing, Cutting, Printing, Embroidery, Sewing, and Finishing & Packing - all completed in-house at our Faisalabad facility.",
-  },
-  {
-    question: "What is Haram Textile's sewing and packing capacity?",
-    answer: `We operate ${SEWING_MACHINES_STAT ?? 160} sewing machines and pack more than ${PACKING_CAPACITY_STAT?.toLocaleString() ?? "600,000"} pieces per month, backed by ${siteContent.stats.find((s) => s.label === "Workers & staff")?.value ?? 350} workers and staff across the factory floor.`,
-  },
-  {
-    question: "Can printing and embroidery be customized per order?",
-    answer:
-      "Yes. Our printing department supports screen printing, heat transfer, puff print, rubber print, high-density print, flocking, glitter, foil, and discharge printing through a dedicated design studio producing up to 5,000 garment cut panels per day, while our embroidery line ranges from simple to complex multi-needle designs for both small and large volume orders.",
-  },
-];
+/** Builds the production FAQ list from the resolved (DB-or-fallback) stats. */
+function buildProductionFaqs(stats: ReadonlyArray<{ label: string; value: number }>) {
+  const byLabel = (label: string) => stats.find((s) => s.label === label)?.value;
+  return [
+    {
+      question: "How many stages does Haram Textile's production process have?",
+      answer:
+        "Production runs through seven stages: Knitting, Dyeing, Cutting, Printing, Embroidery, Sewing, and Finishing & Packing - all completed in-house at our Faisalabad facility.",
+    },
+    {
+      question: "What is Haram Textile's sewing and packing capacity?",
+      answer: `We operate ${byLabel("Sewing machines") ?? 160} sewing machines and pack more than ${
+        byLabel("Packing capacity (Pcs/month)")?.toLocaleString() ?? "600,000"
+      } pieces per month, backed by ${
+        byLabel("Workers & staff") ?? 350
+      } workers and staff across the factory floor.`,
+    },
+    {
+      question: "Can printing and embroidery be customized per order?",
+      answer:
+        "Yes. Our printing department supports screen printing, heat transfer, puff print, rubber print, high-density print, flocking, glitter, foil, and discharge printing through a dedicated design studio producing up to 5,000 garment cut panels per day, while our embroidery line ranges from simple to complex multi-needle designs for both small and large volume orders.",
+    },
+  ];
+}
 
 /** Abbreviate large numbers for StatBand display */
 function formatStatValue(value: number): string {
@@ -61,8 +65,11 @@ function formatStatValue(value: number): string {
 }
 
 export default async function ProductionPage() {
-  const steps = await listProductionSteps();
+  const [steps, dbStats] = await Promise.all([listProductionSteps(), listStats()]);
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+
+  const resolvedStats = resolveStats(dbStats);
+  const PRODUCTION_FAQS = buildProductionFaqs(resolvedStats);
 
   const howToSchema = buildHowToSchema({
     name: "How Haram Textile Manufactures Apparel",
@@ -75,19 +82,12 @@ export default async function ProductionPage() {
     })),
   });
 
-  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) -
-  // pick the 4 most machine/capacity-focused metrics for this page;
-  // "Workers & staff" is the one dropped here (kept on Home/About instead).
-  const PRODUCTION_STAT_LABELS = [
-    "Specialized machines",
-    "Sewing machines",
-    "Factory area (sq ft)",
-    "Packing capacity (Pcs/month)",
-  ];
-  const statItems = PRODUCTION_STAT_LABELS.map((label) => {
-    const s = siteContent.stats.find((stat) => stat.label === label)!;
-    return { value: formatStatValue(s.value), label: s.label };
-  });
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx), so
+  // take the first 4 resolved stats in admin order.
+  const statItems = resolvedStats.slice(0, 4).map((s) => ({
+    value: formatStatValue(s.value),
+    label: s.label,
+  }));
 
   /** Resolve image fallbacks server-side - per-step local photos by slug */
   const stepItems = steps.map((step) => ({

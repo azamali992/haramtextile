@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { getAboutContent } from "@/lib/services/about-content.service";
+import { listStats } from "@/lib/services/stat.service";
+import { listTeamMembers } from "@/lib/services/team-member.service";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
-import { siteContent } from "@/lib/site-content";
+import { siteContent, resolveStats, resolveTeam } from "@/lib/site-content";
 import { buildMetadata, buildAboutPageSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -58,7 +60,11 @@ function formatStatValue(value: number): string {
 }
 
 export default async function AboutPage() {
-  const aboutContent = await getAboutContent();
+  const [aboutContent, dbStats, dbTeam] = await Promise.all([
+    getAboutContent(),
+    listStats(),
+    listTeamMembers(),
+  ]);
 
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
 
@@ -70,19 +76,16 @@ export default async function AboutPage() {
 
   const faqSchema = ABOUT_FAQS;
 
-  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx) -
-  // siteContent.stats has 5; drop "Sewing machines", which overlaps
-  // narratively with "Specialized machines" (it leads on /production instead).
-  const ABOUT_STAT_LABELS = [
-    "Specialized machines",
-    "Workers & staff",
-    "Factory area (sq ft)",
-    "Packing capacity (Pcs/month)",
-  ];
-  const statItems = ABOUT_STAT_LABELS.map((label) => {
-    const s = siteContent.stats.find((stat) => stat.label === label)!;
-    return { value: formatStatValue(s.value), label: s.label };
-  });
+  // Stats + team: DB rows (admin-editable) with static fallback.
+  const resolvedStats = resolveStats(dbStats);
+  const resolvedTeam = resolveTeam(dbTeam);
+
+  // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx), so
+  // take the first 4 resolved stats in admin order.
+  const statItems = resolvedStats.slice(0, 4).map((s) => ({
+    value: formatStatValue(s.value),
+    label: s.label,
+  }));
 
   return (
     <main>
@@ -125,7 +128,7 @@ export default async function AboutPage() {
       {/* Pull quote - full-bleed dark photo band, this page's one dark moment */}
       <PullQuote
         quote={siteContent.site.quote}
-        attribution={`${siteContent.team[0]?.name ?? "Rashid Mehmood"}, CEO - ${siteContent.site.name}`}
+        attribution={`${resolvedTeam[0]?.name ?? "Rashid Mehmood"}, CEO - ${siteContent.site.name}`}
         photoBackground="/images/about/about-factory.jpg"
       />
 
@@ -133,7 +136,7 @@ export default async function AboutPage() {
       <AboutSections
         whyPakistan={siteContent.about.whyPakistan}
         usp={siteContent.about.usp}
-        team={siteContent.team}
+        team={resolvedTeam}
       />
 
       <FaqAccordion faqs={faqSchema} title="Company History & Export Experience FAQs" />
