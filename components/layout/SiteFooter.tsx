@@ -162,33 +162,35 @@ export function SiteFooter() {
       </div>
 
       {/* Bottom bar */}
-      <div className="flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
-        <p className="font-body text-sm text-[var(--on-brand)]/60">
-          &copy; {year} {siteContent.site.name}. All rights reserved.
-        </p>
-
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-8">
+      <div className="border-t border-white/15 pt-8">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-body text-sm text-[var(--on-brand)]/60">
+            &copy; {year} {siteContent.site.name}. All rights reserved.
+          </p>
           <p className="font-body text-sm text-[var(--on-brand)]/60">
             {siteContent.certifications.list.join(" · ")}
           </p>
+        </div>
 
-          {/* Powered by Azektra */}
+        {/* Powered by Azektra — centered, prominent */}
+        <div className="mt-12 flex flex-col items-center gap-4">
+          <span className="font-body text-xs font-medium uppercase tracking-[0.28em] text-[var(--on-brand)]/70">
+            Powered by
+          </span>
           <a
             href="https://azektra.com/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
+            className="inline-flex items-center rounded-lg bg-white px-6 py-4 shadow-card transition-transform duration-200 hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-deep)]"
+            aria-label="Azektra — visit azektra.com"
           >
-            <span className="font-body text-sm text-[var(--on-brand)]/60">Powered by</span>
-            <span className="inline-flex items-center rounded-md bg-white px-3 py-1.5">
-              <Image
-                src="/images/azektra.png"
-                alt="Azektra"
-                width={547}
-                height={228}
-                className="h-5 w-auto"
-              />
-            </span>
+            <Image
+              src="/images/azektra.png"
+              alt="Azektra"
+              width={477}
+              height={119}
+              className="h-9 w-auto sm:h-10"
+            />
           </a>
         </div>
       </div>
