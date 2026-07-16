@@ -18,7 +18,9 @@ cloudinary.config({
 
 const ALLOWED_MIME_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10MB
+const MAX_PDF_SIZE_BYTES = 20 * 1024 * 1024; // 20MB — scanned certificates run larger
 const UPLOAD_FOLDER = "haram-textile";
+const PDF_UPLOAD_FOLDER = "haram-textile/certificates";
 
 /**
  * Detects an image's real MIME type from its file signature ("magic
@@ -132,14 +134,69 @@ export async function uploadImage(file: File): Promise<{ url: string; publicId: 
 }
 
 /**
- * Deletes an image from Cloudinary by its public ID. Safe to call on an
- * ID that no longer exists (Cloudinary returns `not found` rather than
- * throwing in that case).
+ * Validates and uploads a PDF file to Cloudinary as a `raw` asset.
+ *
+ * Same security posture as `uploadImage`: the declared `file.type` is
+ * client-supplied, so after the cheap declared-type/size checks we sniff
+ * the actual file signature (`%PDF-`) from the buffer and require it to
+ * match before uploading. Stored under a dedicated `certificates` folder as
+ * a `raw` resource (Cloudinary's image pipeline doesn't apply to PDFs).
+ *
+ * @throws Error if the file is not a valid PDF or is too large.
  */
-export async function deleteImage(publicId: string): Promise<void> {
-  if (!publicId || publicId.trim() === "") {
-    throw new Error("publicId is required to delete an image.");
+export async function uploadPdf(file: File): Promise<{ url: string; publicId: string }> {
+  if (file.type !== "application/pdf") {
+    throw new Error(`Unsupported file type "${file.type}". Only PDF files are allowed.`);
   }
 
-  await cloudinary.uploader.destroy(publicId, { resource_type: "image" });
+  if (file.size > MAX_PDF_SIZE_BYTES) {
+    throw new Error(
+      `File is too large (${file.size} bytes). Maximum allowed size is ${MAX_PDF_SIZE_BYTES} bytes (20MB).`,
+    );
+  }
+
+  if (file.size === 0) {
+    throw new Error("File is empty.");
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  const buffer = Buffer.from(arrayBuffer);
+
+  // %PDF- magic bytes (25 50 44 46 2D).
+  const isPdf =
+    buffer.length >= 5 &&
+    buffer[0] === 0x25 &&
+    buffer[1] === 0x50 &&
+    buffer[2] === 0x44 &&
+    buffer[3] === 0x46 &&
+    buffer[4] === 0x2d;
+  if (!isPdf) {
+    throw new Error(`Unsupported file type "${file.type}". Only PDF files are allowed.`);
+  }
+
+  const base64 = buffer.toString("base64");
+  const dataUri = `data:application/pdf;base64,${base64}`;
+
+  const result = await cloudinary.uploader.upload(dataUri, {
+    folder: PDF_UPLOAD_FOLDER,
+    resource_type: "raw",
+  });
+
+  return { url: result.secure_url, publicId: result.public_id };
+}
+
+/**
+ * Deletes an asset from Cloudinary by its public ID. Safe to call on an
+ * ID that no longer exists (Cloudinary returns `not found` rather than
+ * throwing in that case). Pass `resourceType: "raw"` for PDFs.
+ */
+export async function deleteImage(
+  publicId: string,
+  resourceType: "image" | "raw" = "image",
+): Promise<void> {
+  if (!publicId || publicId.trim() === "") {
+    throw new Error("publicId is required to delete an asset.");
+  }
+
+  await cloudinary.uploader.destroy(publicId, { resource_type: resourceType });
 }

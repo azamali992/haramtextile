@@ -99,41 +99,81 @@ export interface CertificationCardData {
   issuingBody?: string | null;
   description?: string | null;
   image: { src: string; width: number; height: number };
+  /** Direct link to the certificate PDF, if uploaded. */
+  pdfUrl?: string | null;
 }
 
 interface CertificationCardProps {
   certification: CertificationCardData;
 }
 
-/** Surface card with hairline border that warms to gold on hover. */
+/**
+ * Portrait certification card: the full certificate scan shown in a tall
+ * frame, with the name/issuer/description below and a "View certificate"
+ * action that opens the PDF in a new tab (falls back to the detail page
+ * when no PDF is attached).
+ */
 export function CertificationCard({ certification }: CertificationCardProps) {
+  const hasPdf = Boolean(certification.pdfUrl);
+
   return (
-    <Link
-      href={`/certifications/${certification.id}`}
-      className="block rounded-card border border-[var(--hairline)] bg-[var(--surface)] p-7 transition-colors duration-200 hover:border-[var(--brand)]"
-    >
-      <div className="relative h-16 w-full">
+    <div className="group flex h-full flex-col overflow-hidden rounded-card border border-[var(--hairline)] bg-[var(--surface-card)] transition-colors duration-200 hover:border-[var(--brand)]">
+      {/* Portrait certificate image */}
+      <div className="relative aspect-[3/4] w-full overflow-hidden border-b border-[var(--hairline)] bg-white">
         <Image
           src={certification.image.src}
-          alt={`${certification.name} certification badge`}
-          width={certification.image.width}
-          height={certification.image.height}
-          className="h-16 w-auto object-contain"
+          alt={`${certification.name} certificate`}
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-contain p-6 transition-transform duration-500 ease-out [@media(hover:hover)]:group-hover:scale-[1.03]"
         />
       </div>
-      <h3 className="mt-5 font-heading text-title-sm font-normal text-[var(--ink)]">
-        {certification.name}
-      </h3>
-      {certification.issuingBody && (
-        <p className="mt-1.5 font-body text-caption font-medium text-[var(--ink-soft)]">
-          {certification.issuingBody}
-        </p>
-      )}
-      {certification.description && (
-        <p className="mt-4 font-body text-caption leading-relaxed text-[var(--ink-soft)]">
-          {certification.description}
-        </p>
-      )}
-    </Link>
+
+      {/* Body */}
+      <div className="flex flex-1 flex-col p-7">
+        <h3 className="font-heading text-title-sm font-normal text-[var(--ink)]">
+          {certification.name}
+        </h3>
+        {certification.issuingBody && (
+          <p className="mt-1.5 font-body text-caption font-medium text-[var(--brand-strong)]">
+            {certification.issuingBody}
+          </p>
+        )}
+        {certification.description && (
+          <p className="mt-4 font-body text-caption leading-relaxed text-[var(--ink-soft)]">
+            {certification.description}
+          </p>
+        )}
+
+        {/* Action pinned to the bottom */}
+        <div className="mt-6 pt-2">
+          {hasPdf ? (
+            <a
+              href={certification.pdfUrl as string}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-pill border border-[var(--brand-deep)] px-5 py-2.5 font-body text-xs font-medium uppercase tracking-wide text-[var(--brand-deep)] transition-colors duration-150 hover:bg-[var(--brand-deep)] hover:text-[var(--on-brand)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
+              aria-label={`View ${certification.name} certificate (PDF)`}
+            >
+              View certificate
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                <path d="M14 2v6h6" />
+              </svg>
+            </a>
+          ) : (
+            <Link
+              href={`/certifications/${certification.id}`}
+              className="inline-flex items-center gap-2 border-b border-[var(--brand)] pb-0.5 font-body text-xs font-medium uppercase tracking-wide text-[var(--ink)] transition-colors duration-150 hover:text-[var(--brand-strong)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
+            >
+              View details
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

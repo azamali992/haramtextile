@@ -26,14 +26,21 @@ export function createCertification(data: CertificationCreateInput) {
  */
 export async function updateCertification(id: string, data: CertificationUpdateInput) {
   const existing =
-    data.imagePublicId !== undefined
+    data.imagePublicId !== undefined || data.pdfPublicId !== undefined
       ? await certificationRepository.findCertificationById(id)
       : null;
 
   const updated = await certificationRepository.updateCertification(id, data);
 
   if (existing && data.imagePublicId && existing.imagePublicId !== data.imagePublicId) {
-    void cleanupOldImage(existing.imagePublicId);
+    void cleanupOldAsset(existing.imagePublicId, "image");
+  }
+  if (
+    existing?.pdfPublicId &&
+    data.pdfPublicId !== undefined &&
+    existing.pdfPublicId !== data.pdfPublicId
+  ) {
+    void cleanupOldAsset(existing.pdfPublicId, "raw");
   }
 
   return updated;
@@ -49,17 +56,21 @@ export async function deleteCertification(id: string) {
   const deleted = await certificationRepository.deleteCertification(id);
 
   if (existing?.imagePublicId) {
-    void cleanupOldImage(existing.imagePublicId);
+    void cleanupOldAsset(existing.imagePublicId, "image");
+  }
+  if (existing?.pdfPublicId) {
+    void cleanupOldAsset(existing.pdfPublicId, "raw");
   }
 
   return deleted;
 }
 
 /** Best-effort Cloudinary cleanup: log and swallow any failure. */
-function cleanupOldImage(publicId: string): void {
-  deleteImage(publicId).catch((error) => {
-    logger.warn(newRequestId(), "certification_image_cleanup_failed", {
+function cleanupOldAsset(publicId: string, resourceType: "image" | "raw"): void {
+  deleteImage(publicId, resourceType).catch((error) => {
+    logger.warn(newRequestId(), "certification_asset_cleanup_failed", {
       publicId,
+      resourceType,
       message: error instanceof Error ? error.message : "Unknown error",
     });
   });

@@ -27,8 +27,9 @@ export function CertificationsGrid({ certifications }: CertificationsGridProps) 
           damping={26}
           from={{ opacity: 0, y: 30 }}
           to={{ opacity: 1, y: 0 }}
+          className="h-full"
         >
-          <HoverSpring to={{ y: -6 }} stiffness={300} damping={22}>
+          <HoverSpring to={{ y: -6 }} stiffness={300} damping={22} className="block h-full">
             <CertificationCard certification={cert} />
           </HoverSpring>
         </Inview>

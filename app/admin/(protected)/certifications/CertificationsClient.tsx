@@ -12,6 +12,8 @@ export interface AdminCertification {
   issuingBody: string | null;
   imageUrl: string;
   imagePublicId: string;
+  pdfUrl: string | null;
+  pdfPublicId: string | null;
   seoTitle: string | null;
   seoDescription: string | null;
   createdAt: string | Date;

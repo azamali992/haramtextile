@@ -121,3 +121,28 @@ export async function uploadAdminImage(
 
   return { url, imagePublicId: publicId };
 }
+
+/**
+ * Uploads a single PDF file via `/api/admin/upload` (with `kind=pdf`) and
+ * returns the resulting URL and Cloudinary's real `public_id`. Same CSRF
+ * header + envelope handling as `uploadAdminImage`; the PDF is stored as a
+ * Cloudinary `raw` asset.
+ */
+export async function uploadAdminPdf(
+  file: File,
+): Promise<{ url: string; pdfPublicId: string }> {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("kind", "pdf");
+
+  const { url, publicId } = await adminFetch<{ url: string; publicId: string }>(
+    "/api/admin/upload",
+    {
+      method: "POST",
+      body: formData,
+      headers: { "X-Requested-With": "haram-admin" },
+    },
+  );
+
+  return { url, pdfPublicId: publicId };
+}

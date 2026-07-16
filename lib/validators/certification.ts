@@ -6,6 +6,8 @@ export const certificationCreateSchema = z.object({
   issuingBody: z.string().trim().max(200).optional().nullable(),
   imageUrl: z.string().trim().url("imageUrl must be a valid URL"),
   imagePublicId: z.string().trim().min(1, "imagePublicId is required"),
+  pdfUrl: z.string().trim().url("pdfUrl must be a valid URL").optional().nullable(),
+  pdfPublicId: z.string().trim().min(1).optional().nullable(),
   seoTitle: z.string().trim().max(70).optional().nullable(),
   seoDescription: z.string().trim().max(160).optional().nullable(),
 });

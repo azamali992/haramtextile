@@ -47,6 +47,8 @@ model Certification {
   issuingBody    String?
   imageUrl       String
   imagePublicId  String
+  pdfUrl         String?
+  pdfPublicId    String?
   seoTitle       String?
   seoDescription String?
   createdAt      DateTime @default(now())

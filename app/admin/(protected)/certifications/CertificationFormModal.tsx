@@ -5,6 +5,7 @@ import { adminFetch, AdminApiError } from "@/lib/admin/api-client";
 import { Modal } from "../../_components/Modal";
 import { FormFeedback } from "../../_components/FormFeedback";
 import { ImageUploadField } from "../../_components/ImageUploadField";
+import { PdfUploadField } from "../../_components/PdfUploadField";
 import type { AdminCertification } from "./CertificationsClient";
 
 interface CertificationFormValues {
@@ -13,6 +14,8 @@ interface CertificationFormValues {
   issuingBody: string;
   imageUrl: string;
   imagePublicId: string;
+  pdfUrl: string;
+  pdfPublicId: string;
   seoTitle: string;
   seoDescription: string;
 }
@@ -30,6 +33,8 @@ function toFormValues(certification?: AdminCertification): CertificationFormValu
     issuingBody: certification?.issuingBody ?? "",
     imageUrl: certification?.imageUrl ?? "",
     imagePublicId: certification?.imagePublicId ?? "",
+    pdfUrl: certification?.pdfUrl ?? "",
+    pdfPublicId: certification?.pdfPublicId ?? "",
     seoTitle: certification?.seoTitle ?? "",
     seoDescription: certification?.seoDescription ?? "",
   };
@@ -72,6 +77,8 @@ export function CertificationFormModal({
       issuingBody: values.issuingBody || null,
       imageUrl: values.imageUrl,
       imagePublicId: values.imagePublicId,
+      pdfUrl: values.pdfUrl || null,
+      pdfPublicId: values.pdfPublicId || null,
       seoTitle: values.seoTitle || null,
       seoDescription: values.seoDescription || null,
     };
@@ -161,6 +168,15 @@ export function CertificationFormModal({
             onChange={({ url, imagePublicId }) => {
               update("imageUrl", url);
               update("imagePublicId", imagePublicId);
+            }}
+          />
+
+          <PdfUploadField
+            label="Certificate PDF"
+            pdfUrl={values.pdfUrl || null}
+            onChange={({ url, pdfPublicId }) => {
+              update("pdfUrl", url);
+              update("pdfPublicId", pdfPublicId);
             }}
           />
         </section>

@@ -64,14 +64,15 @@ export default async function CertificationsPage() {
   const certItems = certifications.map((cert) => {
     const usableImage = !isPlaceholderImageUrl(cert.imageUrl);
     const image = usableImage
-      ? { src: cert.imageUrl, width: 300, height: 150 }
-      : { src: "/images/certifications/certification-badge.jpg", width: 300, height: 150 };
+      ? { src: cert.imageUrl, width: 900, height: 1200 }
+      : { src: "/images/certifications/certification-badge.jpg", width: 900, height: 1200 };
     return {
       id: cert.id,
       name: cert.name,
       issuingBody: cert.issuingBody,
       description: cert.description,
       image,
+      pdfUrl: cert.pdfUrl,
     };
   });
 
@@ -109,7 +110,11 @@ export default async function CertificationsPage() {
             eyebrow="What we hold"
             eyebrowTone="dark"
             title={["Our certifications"]}
-            body={`Independently audited and renewed on each issuing body's cycle - ${siteContent.certifications.list.join(", ")}.`}
+            body={
+              certifications.length > 0
+                ? `Independently audited and renewed on each issuing body's cycle — ${certifications.map((c) => c.name).join(", ")}.`
+                : "Independently audited and renewed on each issuing body's cycle."
+            }
             titleClassName="text-display text-[var(--ink)]"
             bodyClassName="text-[var(--ink-soft)] max-w-2xl text-body"
             className="mb-14"
