@@ -116,3 +116,47 @@ export function resolveTeam(
     ? dbTeam.map((m) => ({ name: m.name, role: m.role, email: m.email }))
     : siteContent.team;
 }
+
+/** Shape the Contact page and footer consume. */
+export interface ResolvedContact {
+  phone: string;
+  emails: SiteContentEmail[];
+  address: string;
+  mapLink: string;
+  hours: string;
+}
+
+/**
+ * Contact details are admin-editable via the `ContactSettings` singleton.
+ * Returns the DB row when present, otherwise the static siteContent values.
+ * `emails` is stored as JSON, so it is validated structurally here before use.
+ */
+export function resolveContact(
+  dbContact: {
+    phone: string;
+    address: string;
+    mapLink: string | null;
+    hours: string | null;
+    emails: unknown;
+  } | null,
+): ResolvedContact {
+  if (!dbContact) return siteContent.contact;
+
+  const emails = Array.isArray(dbContact.emails)
+    ? (dbContact.emails as unknown[]).filter(
+        (e): e is SiteContentEmail =>
+          typeof e === "object" &&
+          e !== null &&
+          typeof (e as SiteContentEmail).label === "string" &&
+          typeof (e as SiteContentEmail).email === "string",
+      )
+    : [];
+
+  return {
+    phone: dbContact.phone,
+    address: dbContact.address,
+    mapLink: dbContact.mapLink ?? siteContent.contact.mapLink,
+    hours: dbContact.hours ?? siteContent.contact.hours,
+    emails: emails.length > 0 ? emails : siteContent.contact.emails,
+  };
+}

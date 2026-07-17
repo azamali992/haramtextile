@@ -6,7 +6,7 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { RevealLines } from "@/components/motion/RevealLines";
 import { Inview } from "@/components/motion/Inview";
 import { useUI } from "@/components/layout/UIProvider";
-import { siteContent } from "@/lib/site-content";
+import { siteContent, type ResolvedContact } from "@/lib/site-content";
 
 // ─── Nav columns ──────────────────────────────────────────────────────────────
 
@@ -27,16 +27,21 @@ const COMPANY_LINKS = [
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
 
+interface SiteFooterProps {
+  /** Admin-editable contact details, resolved by the layout. */
+  contact: ResolvedContact;
+}
+
 /**
  * Public site footer. Deep-green (`--brand-deep`) background with:
  * - CTA band with stacked-line headline and "Get a Quote" pill
  * - Columns grid: brand column + Products + Company nav columns
- * - Bottom bar with copyright and certification list
+ * - Bottom bar with copyright and the "Powered by Azektra" credit
  */
-export function SiteFooter() {
+export function SiteFooter({ contact }: SiteFooterProps) {
   const { openContact } = useUI();
   const year = new Date().getFullYear();
-  const primaryEmail = siteContent.contact.emails[0]?.email;
+  const primaryEmail = contact.emails[0]?.email;
 
   return (
     <footer
@@ -107,13 +112,13 @@ export function SiteFooter() {
               </a>
             )}
             <a
-              href={`tel:${siteContent.contact.phone.replace(/\s/g, "")}`}
+              href={`tel:${contact.phone.replace(/\s/g, "")}`}
               className="mt-1 block opacity-80 transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
             >
-              {siteContent.contact.phone}
+              {contact.phone}
             </a>
             <span className="mt-1 block text-[var(--on-brand)]/55">
-              {siteContent.contact.address}
+              {contact.address}
             </span>
           </address>
         </div>

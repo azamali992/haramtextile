@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
+import { getContactSettings } from "@/lib/services/contact-settings.service";
 import { config } from "@/lib/config";
-import { siteContent } from "@/lib/site-content";
+import { siteContent, resolveContact, type ResolvedContact } from "@/lib/site-content";
 import { buildMetadata, buildContactPageSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
@@ -26,36 +27,44 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-const CONTACT_FAQS = [
-  {
-    question: "What are Haram Textile's office hours?",
-    answer: siteContent.contact.hours,
-  },
-  {
-    question: "How quickly does Haram Textile respond to inquiries?",
-    answer:
-      "Our export and marketing team typically responds to new inquiries within one to two business days during office hours.",
-  },
-  {
-    question: "What information should I include when requesting a quote?",
-    answer:
-      "Please include your target product category, approximate order quantity, preferred fabric, and destination country so our team can provide accurate pricing and lead times.",
-  },
-  {
-    question: "Does Haram Textile export internationally?",
-    answer: siteContent.home.markets,
-  },
-];
+/** Builds the contact FAQ list from the resolved (DB-or-fallback) details. */
+function buildContactFaqs(contact: ResolvedContact) {
+  return [
+    {
+      question: "What are Haram Textile's office hours?",
+      answer: contact.hours,
+    },
+    {
+      question: "How quickly does Haram Textile respond to inquiries?",
+      answer:
+        "Our export and marketing team typically responds to new inquiries within one to two business days during office hours.",
+    },
+    {
+      question: "What information should I include when requesting a quote?",
+      answer:
+        "Please include your target product category, approximate order quantity, preferred fabric, and destination country so our team can provide accurate pricing and lead times.",
+    },
+    {
+      question: "Does Haram Textile export internationally?",
+      answer: siteContent.home.markets,
+    },
+  ];
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
-  const primaryEmail = siteContent.contact.emails[0]?.email;
+
+  // Contact details are admin-editable (ContactSettings), with the static
+  // siteContent values as a fallback until the row is saved.
+  const contact = resolveContact(await getContactSettings());
+  const primaryEmail = contact.emails[0]?.email;
+  const CONTACT_FAQS = buildContactFaqs(contact);
 
   const contactPageSchema = buildContactPageSchema({
     name: `Contact ${siteContent.site.name}`,
     description: `Get in touch with ${siteContent.site.name}'s export team.`,
     url: `${baseUrl}/contact`,
-    phone: siteContent.contact.phone,
+    phone: contact.phone,
     email: primaryEmail,
   });
 
@@ -69,7 +78,7 @@ export default function ContactPage() {
       />
 
       <ContactPageClient
-        contact={siteContent.contact}
+        contact={contact}
         siteName={siteContent.site.name}
       />
 
