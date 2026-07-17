@@ -14,7 +14,7 @@ import { siteContent } from "@/lib/site-content";
 
 const NAV_LINKS = [
   { href: "/catalog", label: "Catalog" },
-  { href: "/production", label: "Production" },
+  { href: "/production", label: "Business Functions" },
   { href: "/about", label: "About" },
   { href: "/certifications", label: "Certifications" },
   { href: "/sustainability", label: "Sustainability" },

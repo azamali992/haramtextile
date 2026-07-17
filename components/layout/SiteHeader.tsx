@@ -5,19 +5,20 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUI } from "@/components/layout/UIProvider";
 import { siteContent } from "@/lib/site-content";
+import { BusinessFunctionsDropdown } from "@/components/layout/BusinessFunctionsDropdown";
 
-const NAV_LINKS = [
+// Split symmetrically around the centered logo. "Business Functions" sits
+// between them as a dropdown (see BusinessFunctionsDropdown).
+const LEFT_LINKS = [
   { href: "/catalog", label: "Catalog" },
-  { href: "/production", label: "Production" },
   { href: "/about", label: "About" },
+];
+
+const RIGHT_LINKS = [
   { href: "/certifications", label: "Certifications" },
   { href: "/sustainability", label: "Sustainability" },
   { href: "/contact", label: "Contact" },
 ];
-
-// Links are split symmetrically around the centered logo.
-const LEFT_LINKS = NAV_LINKS.slice(0, 3);
-const RIGHT_LINKS = NAV_LINKS.slice(3);
 
 interface SiteHeaderProps {
   /**
@@ -90,6 +91,7 @@ export function SiteHeader({ overHero = false }: SiteHeaderProps) {
           className={`hidden flex-1 items-center justify-end gap-7 lg:flex ${textColor}`}
         >
           {LEFT_LINKS.map(navLink)}
+          <BusinessFunctionsDropdown hoverColorClass={linkHover} />
         </nav>
 
         {/* Center brand */}

@@ -19,7 +19,7 @@ const PRODUCT_LINKS = [
 
 const COMPANY_LINKS = [
   { href: "/about", label: "About Us" },
-  { href: "/production", label: "Production" },
+  { href: "/production", label: "Business Functions" },
   { href: "/certifications", label: "Certifications" },
   { href: "/sustainability", label: "Sustainability" },
   { href: "/contact", label: "Contact" },

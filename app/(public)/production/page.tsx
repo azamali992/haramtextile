@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return buildMetadata(
     {
-      title: "Our Production Process",
+      title: "Business Functions",
       description: siteContent.home.aboutShort,
       path: "/production",
     },
@@ -107,7 +107,7 @@ export default async function ProductionPage() {
       <Breadcrumb
         items={[
           { name: "Home", url: baseUrl, href: "/" },
-          { name: "Production", url: `${baseUrl}/production` },
+          { name: "Business Functions", url: `${baseUrl}/production` },
         ]}
       />
 
@@ -124,7 +124,7 @@ export default async function ProductionPage() {
       </div>
 
       {/* h1 for screen readers and SEO */}
-      <h1 className="sr-only">Our Production Process</h1>
+      <h1 className="sr-only">Business Functions</h1>
 
       {/* Production steps */}
       <section aria-labelledby="steps-heading" className="px-6 py-24 sm:px-10 sm:py-32">
