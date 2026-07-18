@@ -4,12 +4,11 @@
  * The DB's seeded `Product.imageUrl` is currently a placeholder string
  * pointing at the old legacy domain (no real Cloudinary upload has
  * happened yet - that comes later via the admin panel). Until then, we
- * fall back to a fixed set of photos, keyed by category slug:
- * boys/girls/ladies use a newer set hosted on Cloudinary (uploaded via
- * `prisma/upload-product-images.ts`, source files in
- * `public/images/products_new/{category}` - not deployed, kept local only);
- * gents still uses the original scraped `public/images/products/gents` set
- * committed to the repo (no replacement photos exist for that category yet).
+ * fall back to a fixed set of photos, keyed by category slug: all four
+ * categories (boys/girls/ladies/gents) use a newer set hosted on Cloudinary
+ * (uploaded via `prisma/upload-product-images.ts` and
+ * `prisma/upload-gents-ladies.ts`; source files in
+ * `public/images/products_new/{category}` - not deployed, kept local only).
  *
  * This file only deals with static, already-known-dimension image
  * references (no I/O), so it is safe to import from Server Components.
@@ -103,26 +102,19 @@ const MANIFEST: Record<FallbackCategorySlug, CategoryManifest> = {
       { file: "18.png", width: 1141, height: 1379 },
       { file: "19.png", width: 1310, height: 1201 },
       { file: "20.png", width: 1122, height: 1402 },
+      { file: "21.png", width: 1128, height: 1394 },
     ],
   },
   gents: {
-    dir: "products/gents",
+    dir: "https://res.cloudinary.com/ds08efkdx/image/upload/f_auto,q_auto,w_auto/haram-textile/products_new/gents",
     entries: [
-      { file: "1.jpg", width: 393, height: 600 },
-      { file: "2.jpg", width: 436, height: 600 },
-      { file: "3.jpg", width: 531, height: 600 },
-      { file: "4.jpg", width: 626, height: 500 },
-      { file: "5.jpg", width: 558, height: 442 },
-      { file: "6.jpg", width: 450, height: 600 },
-      { file: "7.jpg", width: 481, height: 600 },
-      { file: "8.jpg", width: 494, height: 500 },
-      { file: "9.jpg", width: 476, height: 600 },
-      { file: "10.jpg", width: 509, height: 574 },
-      { file: "11.jpg", width: 395, height: 500 },
-      { file: "12.jpg", width: 375, height: 500 },
-      { file: "14.jpg", width: 530, height: 600 },
-      { file: "15.jpg", width: 489, height: 652 },
-      { file: "17.jpg", width: 489, height: 652 },
+      { file: "1.png", width: 1272, height: 1236 },
+      { file: "2.png", width: 1300, height: 1209 },
+      { file: "3.png", width: 1183, height: 1329 },
+      { file: "4.png", width: 1145, height: 1373 },
+      { file: "5.png", width: 1297, height: 1212 },
+      { file: "6.png", width: 1335, height: 1178 },
+      { file: "7.png", width: 1296, height: 1213 },
     ],
   },
 };
