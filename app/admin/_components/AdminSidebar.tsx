@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { href: "/admin/contact", label: "Contact Details" },
   { href: "/admin/submissions", label: "Submissions" },
   { href: "/admin/seo", label: "SEO Settings" },
+  { href: "/admin/password", label: "Change Password" },
 ];
 
 /** Deep-green sidebar navigation shared by every authenticated admin page. */
