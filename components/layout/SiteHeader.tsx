@@ -48,7 +48,7 @@ export function SiteHeader() {
         key={link.href}
         href={link.href}
         aria-current={isActive ? "page" : undefined}
-        className={`relative rounded-full px-3.5 py-2 font-body text-[0.8125rem] font-semibold uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] ${
+        className={`relative whitespace-nowrap rounded-full px-2.5 py-2 font-body text-sm font-bold uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] ${
           isActive
             ? "bg-white/12 text-[var(--brand-light)]"
             : "text-[var(--on-brand)]/80 hover:bg-white/8 hover:text-[var(--on-brand)]"
@@ -73,11 +73,12 @@ export function SiteHeader() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[var(--brand)]/50 to-transparent"
       />
       <div
-        className={`flex w-full items-center justify-between gap-4 px-6 transition-all duration-300 sm:px-10 ${
-          scrolled ? "h-16" : "h-24"
+        className={`flex w-full items-center justify-between gap-3 px-5 transition-all duration-300 sm:px-8 ${
+          scrolled ? "h-20" : "h-32"
         }`}
       >
-        {/* Logo - left (large at top, shrinks on scroll) */}
+        {/* Logo - left. Large at the top of the page; on scroll it shrinks
+            down to what used to be the "top" size (not smaller). */}
         <Link
           href="/"
           aria-label={siteContent.site.name}
@@ -89,21 +90,21 @@ export function SiteHeader() {
             width={220}
             height={93}
             className={`w-auto brightness-0 invert transition-all duration-300 ${
-              scrolled ? "h-9" : "h-14 sm:h-16"
+              scrolled ? "h-14 sm:h-16" : "h-20 sm:h-24"
             }`}
             priority
           />
         </Link>
 
         {/* Nav - right (hidden <lg) */}
-        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-0.5 xl:flex xl:gap-1.5">
           {LEADING_LINKS.map(navLink)}
           <BusinessFunctionsDropdown hoverColorClass="hover:text-[var(--on-brand)]" />
           {TRAILING_LINKS.map(navLink)}
           <button
             type="button"
             onClick={openContact}
-            className="group ml-2 inline-flex items-center gap-2 rounded-full bg-[var(--brand)] px-5 py-2.5 font-body text-[0.8125rem] font-bold uppercase tracking-wide text-[var(--brand-deep)] shadow-[0_4px_14px_-2px_rgba(0,0,0,0.3)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--brand-light)] hover:shadow-[0_8px_22px_-4px_rgba(0,0,0,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-deep)]"
+            className="group ml-1.5 inline-flex flex-shrink-0 items-center gap-2 whitespace-nowrap rounded-full bg-[var(--brand)] px-4 py-2.5 font-body text-sm font-bold uppercase tracking-wide text-[var(--brand-deep)] shadow-[0_4px_14px_-2px_rgba(0,0,0,0.3)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[var(--brand-light)] hover:shadow-[0_8px_22px_-4px_rgba(0,0,0,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--brand-deep)]"
           >
             Get a Quote
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform duration-200 group-hover:translate-x-0.5">
@@ -117,7 +118,7 @@ export function SiteHeader() {
           type="button"
           aria-label="Open menu"
           onClick={openMenu}
-          className="grid size-10 place-items-center rounded-[var(--radius-pill)] bg-white/10 text-[var(--on-brand)] backdrop-blur-sm transition-colors duration-150 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] lg:hidden"
+          className="grid size-10 place-items-center rounded-[var(--radius-pill)] bg-white/10 text-[var(--on-brand)] backdrop-blur-sm transition-colors duration-150 hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] xl:hidden"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <rect y="4" width="20" height="1.4" rx="0.7" fill="currentColor" />

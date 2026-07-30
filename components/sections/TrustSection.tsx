@@ -76,7 +76,7 @@ export function TrustSection({
               as="span"
               stagger={60}
               duration={0.7}
-              className="font-heading font-normal italic leading-[1.02] tracking-tight text-[var(--ink)]"
+              className="font-heading font-normal leading-[1.02] tracking-tight text-[var(--ink)]"
               motionProps={{ style: ghostStyle }}
             >
               global

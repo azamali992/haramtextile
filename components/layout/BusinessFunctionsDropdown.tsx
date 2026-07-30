@@ -71,7 +71,7 @@ export function BusinessFunctionsDropdown({
         aria-current={isActive ? "page" : undefined}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`relative flex items-center gap-1.5 rounded-full px-3.5 py-2 font-body text-[0.8125rem] font-semibold uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] ${
+        className={`relative flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-2 font-body text-sm font-bold uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] ${
           isActive || open
             ? "bg-white/12 text-[var(--brand-light)]"
             : `text-[var(--on-brand)]/80 hover:bg-white/8 ${hoverColorClass}`

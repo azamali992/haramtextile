@@ -3,9 +3,7 @@ import Link from "next/link";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
-import { buildMetadata, buildFaqSchema } from "@/lib/seo";
-import { JsonLd } from "@/components/seo/JsonLd";
-import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import { buildMetadata } from "@/lib/seo";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { PhotoHero } from "@/components/sections/PhotoHero";
 import { SectionHeader } from "@/components/sections/SectionHeader";
@@ -32,32 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-const SUSTAINABILITY_FAQS = [
-  {
-    question: "Is Haram Textile socially compliant?",
-    answer:
-      "Yes. We are BSCI certified (an independently audited standard for safe and fair working conditions), and we also hold OEKO-TEX Standard 100 and ISO 9001:2008 certifications.",
-  },
-  {
-    question: "Which UN Sustainable Development Goals does Haram Textile support?",
-    answer:
-      "Our manufacturing most directly supports SDG 6 (Clean Water & Sanitation), SDG 8 (Decent Work & Economic Growth), SDG 12 (Responsible Consumption & Production), SDG 3 (Good Health & Well-being), SDG 5 (Gender Equality), and SDG 13 (Climate Action).",
-  },
-  {
-    question: "Are Haram Textile's fabrics tested for harmful substances?",
-    answer:
-      "Yes. Our OEKO-TEX Standard 100 certification (AITEX, Spain, Class II) verifies that our textiles are tested against a regulated list of harmful substances, protecting both our workers and the people who wear our garments.",
-  },
-  {
-    question: "How does Haram Textile manage water use in dyeing?",
-    answer:
-      "Dyeing and finishing are the most water-intensive stages of knitwear production. Because these run in-house at our Faisalabad facility, we manage water use directly and are committed to responsible effluent handling.",
-  },
-];
-
 export default function SustainabilityPage() {
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
-  const faqSchema = buildFaqSchema(SUSTAINABILITY_FAQS);
 
   return (
     <main>
@@ -139,7 +113,11 @@ export default function SustainabilityPage() {
             titleClassName="text-title sm:text-display text-[var(--ink)]"
             className="max-w-2xl"
           />
-          <ul className="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-card border border-[var(--hairline)] bg-[var(--hairline)] sm:grid-cols-3">
+          <ul
+            className={`mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-card border border-[var(--hairline)] bg-[var(--hairline)] ${
+              siteContent.certifications.list.length > 1 ? "sm:grid-cols-3" : "sm:max-w-sm"
+            }`}
+          >
             {siteContent.certifications.list.map((cert) => (
               <li
                 key={cert}
@@ -161,10 +139,6 @@ export default function SustainabilityPage() {
           </p>
         </div>
       </section>
-
-      <FaqAccordion faqs={SUSTAINABILITY_FAQS} title="Sustainability FAQs" />
-
-      <JsonLd data={faqSchema} />
     </main>
   );
 }
