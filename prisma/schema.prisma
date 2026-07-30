@@ -64,14 +64,29 @@ model Stat {
   updatedAt DateTime @updatedAt
 }
 
-model TeamMember {
-  id        String   @id @default(cuid())
+/// A team department (e.g. Management, Export & Marketing, Production).
+/// Team members are grouped under a department for the About-page team tabs.
+model Department {
+  id        String       @id @default(cuid())
   name      String
-  role      String
-  email     String
-  order     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  order     Int          @default(0)
+  members   TeamMember[]
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model TeamMember {
+  id           String      @id @default(cuid())
+  name         String
+  role         String
+  email        String
+  order        Int         @default(0)
+  departmentId String?
+  department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([departmentId])
 }
 
 model HeroConfig {

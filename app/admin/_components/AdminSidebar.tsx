@@ -12,6 +12,7 @@ const NAV_ITEMS = [
   { href: "/admin/clients", label: "Clients" },
   { href: "/admin/about", label: "About" },
   { href: "/admin/stats", label: "Stats" },
+  { href: "/admin/departments", label: "Departments" },
   { href: "/admin/team", label: "Team" },
   { href: "/admin/contact", label: "Contact Details" },
   { href: "/admin/submissions", label: "Submissions" },

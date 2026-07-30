@@ -3,38 +3,29 @@
 import { useState } from "react";
 import { adminFetch, AdminApiError } from "@/lib/admin/api-client";
 import { ConfirmDeleteButton } from "../../_components/ConfirmDeleteButton";
-import { TeamMemberFormModal } from "./TeamMemberFormModal";
+import { DepartmentFormModal } from "./DepartmentFormModal";
 
-export interface AdminTeamMember {
+export interface AdminDepartment {
   id: string;
   name: string;
-  role: string;
-  email: string;
   order: number;
-  departmentId: string | null;
   createdAt: string | Date;
   updatedAt: string | Date;
 }
 
-export interface DepartmentOption {
-  id: string;
-  name: string;
+interface DepartmentsClientProps {
+  initialDepartments: AdminDepartment[];
 }
 
-interface TeamClientProps {
-  initialMembers: AdminTeamMember[];
-  departments: DepartmentOption[];
+function sortByOrder(items: AdminDepartment[]): AdminDepartment[] {
+  return [...items].sort((a, b) => a.order - b.order);
 }
 
-function sortByOrder(members: AdminTeamMember[]): AdminTeamMember[] {
-  return [...members].sort((a, b) => a.order - b.order);
-}
-
-export function TeamClient({ initialMembers, departments }: TeamClientProps) {
-  const [members, setMembers] = useState<AdminTeamMember[]>(sortByOrder(initialMembers));
-  const departmentName = (id: string | null) =>
-    id ? (departments.find((d) => d.id === id)?.name ?? "—") : "—";
-  const [editing, setEditing] = useState<AdminTeamMember | null>(null);
+export function DepartmentsClient({ initialDepartments }: DepartmentsClientProps) {
+  const [departments, setDepartments] = useState<AdminDepartment[]>(
+    sortByOrder(initialDepartments),
+  );
+  const [editing, setEditing] = useState<AdminDepartment | null>(null);
   const [isCreating, setIsCreating] = useState(false);
   const [listError, setListError] = useState<string | null>(null);
   const [movingId, setMovingId] = useState<string | null>(null);
@@ -42,53 +33,53 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
   async function handleDelete(id: string) {
     setListError(null);
     try {
-      await adminFetch<void>(`/api/admin/team-members/${id}`, { method: "DELETE" });
-      setMembers((prev) => prev.filter((m) => m.id !== id));
+      await adminFetch<void>(`/api/admin/departments/${id}`, { method: "DELETE" });
+      setDepartments((prev) => prev.filter((d) => d.id !== id));
     } catch (err) {
-      setListError(err instanceof AdminApiError ? err.message : "Failed to delete team member.");
+      setListError(err instanceof AdminApiError ? err.message : "Failed to delete department.");
     }
   }
 
   async function handleMove(index: number, direction: "up" | "down") {
     const neighborIndex = direction === "up" ? index - 1 : index + 1;
-    if (neighborIndex < 0 || neighborIndex >= members.length) {
-      return;
-    }
+    if (neighborIndex < 0 || neighborIndex >= departments.length) return;
 
-    const current = members[index];
-    const neighbor = members[neighborIndex];
+    const current = departments[index];
+    const neighbor = departments[neighborIndex];
 
     setListError(null);
     setMovingId(current.id);
     try {
       const { first, second } = await adminFetch<{
-        first: AdminTeamMember;
-        second: AdminTeamMember;
-      }>("/api/admin/team-members/reorder", {
+        first: AdminDepartment;
+        second: AdminDepartment;
+      }>("/api/admin/departments/reorder", {
         method: "POST",
         body: JSON.stringify({ firstId: current.id, secondId: neighbor.id }),
       });
 
-      setMembers((prev) =>
+      setDepartments((prev) =>
         sortByOrder(
-          prev.map((member) => {
-            if (member.id === first.id) return first;
-            if (member.id === second.id) return second;
-            return member;
+          prev.map((d) => {
+            if (d.id === first.id) return first;
+            if (d.id === second.id) return second;
+            return d;
           }),
         ),
       );
     } catch (err) {
-      setListError(err instanceof AdminApiError ? err.message : "Failed to reorder team member.");
+      setListError(err instanceof AdminApiError ? err.message : "Failed to reorder department.");
     } finally {
       setMovingId(null);
     }
   }
 
-  function handleSaved(member: AdminTeamMember) {
-    setMembers((prev) => {
-      const exists = prev.some((m) => m.id === member.id);
-      const next = exists ? prev.map((m) => (m.id === member.id ? member : m)) : [...prev, member];
+  function handleSaved(department: AdminDepartment) {
+    setDepartments((prev) => {
+      const exists = prev.some((d) => d.id === department.id);
+      const next = exists
+        ? prev.map((d) => (d.id === department.id ? department : d))
+        : [...prev, department];
       return sortByOrder(next);
     });
     setEditing(null);
@@ -99,14 +90,14 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
     <div>
       <div className="mb-4 flex items-center justify-between">
         <p className="text-gray-warm">
-          {members.length} team member{members.length === 1 ? "" : "s"}
+          {departments.length} department{departments.length === 1 ? "" : "s"}
         </p>
         <button
           type="button"
           onClick={() => setIsCreating(true)}
           className="rounded bg-green-primary px-4 py-2 font-medium text-cream-off hover:bg-green-light"
         >
-          Add team member
+          Add department
         </button>
       </div>
 
@@ -122,27 +113,21 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
             <tr className="divide-x divide-cream-dark border-b border-cream-dark text-gray-warm">
               <th className="px-4 py-3 font-medium">Order</th>
               <th className="px-4 py-3 font-medium">Name</th>
-              <th className="px-4 py-3 font-medium">Role</th>
-              <th className="px-4 py-3 font-medium">Department</th>
-              <th className="px-4 py-3 font-medium">Email</th>
               <th className="px-4 py-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-cream-dark">
-            {members.length === 0 ? (
+            {departments.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-gray-warm">
-                  No team members yet. Click &ldquo;Add team member&rdquo; to create the first one.
+                <td colSpan={3} className="px-4 py-8 text-center text-gray-warm">
+                  No departments yet. Click &ldquo;Add department&rdquo; to create the first one.
                 </td>
               </tr>
             ) : (
-              members.map((member, index) => (
-                <tr key={member.id} className="divide-x divide-cream-dark">
-                  <td className="px-4 py-3">{member.order}</td>
-                  <td className="px-4 py-3 font-medium">{member.name}</td>
-                  <td className="px-4 py-3">{member.role}</td>
-                  <td className="px-4 py-3">{departmentName(member.departmentId)}</td>
-                  <td className="px-4 py-3">{member.email}</td>
+              departments.map((department, index) => (
+                <tr key={department.id} className="divide-x divide-cream-dark">
+                  <td className="px-4 py-3">{department.order}</td>
+                  <td className="px-4 py-3 font-medium">{department.name}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button
@@ -156,19 +141,19 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
                       <button
                         type="button"
                         onClick={() => handleMove(index, "down")}
-                        disabled={index === members.length - 1 || movingId !== null}
+                        disabled={index === departments.length - 1 || movingId !== null}
                         className="rounded px-2 py-1 font-medium text-green-primary hover:bg-cream-dark disabled:cursor-not-allowed disabled:opacity-40"
                       >
                         Move down
                       </button>
                       <button
                         type="button"
-                        onClick={() => setEditing(member)}
+                        onClick={() => setEditing(department)}
                         className="rounded px-2 py-1 font-medium text-green-primary hover:bg-cream-dark"
                       >
                         Edit
                       </button>
-                      <ConfirmDeleteButton onConfirm={() => handleDelete(member.id)} />
+                      <ConfirmDeleteButton onConfirm={() => handleDelete(department.id)} />
                     </div>
                   </td>
                 </tr>
@@ -179,9 +164,8 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
       </div>
 
       {(isCreating || editing) && (
-        <TeamMemberFormModal
+        <DepartmentFormModal
           initialValues={editing ?? undefined}
-          departments={departments}
           onClose={() => {
             setIsCreating(false);
             setEditing(null);

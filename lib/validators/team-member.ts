@@ -5,6 +5,14 @@ export const teamMemberCreateSchema = z.object({
   role: z.string().trim().min(1, "role is required").max(200),
   email: z.string().trim().email("email must be a valid email address").max(200),
   order: z.number().int().optional().default(0),
+  // Department the member belongs to (null/empty = unassigned).
+  departmentId: z
+    .string()
+    .trim()
+    .min(1)
+    .nullable()
+    .optional()
+    .or(z.literal("").transform(() => null)),
 });
 
 export const teamMemberUpdateSchema = teamMemberCreateSchema.partial();

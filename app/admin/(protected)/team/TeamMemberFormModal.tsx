@@ -4,16 +4,18 @@ import { useState } from "react";
 import { adminFetch, AdminApiError } from "@/lib/admin/api-client";
 import { Modal } from "../../_components/Modal";
 import { FormFeedback } from "../../_components/FormFeedback";
-import type { AdminTeamMember } from "./TeamClient";
+import type { AdminTeamMember, DepartmentOption } from "./TeamClient";
 
 interface TeamMemberFormValues {
   name: string;
   role: string;
   email: string;
+  departmentId: string;
 }
 
 interface TeamMemberFormModalProps {
   initialValues?: AdminTeamMember;
+  departments: DepartmentOption[];
   onClose: () => void;
   onSaved: (member: AdminTeamMember) => void;
 }
@@ -23,12 +25,14 @@ function toFormValues(member?: AdminTeamMember): TeamMemberFormValues {
     name: member?.name ?? "",
     role: member?.role ?? "",
     email: member?.email ?? "",
+    departmentId: member?.departmentId ?? "",
   };
 }
 
 /** Create/edit modal form for a single team member. */
 export function TeamMemberFormModal({
   initialValues,
+  departments,
   onClose,
   onSaved,
 }: TeamMemberFormModalProps) {
@@ -48,7 +52,12 @@ export function TeamMemberFormModal({
     setErrorDetails(undefined);
     setIsSubmitting(true);
 
-    const payload = { name: values.name, role: values.role, email: values.email };
+    const payload = {
+      name: values.name,
+      role: values.role,
+      email: values.email,
+      departmentId: values.departmentId || null,
+    };
 
     try {
       const member = await adminFetch<AdminTeamMember>(
@@ -129,6 +138,30 @@ export function TeamMemberFormModal({
               onChange={(e) => update("email", e.target.value)}
               className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
             />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="departmentId" className="text-sm font-medium">
+              Department
+            </label>
+            <select
+              id="departmentId"
+              value={values.departmentId}
+              onChange={(e) => update("departmentId", e.target.value)}
+              className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
+            >
+              <option value="">— Unassigned —</option>
+              {departments.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </select>
+            {departments.length === 0 && (
+              <span className="text-xs text-gray-warm">
+                No departments yet — create them on the Departments page first.
+              </span>
+            )}
           </div>
         </section>
 

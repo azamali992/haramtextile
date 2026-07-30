@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getAboutContent } from "@/lib/services/about-content.service";
 import { listStats } from "@/lib/services/stat.service";
 import { listTeamMembers } from "@/lib/services/team-member.service";
+import { listDepartmentsWithMembers } from "@/lib/services/department.service";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { config } from "@/lib/config";
 import { siteContent, resolveStats, resolveTeam } from "@/lib/site-content";
@@ -60,10 +61,11 @@ function formatStatValue(value: number): string {
 }
 
 export default async function AboutPage() {
-  const [aboutContent, dbStats, dbTeam] = await Promise.all([
+  const [aboutContent, dbStats, dbTeam, dbDepartments] = await Promise.all([
     getAboutContent(),
     listStats(),
     listTeamMembers(),
+    listDepartmentsWithMembers(),
   ]);
 
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
@@ -79,6 +81,18 @@ export default async function AboutPage() {
   // Stats + team: DB rows (admin-editable) with static fallback.
   const resolvedStats = resolveStats(dbStats);
   const resolvedTeam = resolveTeam(dbTeam);
+
+  // Team-by-department tabs. Use the DB departments when present; otherwise
+  // fall back to a single "Our Team" tab built from the resolved team so the
+  // section still renders before any departments are created.
+  const teamDepartments =
+    dbDepartments.length > 0
+      ? dbDepartments.map((d) => ({
+          id: d.id,
+          name: d.name,
+          members: d.members.map((m) => ({ name: m.name, role: m.role, email: m.email })),
+        }))
+      : [{ id: "all", name: "Our Team", members: resolvedTeam }];
 
   // `layout="row"` renders exactly 4 equal columns (see StatBand.tsx), so
   // take the first 4 resolved stats in admin order.
@@ -136,7 +150,7 @@ export default async function AboutPage() {
       <AboutSections
         whyPakistan={siteContent.about.whyPakistan}
         usp={siteContent.about.usp}
-        team={resolvedTeam}
+        departments={teamDepartments}
       />
 
       <FaqAccordion faqs={faqSchema} title="Company History & Export Experience FAQs" />
