@@ -94,9 +94,9 @@ export function PullQuote({
       className={
         isPhoto
           ? `relative -mx-2 overflow-hidden sm:-mx-3 ${className}`
-          : `bg-[var(--background)] px-6 py-24 sm:px-10 sm:py-32 ${className}`
+          : `bg-[var(--background)] px-6 py-16 sm:px-10 sm:py-20 ${className}`
       }
-      style={isPhoto ? { minHeight: "60vh" } : undefined}
+      style={isPhoto ? { minHeight: "44vh" } : undefined}
     >
       {isPhoto && (
         <div className="absolute inset-0">
@@ -120,7 +120,7 @@ export function PullQuote({
       <div
         className={
           isPhoto
-            ? "relative flex min-h-[60vh] flex-col items-center justify-center px-6 py-24 text-center sm:px-10"
+            ? "relative flex min-h-[44vh] flex-col items-center justify-center px-6 py-16 text-center sm:px-10"
             : ""
         }
       >

@@ -85,7 +85,7 @@ interface CapabilityBandProps {
  */
 export function CapabilityBand({ className = "" }: CapabilityBandProps) {
   return (
-    <section className={`bg-[var(--background)] px-6 py-20 sm:px-10 ${className}`}>
+    <section className={`bg-[var(--background)] px-6 py-14 sm:px-10 sm:py-16 ${className}`}>
       <div className="mx-auto max-w-[90rem]">
         <SectionHeader
           eyebrow="What we do"

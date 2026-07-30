@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda, Hanken_Grotesk } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { config } from "@/lib/config";
@@ -7,23 +6,6 @@ import { buildMetadata, buildOrganizationSchema, buildWebSiteSchema } from "@/li
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
 import { siteContent } from "@/lib/site-content";
 import { JsonLd } from "@/components/seo/JsonLd";
-
-const displayFont = Bodoni_Moda({
-  subsets: ["latin"],
-  axes: ["opsz"],
-  style: ["normal", "italic"],
-  variable: "--font-heading",
-  display: "swap",
-  preload: true,
-});
-
-const bodyFont = Hanken_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-body",
-  display: "swap",
-  preload: true,
-});
 
 export async function generateMetadata(): Promise<Metadata> {
   const seoSettings = await getSeoSettings().catch(() => null);
@@ -62,7 +44,7 @@ export default async function RootLayout({
   });
 
   return (
-    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`}>
+    <html lang="en">
       {/*
         Adaptive rem-grid scale-UP bootstrap (runs before paint to avoid FOUC).
         Below 1920px the CSS media queries handle scaling via vw units.

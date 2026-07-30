@@ -46,11 +46,11 @@ export function TrustSection({
   const rowTwo = twoRows ? clientLogos.slice(splitAt) : [];
   const loop = (logos: ClientLogoData[]) => [...logos, ...logos];
 
-  const ghostStyle = { fontSize: "clamp(2.5rem, 8.2vw, 10rem)" };
+  const ghostStyle = { fontSize: "clamp(2rem, 5.2vw, 5rem)" };
 
   return (
     <section
-      className="relative isolate overflow-hidden bg-[var(--background)] px-6 py-24 sm:px-10 sm:py-32"
+      className="relative isolate overflow-hidden bg-[var(--background)] px-6 py-16 sm:px-10 sm:py-20"
       aria-labelledby="trust-heading"
     >
       <div className="mx-auto max-w-[90rem]">
@@ -101,7 +101,7 @@ export function TrustSection({
           from={{ opacity: 0, y: 16 }}
           to={{ opacity: 1, y: 0 }}
         >
-          <p className="mt-10 max-w-md border-t border-[var(--hairline)] pt-5 font-body text-caption text-[var(--ink-soft)]">
+          <p className="mt-7 max-w-md border-t border-[var(--hairline)] pt-5 font-body text-caption text-[var(--ink-soft)]">
             <span className="font-heading text-title-sm italic text-[var(--ink)]">
               {yearsOperating}+ years
             </span>{" "}
@@ -113,7 +113,7 @@ export function TrustSection({
         {/* Client logo marquee - single row, or two opposing rows when there
             are enough logos to fill both. */}
         {clientLogos.length > 0 && (
-          <div className="logo-marquee-viewport mt-14" aria-label="Client logos">
+          <div className="logo-marquee-viewport mt-10" aria-label="Client logos">
             {[rowOne, ...(twoRows && rowTwo.length > 0 ? [rowTwo] : [])].map(
               (row, rowIndex) => (
                 <div

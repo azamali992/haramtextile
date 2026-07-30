@@ -45,17 +45,17 @@ export function SiteFooter({ contact }: SiteFooterProps) {
 
   return (
     <footer
-      className="mt-3 rounded-[var(--radius-card-lg)] bg-[var(--brand-deep)] px-6 py-10 text-[var(--on-brand)] sm:px-10 sm:py-12"
+      className="mt-3 rounded-[var(--radius-card-lg)] bg-[var(--brand-deep)] px-6 py-8 text-[var(--on-brand)] sm:px-10 sm:py-9"
       id="footer"
     >
       {/* CTA band */}
-      <div className="flex flex-col items-start justify-between gap-6 border-b border-white/15 pb-10 sm:flex-row sm:items-end">
+      <div className="flex flex-col items-start justify-between gap-4 border-b border-white/15 pb-7 sm:flex-row sm:items-center">
         {/* Left */}
         <div>
           <Eyebrow tone="light">Get started</Eyebrow>
-          <div className="mt-4 font-heading text-5xl font-normal leading-[0.92] tracking-tight sm:text-6xl">
+          <div className="mt-2 font-heading text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
             <RevealLines
-              lines={["Ready to", "start your order?"]}
+              lines={["Ready to start your order?"]}
               stagger={120}
               duration={0.95}
               lineClassName="text-[var(--on-brand)]"
@@ -86,9 +86,9 @@ export function SiteFooter({ contact }: SiteFooterProps) {
       </div>
 
       {/* Columns grid */}
-      <div className="grid grid-cols-1 gap-10 py-10 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
+      <div className="grid grid-cols-1 gap-8 py-8 sm:grid-cols-2 md:grid-cols-[1.4fr_1fr_1fr]">
         {/* Brand column */}
-        <div className="max-w-xs">
+        <div className="max-w-sm">
           <Link href="/" aria-label={siteContent.site.name}>
             <Image
               src="/images/brand/logo2.png"
@@ -98,29 +98,9 @@ export function SiteFooter({ contact }: SiteFooterProps) {
               className="h-8 w-auto brightness-0 invert"
             />
           </Link>
-          <p className="mt-4 font-body text-sm leading-relaxed text-[var(--on-brand)]/80">
+          <p className="mt-3 font-body text-sm leading-relaxed text-[var(--on-brand)]/80">
             {siteContent.home.aboutShort}
           </p>
-          {/* Address */}
-          <address className="mt-6 font-body text-sm not-italic text-[var(--on-brand)]/80">
-            {primaryEmail && (
-              <a
-                href={`mailto:${primaryEmail}`}
-                className="block transition-opacity duration-150 hover:opacity-100 opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
-              >
-                {primaryEmail}
-              </a>
-            )}
-            <a
-              href={`tel:${contact.phone.replace(/\s/g, "")}`}
-              className="mt-1 block opacity-80 transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
-            >
-              {contact.phone}
-            </a>
-            <span className="mt-1 block text-[var(--on-brand)]/55">
-              {contact.address}
-            </span>
-          </address>
         </div>
 
         {/* Catalog links */}
@@ -166,8 +146,27 @@ export function SiteFooter({ contact }: SiteFooterProps) {
         </nav>
       </div>
 
+      {/* Contact line - single row so the address stays on one line */}
+      <address className="flex flex-col gap-x-6 gap-y-1 border-t border-white/15 pt-6 font-body text-sm not-italic text-[var(--on-brand)]/70 sm:flex-row sm:flex-wrap sm:items-center">
+        {primaryEmail && (
+          <a
+            href={`mailto:${primaryEmail}`}
+            className="transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
+          >
+            {primaryEmail}
+          </a>
+        )}
+        <a
+          href={`tel:${contact.phone.replace(/\s/g, "")}`}
+          className="transition-opacity duration-150 hover:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-light)] rounded"
+        >
+          {contact.phone}
+        </a>
+        <span className="text-[var(--on-brand)]/55">{contact.address}</span>
+      </address>
+
       {/* Bottom bar */}
-      <div className="flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-6 flex flex-col gap-4 border-t border-white/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="font-body text-sm text-[var(--on-brand)]/60">
           &copy; {year} {siteContent.site.name}. All rights reserved.
         </p>

@@ -66,7 +66,7 @@ export function StatBand({
 
   return (
     <section
-      className={`rounded-card-lg px-6 py-24 sm:px-10 ${sectionBg} ${className}`}
+      className={`rounded-card-lg px-6 py-16 sm:px-10 sm:py-20 ${sectionBg} ${className}`}
     >
       <div className="mx-auto max-w-[90rem]">
         {/* Header */}

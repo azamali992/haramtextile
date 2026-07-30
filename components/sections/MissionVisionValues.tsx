@@ -32,7 +32,7 @@ export function MissionVisionValues({
   return (
     <section
       aria-labelledby="mission-vision-heading"
-      className={`${sectionBg} px-6 py-24 sm:px-10 ${className}`}
+      className={`${sectionBg} px-6 py-16 sm:px-10 sm:py-20 ${className}`}
     >
       <div className="mx-auto max-w-[90rem]">
         <Eyebrow tone="dark">Mission &amp; vision</Eyebrow>
@@ -47,7 +47,7 @@ export function MissionVisionValues({
         </h2>
 
         {/* Mission (large serif) + Vision (dark card) */}
-        <div className="mt-14 grid grid-cols-1 gap-10 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-8 lg:grid-cols-3">
           <Inview
             stiffness={190}
             damping={26}
@@ -84,7 +84,7 @@ export function MissionVisionValues({
         </div>
 
         {/* Values grid - hairline-divided, dot + name + description */}
-        <div className="mt-16 grid grid-cols-1 gap-x-10 gap-y-10 border-t border-[var(--hairline)] pt-12 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid grid-cols-1 gap-x-10 gap-y-8 border-t border-[var(--hairline)] pt-8 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((value, i) => (
             <Inview
               key={value.name}

@@ -62,8 +62,10 @@ const config: Config = {
         float: "var(--shadow-float)",
       },
       fontFamily: {
-        heading: ["var(--font-heading)", "Georgia", "serif"],
-        body: ["var(--font-body)", "system-ui", "sans-serif"],
+        // Arial site-wide (headings + body). Kept as two names so existing
+        // font-heading/font-body utility classes keep working.
+        heading: ["Arial", "Helvetica", "sans-serif"],
+        body: ["Arial", "Helvetica", "sans-serif"],
       },
       fontSize: {
         // ── Editorial type scale (public site) ──

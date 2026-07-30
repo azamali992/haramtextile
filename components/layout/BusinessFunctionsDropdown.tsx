@@ -71,7 +71,11 @@ export function BusinessFunctionsDropdown({
         aria-current={isActive ? "page" : undefined}
         aria-haspopup="true"
         aria-expanded={open}
-        className={`group relative flex items-center gap-1.5 font-body text-sm font-medium uppercase tracking-wide transition-colors duration-200 ${hoverColorClass} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] rounded-sm`}
+        className={`relative flex items-center gap-1.5 rounded-full px-3.5 py-2 font-body text-[0.8125rem] font-semibold uppercase tracking-wide transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)] ${
+          isActive || open
+            ? "bg-white/12 text-[var(--brand-light)]"
+            : `text-[var(--on-brand)]/80 hover:bg-white/8 ${hoverColorClass}`
+        }`}
       >
         Business Functions
         <svg
@@ -91,12 +95,6 @@ export function BusinessFunctionsDropdown({
         >
           <path d="M6 9l6 6 6-6" />
         </svg>
-        <span
-          className={`pointer-events-none absolute -bottom-1.5 left-0 h-[1.5px] w-full origin-left rounded-full bg-[var(--brand)] transition-transform duration-300 ease-out ${
-            isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-          }`}
-          aria-hidden="true"
-        />
       </Link>
 
       <AnimatePresence>

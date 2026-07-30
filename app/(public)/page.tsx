@@ -11,7 +11,6 @@ import { config } from "@/lib/config";
 import { siteContent, resolveStats } from "@/lib/site-content";
 import { buildMetadata, buildLocalBusinessSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import {
   isPlaceholderImageUrl,
   getFallbackImageForCategory,
@@ -26,7 +25,7 @@ import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
 import { ProductCylinderShowcase } from "@/components/sections/ProductCylinderShowcase";
 import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
-import { ProcessShowcase } from "@/components/sections/ProcessShowcase";
+import { ProcessGrid } from "@/components/sections/ProcessGrid";
 
 export const dynamic = "force-dynamic";
 
@@ -44,37 +43,6 @@ export async function generateMetadata(): Promise<Metadata> {
       siteUrl: config.NEXT_PUBLIC_SITE_URL,
     },
   );
-}
-
-// ─── FAQ data ─────────────────────────────────────────────────────────────────
-
-/** Builds the home FAQ list from the resolved (DB-or-fallback) stats. */
-function buildHomeFaqs(stats: ReadonlyArray<{ label: string; value: number }>) {
-  const byLabel = (label: string) => stats.find((s) => s.label === label)?.value;
-  return [
-    {
-      question: "What does Haram Textile manufacture?",
-      answer: siteContent.home.productLine,
-    },
-    {
-      question: "Where is Haram Textile located?",
-      answer: `Our factory is located at ${siteContent.contact.address}.`,
-    },
-    {
-      question: "What certifications does Haram Textile hold?",
-      answer: `Haram Textile holds ${siteContent.certifications.list.join(", ")}. ${siteContent.certifications.intro}`,
-    },
-    {
-      question: "What is Haram Textile's production capacity?",
-      answer: `We operate ${byLabel("Specialized machines") ?? ""} specialized machines and ${
-        byLabel("Sewing machines") ?? ""
-      } sewing machines across a ${
-        byLabel("Factory area (sq ft)")?.toLocaleString() ?? ""
-      } sq ft facility, with a packing capacity of ${
-        byLabel("Packing capacity (Pcs/month)")?.toLocaleString() ?? ""
-      } pieces per month.`,
-    },
-  ];
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -103,7 +71,6 @@ export default async function HomePage() {
   // Stats: DB rows (admin-editable) with static fallback. The row layout
   // shows 4 columns, so take the first 4 in admin order.
   const resolvedStats = resolveStats(dbStats);
-  const HOME_FAQS = buildHomeFaqs(resolvedStats);
 
   // ── Hero image (fallback as before) ────────────────────────────────────────
   const heroImage =
@@ -249,12 +216,13 @@ export default async function HomePage() {
         items={cylinderItems}
       />
 
-      {/* 8 ── FAQ ──────────────────────────────────────────────────────────── */}
-      <FaqAccordion faqs={HOME_FAQS} />
-
-      {/* 9 ── Process stack - 3D vertical carousel, sits directly above the
+      {/* 8 ── Business Functions - clean process grid, sits directly above the
               footer ─────────────────────────────────────────────────────── */}
-      <ProcessShowcase eyebrow="Our process" steps={processSteps} />
+      <ProcessGrid
+        eyebrow="Our process"
+        title={["Business Functions"]}
+        steps={processSteps}
+      />
 
       {/* JSON-LD (kept exactly as before) */}
       <JsonLd data={localBusinessSchema} />
