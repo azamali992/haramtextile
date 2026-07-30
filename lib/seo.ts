@@ -181,29 +181,6 @@ export function buildProductSchema(input: ProductSchemaInput): object {
   return sanitizeDeep(schema);
 }
 
-export interface FaqEntry {
-  question: string;
-  answer: string;
-}
-
-/** Builds a sanitized schema.org `FAQPage` JSON-LD object. */
-export function buildFaqSchema(faqs: FaqEntry[]): object {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqs.map((faq) => ({
-      "@type": "Question",
-      name: faq.question,
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: faq.answer,
-      },
-    })),
-  };
-
-  return sanitizeDeep(schema);
-}
-
 export interface WebSiteSchemaInput {
   name?: string | null;
   url?: string | null;

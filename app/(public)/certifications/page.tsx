@@ -5,7 +5,6 @@ import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
 import { buildMetadata, buildItemListSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { isPlaceholderImageUrl } from "@/lib/product-image-fallback";
 import { getFallbackImageForProductionStep } from "@/lib/production-image-fallback";
@@ -31,22 +30,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   );
 }
-
-const CERTIFICATIONS_FAQS = [
-  {
-    question: "How long are Haram Textile's certifications valid?",
-    answer:
-      "Each certification is maintained on the issuing body's standard renewal cycle and re-audited periodically to stay current. Contact us for the latest validity dates and audit reports for a specific certificate.",
-  },
-  {
-    question: "Does Haram Textile undergo independent compliance audits?",
-    answer: `Yes. ${siteContent.certifications.intro}`,
-  },
-  {
-    question: "Which certifications does Haram Textile hold?",
-    answer: `Haram Textile holds ${siteContent.certifications.list.join(", ")}.`,
-  },
-];
 
 export default async function CertificationsPage() {
   const certifications = await listCertifications();
@@ -146,8 +129,6 @@ export default async function CertificationsPage() {
         }))}
         photoBackground="/images/about/about-factory.jpg"
       />
-
-      <FaqAccordion faqs={CERTIFICATIONS_FAQS} title="Validity, Audits & Compliance FAQs" />
 
       <JsonLd data={itemListSchema} />
     </main>

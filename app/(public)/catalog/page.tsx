@@ -7,7 +7,6 @@ import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
 import { buildMetadata, buildItemListSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { isPlaceholderImageUrl, getFallbackImageForCategory } from "@/lib/product-image-fallback";
 import { SectionHeader } from "@/components/sections/SectionHeader";
@@ -30,28 +29,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   );
 }
-
-const PRODUCTS_FAQS = [
-  {
-    question: "Is there a minimum order quantity (MOQ)?",
-    answer:
-      "MOQ varies by style and fabric. Contact our export team with your target quantity and we will confirm pricing and lead time for your order.",
-  },
-  {
-    question: "Can products be customized?",
-    answer:
-      "Yes. " +
-      siteContent.home.fashionConcepts,
-  },
-  {
-    question: "What fabrics does Haram Textile work with?",
-    answer: siteContent.home.products,
-  },
-  {
-    question: "What product categories are available?",
-    answer: `We manufacture ${siteContent.productCategories.map((c) => c.name).join(", ")}, covering knitwear, T-shirts, polo shirts, sweatshirts, and more.`,
-  },
-];
 
 interface ProductsPageProps {
   searchParams: { category?: string };
@@ -175,8 +152,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
         categories={categories}
         initialCategory={activeCategory}
       />
-
-      <FaqAccordion faqs={PRODUCTS_FAQS} title="Ordering, MOQ & Customization FAQs" />
 
       <JsonLd data={itemListSchema} />
     </main>

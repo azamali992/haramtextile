@@ -8,7 +8,6 @@ import { config } from "@/lib/config";
 import { siteContent, resolveStats, resolveTeam } from "@/lib/site-content";
 import { buildMetadata, buildAboutPageSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { AboutHero } from "@/components/sections/AboutHero";
 import { StatBand } from "@/components/sections/StatBand";
@@ -34,25 +33,6 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-const ABOUT_FAQS = [
-  {
-    question: "When was Haram Textile founded?",
-    answer: `Haram Textile was founded on ${new Date(siteContent.site.founded).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}.`,
-  },
-  {
-    question: "Why manufacture apparel in Pakistan?",
-    answer: siteContent.about.whyPakistan.join("; ") + ".",
-  },
-  {
-    question: "What is Haram Textile's mission and vision?",
-    answer: `Mission: ${siteContent.about.mission}. Vision: ${siteContent.about.vision}.`,
-  },
-  {
-    question: "What does Haram Textile value as a company?",
-    answer: `Our core values are ${siteContent.about.values.map((v) => v.name).join(", ")}.`,
-  },
-];
-
 /** Format stats for StatBand - abbreviate large numbers */
 function formatStatValue(value: number): string {
   if (value >= 1_000_000) return `${Math.round(value / 1_000_000)}M+`;
@@ -75,8 +55,6 @@ export default async function AboutPage() {
     description: siteContent.about.intro,
     url: `${baseUrl}/about`,
   });
-
-  const faqSchema = ABOUT_FAQS;
 
   // Stats + team: DB rows (admin-editable) with static fallback.
   const resolvedStats = resolveStats(dbStats);
@@ -152,8 +130,6 @@ export default async function AboutPage() {
         usp={siteContent.about.usp}
         departments={teamDepartments}
       />
-
-      <FaqAccordion faqs={faqSchema} title="Company History & Export Experience FAQs" />
 
       <JsonLd data={aboutPageSchema} />
     </main>

@@ -6,7 +6,6 @@ import { config } from "@/lib/config";
 import { siteContent, resolveStats } from "@/lib/site-content";
 import { buildMetadata, buildHowToSchema } from "@/lib/seo";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { StatBand } from "@/components/sections/StatBand";
 import { PhotoHero } from "@/components/sections/PhotoHero";
@@ -32,31 +31,6 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-/** Builds the production FAQ list from the resolved (DB-or-fallback) stats. */
-function buildProductionFaqs(stats: ReadonlyArray<{ label: string; value: number }>) {
-  const byLabel = (label: string) => stats.find((s) => s.label === label)?.value;
-  return [
-    {
-      question: "How many stages does Haram Textile's production process have?",
-      answer:
-        "Production runs through seven stages: Knitting, Dyeing, Cutting, Printing, Embroidery, Sewing, and Finishing & Packing - all completed in-house at our Faisalabad facility.",
-    },
-    {
-      question: "What is Haram Textile's sewing and packing capacity?",
-      answer: `We operate ${byLabel("Sewing machines") ?? 160} sewing machines and pack more than ${
-        byLabel("Packing capacity (Pcs/month)")?.toLocaleString() ?? "600,000"
-      } pieces per month, backed by ${
-        byLabel("Workers & staff") ?? 350
-      } workers and staff across the factory floor.`,
-    },
-    {
-      question: "Can printing and embroidery be customized per order?",
-      answer:
-        "Yes. Our printing department supports screen printing, heat transfer, puff print, rubber print, high-density print, flocking, glitter, foil, and discharge printing through a dedicated design studio producing up to 5,000 garment cut panels per day, while our embroidery line ranges from simple to complex multi-needle designs for both small and large volume orders.",
-    },
-  ];
-}
-
 /** Abbreviate large numbers for StatBand display */
 function formatStatValue(value: number): string {
   if (value >= 1_000_000) return `${Math.round(value / 1_000_000)}M+`;
@@ -69,7 +43,6 @@ export default async function ProductionPage() {
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
 
   const resolvedStats = resolveStats(dbStats);
-  const PRODUCTION_FAQS = buildProductionFaqs(resolvedStats);
 
   const howToSchema = buildHowToSchema({
     name: "How Haram Textile Manufactures Apparel",
@@ -152,8 +125,6 @@ export default async function ProductionPage() {
         layout="row"
         className="mx-2 sm:mx-3"
       />
-
-      <FaqAccordion faqs={PRODUCTION_FAQS} title="Production Process FAQs" />
 
       <JsonLd data={howToSchema} />
     </main>
