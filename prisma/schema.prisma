@@ -97,6 +97,7 @@ model HeroConfig {
   ctaLink       String?
   imageUrl      String?
   imagePublicId String?
+  variant       String   @default("classic")
   updatedAt     DateTime @updatedAt
 }
 

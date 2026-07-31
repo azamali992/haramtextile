@@ -13,10 +13,12 @@ export interface AdminHeroConfig {
   ctaLink: string | null;
   imageUrl: string | null;
   imagePublicId: string | null;
+  variant: string;
   updatedAt: string | Date;
 }
 
 interface HeroFormValues {
+  variant: string;
   headline: string;
   subtext: string;
   ctaText: string;
@@ -27,6 +29,7 @@ interface HeroFormValues {
 
 function toFormValues(hero: AdminHeroConfig | null): HeroFormValues {
   return {
+    variant: hero?.variant ?? "classic",
     headline: hero?.headline ?? "",
     subtext: hero?.subtext ?? "",
     ctaText: hero?.ctaText ?? "",
@@ -60,6 +63,7 @@ export function HeroFormClient({ initialHero }: HeroFormClientProps) {
     setIsSubmitting(true);
 
     const payload = {
+      variant: values.variant,
       headline: values.headline,
       subtext: values.subtext || null,
       ctaText: values.ctaText || null,
@@ -99,6 +103,34 @@ export function HeroFormClient({ initialHero }: HeroFormClientProps) {
       >
         <FormFeedback message={error} details={errorDetails} />
         <SuccessBanner message={success} />
+
+        <div className="flex flex-col gap-1">
+          <span className="text-sm font-medium">Hero style</span>
+          <div className="flex flex-col gap-2">
+            <label className="flex cursor-pointer items-center gap-2 text-sm">
+              <input
+                type="radio"
+                name="variant"
+                value="classic"
+                checked={values.variant === "classic"}
+                onChange={() => update("variant", "classic")}
+                className="accent-green-primary"
+              />
+              Classic (full-bleed photo)
+            </label>
+            <label className="flex cursor-pointer items-center gap-2 text-sm">
+              <input
+                type="radio"
+                name="variant"
+                value="split"
+                checked={values.variant === "split"}
+                onChange={() => update("variant", "split")}
+                className="accent-green-primary"
+              />
+              Split (photo inset, light background)
+            </label>
+          </div>
+        </div>
 
         <div className="flex flex-col gap-1">
           <label htmlFor="headline" className="text-sm font-medium">

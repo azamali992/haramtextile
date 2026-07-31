@@ -19,6 +19,7 @@ import { getFallbackImageForProductionStep } from "@/lib/production-image-fallba
 
 // ─── Section components ───────────────────────────────────────────────────────
 import { HeroSection } from "@/components/sections/HeroSection";
+import { HeroSplit } from "@/components/sections/HeroSplit";
 import { CapabilityBand } from "@/components/sections/CapabilityBand";
 import { TrustSection } from "@/components/sections/TrustSection";
 import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
@@ -165,14 +166,24 @@ export default async function HomePage() {
      * rounded-card framing against the cream page background.
      */
     <main className="px-2 sm:px-3">
-      {/* 1 ── Hero ──────────────────────────────────────────────────────────── */}
-      <HeroSection
-        headline={heroConfig?.headline ?? siteContent.site.tagline}
-        subtext={heroConfig?.subtext ?? "Crafted for, Global Markets"}
-        ctaText={heroConfig?.ctaText ?? "Get a Quote"}
-        ctaLink={heroConfig?.ctaLink ?? null}
-        heroImage={heroImage}
-      />
+      {/* 1 ── Hero - admin-selectable variant ─────────────────────────────────── */}
+      {heroConfig?.variant === "split" ? (
+        <HeroSplit
+          headline={heroConfig?.headline ?? siteContent.site.tagline}
+          subtext={heroConfig?.subtext ?? "Crafted for, Global Markets"}
+          ctaText={heroConfig?.ctaText ?? "Get a Quote"}
+          ctaLink={heroConfig?.ctaLink ?? null}
+          heroImage={heroImage}
+        />
+      ) : (
+        <HeroSection
+          headline={heroConfig?.headline ?? siteContent.site.tagline}
+          subtext={heroConfig?.subtext ?? "Crafted for, Global Markets"}
+          ctaText={heroConfig?.ctaText ?? "Get a Quote"}
+          ctaLink={heroConfig?.ctaLink ?? null}
+          heroImage={heroImage}
+        />
+      )}
 
       {/* 2 ── Capability band - what we do, at a glance ─────────────────────── */}
       <CapabilityBand />

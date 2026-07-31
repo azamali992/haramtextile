@@ -7,6 +7,7 @@ export const heroUpdateSchema = z.object({
   ctaLink: z.string().trim().max(300).optional().nullable(),
   imageUrl: z.string().trim().url("imageUrl must be a valid URL").optional().nullable(),
   imagePublicId: z.string().trim().optional().nullable(),
+  variant: z.enum(["classic", "split"]).optional(),
 });
 
 export type HeroUpdateInput = z.infer<typeof heroUpdateSchema>;
