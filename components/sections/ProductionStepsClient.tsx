@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { Inview } from "@/components/motion/Inview";
 import { RevealLines } from "@/components/motion/RevealLines";
@@ -18,6 +19,74 @@ interface ProductionStep {
 interface ProductionStepsClientProps {
   steps: ProductionStep[];
   totalSteps: number;
+}
+
+/**
+ * Photo + thumbnail strip for a single step. The main image swaps to
+ * whichever thumbnail is clicked; the strip scrolls horizontally
+ * (`overflow-x-auto`) so a step with several gallery photos stays usable on
+ * narrow viewports instead of squeezing every thumbnail down to fit.
+ */
+function StepFigure({
+  title,
+  imageUrl,
+  galleryImages,
+  eager,
+}: {
+  title: string;
+  imageUrl: string;
+  galleryImages: { id: string; imageUrl: string }[];
+  eager: boolean;
+}) {
+  const images = [{ id: "main", imageUrl }, ...galleryImages];
+  const [activeId, setActiveId] = useState("main");
+  const active = images.find((img) => img.id === activeId) ?? images[0];
+
+  return (
+    <figure>
+      <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-card bg-[var(--surface)]">
+        <Image
+          key={active.id}
+          src={active.imageUrl}
+          alt={`${title} stage at Haram Textile's Faisalabad factory`}
+          fill
+          sizes="(max-width: 1024px) 100vw, 50vw"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          loading={eager ? "eager" : "lazy"}
+          priority={eager}
+        />
+      </div>
+      <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
+        {title} - Haram Textile, Faisalabad
+      </figcaption>
+
+      {images.length > 1 && (
+        <div
+          className="mt-3 flex snap-x snap-mandatory gap-2 overflow-x-auto pb-1"
+          role="list"
+          aria-label={`${title} gallery photos`}
+        >
+          {images.map((img) => (
+            <button
+              key={img.id}
+              type="button"
+              role="listitem"
+              onClick={() => setActiveId(img.id)}
+              aria-current={img.id === activeId}
+              aria-label={`View ${title} photo`}
+              className={`relative aspect-square w-16 flex-shrink-0 snap-start overflow-hidden rounded-lg bg-[var(--surface)] transition sm:w-20 ${
+                img.id === activeId
+                  ? "ring-2 ring-[var(--brand)]"
+                  : "opacity-70 hover:opacity-100"
+              }`}
+            >
+              <Image src={img.imageUrl} alt="" fill sizes="80px" className="object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </figure>
+  );
 }
 
 /**
@@ -49,41 +118,12 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
               to={{ opacity: 1, y: 0 }}
               className={isReversed ? "lg:order-2" : ""}
             >
-              <figure>
-                <div className="group relative aspect-[4/3] w-full overflow-hidden rounded-card bg-[var(--surface)]">
-                  <Image
-                    src={step.imageUrl}
-                    alt={`${step.title} stage at Haram Textile's Faisalabad factory`}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 50vw"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                    loading={index < 2 ? "eager" : "lazy"}
-                    priority={index < 2}
-                  />
-                </div>
-                <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
-                  {step.title} - Haram Textile, Faisalabad
-                </figcaption>
-
-                {step.galleryImages && step.galleryImages.length > 0 && (
-                  <div className="mt-3 flex gap-2">
-                    {step.galleryImages.map((img) => (
-                      <div
-                        key={img.id}
-                        className="relative aspect-square w-16 overflow-hidden rounded-lg bg-[var(--surface)] sm:w-20"
-                      >
-                        <Image
-                          src={img.imageUrl}
-                          alt={`${step.title} - additional photo`}
-                          fill
-                          sizes="80px"
-                          className="object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </figure>
+              <StepFigure
+                title={step.title}
+                imageUrl={step.imageUrl}
+                galleryImages={step.galleryImages ?? []}
+                eager={index < 2}
+              />
             </Inview>
 
             {/* Text column with ghost numeral */}
