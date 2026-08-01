@@ -10,6 +10,7 @@ export interface AdminTeamMember {
   name: string;
   role: string;
   email: string;
+  phone: string | null;
   order: number;
   departmentId: string | null;
   createdAt: string | Date;
@@ -125,13 +126,14 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
               <th className="px-4 py-3 font-medium">Role</th>
               <th className="px-4 py-3 font-medium">Department</th>
               <th className="px-4 py-3 font-medium">Email</th>
+              <th className="px-4 py-3 font-medium">Phone</th>
               <th className="px-4 py-3 font-medium">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-cream-dark">
             {members.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-8 text-center text-gray-warm">
+                <td colSpan={7} className="px-4 py-8 text-center text-gray-warm">
                   No team members yet. Click &ldquo;Add team member&rdquo; to create the first one.
                 </td>
               </tr>
@@ -143,6 +145,7 @@ export function TeamClient({ initialMembers, departments }: TeamClientProps) {
                   <td className="px-4 py-3">{member.role}</td>
                   <td className="px-4 py-3">{departmentName(member.departmentId)}</td>
                   <td className="px-4 py-3">{member.email}</td>
+                  <td className="px-4 py-3">{member.phone || "—"}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-1">
                       <button

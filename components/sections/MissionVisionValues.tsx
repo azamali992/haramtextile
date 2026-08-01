@@ -102,7 +102,7 @@ export function MissionVisionValues({
                 <h3 className="mt-4 font-heading text-title-sm font-normal text-[var(--ink)] transition-colors duration-200 group-hover:text-[var(--brand-strong)]">
                   {value.name}
                 </h3>
-                <p className="mt-2 font-body text-body leading-relaxed text-[var(--ink-soft)]">
+                <p className="mt-2 font-body text-body-lg leading-relaxed text-[var(--ink-soft)]">
                   {value.description}
                 </p>
               </div>

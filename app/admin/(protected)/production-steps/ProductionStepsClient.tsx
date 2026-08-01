@@ -5,6 +5,13 @@ import { adminFetch, AdminApiError } from "@/lib/admin/api-client";
 import { ConfirmDeleteButton } from "../../_components/ConfirmDeleteButton";
 import { ProductionStepFormModal } from "./ProductionStepFormModal";
 
+export interface AdminProductionStepImage {
+  id: string;
+  imageUrl: string;
+  imagePublicId: string;
+  order: number;
+}
+
 export interface AdminProductionStep {
   id: string;
   title: string;
@@ -15,6 +22,7 @@ export interface AdminProductionStep {
   imageUrl: string;
   imagePublicId: string;
   order: number;
+  galleryImages: AdminProductionStepImage[];
   createdAt: string | Date;
   updatedAt: string | Date;
 }
@@ -192,6 +200,11 @@ export function ProductionStepsClient({ initialProductionSteps }: ProductionStep
             setEditing(null);
           }}
           onSaved={handleSaved}
+          onGalleryChange={(stepId, galleryImages) => {
+            setProductionSteps((prev) =>
+              prev.map((s) => (s.id === stepId ? { ...s, galleryImages } : s)),
+            );
+          }}
         />
       )}
     </div>

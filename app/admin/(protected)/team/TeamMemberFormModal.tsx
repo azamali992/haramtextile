@@ -10,6 +10,7 @@ interface TeamMemberFormValues {
   name: string;
   role: string;
   email: string;
+  phone: string;
   departmentId: string;
 }
 
@@ -25,6 +26,7 @@ function toFormValues(member?: AdminTeamMember): TeamMemberFormValues {
     name: member?.name ?? "",
     role: member?.role ?? "",
     email: member?.email ?? "",
+    phone: member?.phone ?? "",
     departmentId: member?.departmentId ?? "",
   };
 }
@@ -56,6 +58,7 @@ export function TeamMemberFormModal({
       name: values.name,
       role: values.role,
       email: values.email,
+      phone: values.phone || null,
       departmentId: values.departmentId || null,
     };
 
@@ -136,6 +139,20 @@ export function TeamMemberFormModal({
               placeholder="name@haramtextile.com"
               value={values.email}
               onChange={(e) => update("email", e.target.value)}
+              className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
+            />
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="phone" className="text-sm font-medium">
+              Phone
+            </label>
+            <input
+              id="phone"
+              maxLength={30}
+              placeholder="+92 300 1234567"
+              value={values.phone}
+              onChange={(e) => update("phone", e.target.value)}
               className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
             />
           </div>

@@ -25,7 +25,7 @@ const CAPABILITIES: Capability[] = [
   {
     label: "Knitting & Dyeing",
     description:
-      "State-of-the-art knitting for fleece, terry, rib and jacquard fabrics, finished with in-house dyeing and garment washing.",
+      "State-of-the-art in-house knitting setup for fleece, terry, rib and jacquard fabrics, with specialized dyeing outsourced to trusted partners for consistent finishing and garment washing.",
     href: "/production#knitting",
     icon: (
       <svg {...ICON_PROPS}>

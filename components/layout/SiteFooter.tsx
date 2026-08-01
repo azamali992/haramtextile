@@ -13,7 +13,7 @@ import { siteContent, type ResolvedContact } from "@/lib/site-content";
 const PRODUCT_LINKS = [
   { href: "/catalog?category=boys", label: "Boys Collection" },
   { href: "/catalog?category=girls", label: "Girls Collection" },
-  { href: "/catalog?category=gents", label: "Gents Collection" },
+  { href: "/catalog?category=gents", label: "Mens Collection" },
   { href: "/catalog?category=ladies", label: "Ladies Collection" },
 ];
 

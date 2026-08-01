@@ -12,6 +12,7 @@ interface ProductionStep {
   statLabel: string | null;
   statValue: string | null;
   imageUrl: string;
+  galleryImages?: { id: string; imageUrl: string }[];
 }
 
 interface ProductionStepsClientProps {
@@ -63,6 +64,25 @@ export function ProductionStepsClient({ steps, totalSteps }: ProductionStepsClie
                 <figcaption className="mt-3 font-body text-caption text-[var(--ink-soft)]">
                   {step.title} - Haram Textile, Faisalabad
                 </figcaption>
+
+                {step.galleryImages && step.galleryImages.length > 0 && (
+                  <div className="mt-3 flex gap-2">
+                    {step.galleryImages.map((img) => (
+                      <div
+                        key={img.id}
+                        className="relative aspect-square w-16 overflow-hidden rounded-lg bg-[var(--surface)] sm:w-20"
+                      >
+                        <Image
+                          src={img.imageUrl}
+                          alt={`${step.title} - additional photo`}
+                          fill
+                          sizes="80px"
+                          className="object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </figure>
             </Inview>
 

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getSeoSettings } from "@/lib/services/seo-settings.service";
+import { listCertifications } from "@/lib/services/certification.service";
 import { config } from "@/lib/config";
 import { siteContent } from "@/lib/site-content";
 import { buildMetadata } from "@/lib/seo";
@@ -30,8 +31,16 @@ export async function generateMetadata(): Promise<Metadata> {
   );
 }
 
-export default function SustainabilityPage() {
+export default async function SustainabilityPage() {
   const baseUrl = config.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+
+  // Certification names: DB rows (admin-editable) with static fallback, so a
+  // new certification added via /admin/certifications shows up here too.
+  const dbCertifications = await listCertifications();
+  const certificationNames =
+    dbCertifications.length > 0
+      ? dbCertifications.map((c) => c.name)
+      : siteContent.certifications.list;
 
   return (
     <main>
@@ -115,10 +124,10 @@ export default function SustainabilityPage() {
           />
           <ul
             className={`mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-card border border-[var(--hairline)] bg-[var(--hairline)] ${
-              siteContent.certifications.list.length > 1 ? "sm:grid-cols-3" : "sm:max-w-sm"
+              certificationNames.length > 1 ? "sm:grid-cols-3" : "sm:max-w-sm"
             }`}
           >
-            {siteContent.certifications.list.map((cert) => (
+            {certificationNames.map((cert) => (
               <li
                 key={cert}
                 className="bg-[var(--surface-card)] p-7 font-heading text-title-sm font-normal text-[var(--ink)]"

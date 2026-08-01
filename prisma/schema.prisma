@@ -80,6 +80,7 @@ model TeamMember {
   name         String
   role         String
   email        String
+  phone        String?
   order        Int         @default(0)
   departmentId String?
   department   Department? @relation(fields: [departmentId], references: [id], onDelete: SetNull)
@@ -133,17 +134,33 @@ model ClientLogo {
 }
 
 model ProductionStep {
-  id            String   @id @default(cuid())
+  id            String                @id @default(cuid())
   title         String
-  slug          String   @unique
+  slug          String                @unique
   description   String
   statLabel     String?
   statValue     String?
   imageUrl      String
   imagePublicId String
-  order         Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  order         Int                   @default(0)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  galleryImages ProductionStepImage[]
+}
+
+/// Additional gallery photos (3-4 typical) for a single production step,
+/// shown alongside the step's primary `imageUrl` once the client supplies
+/// them. Deleted automatically if the parent step is deleted.
+model ProductionStepImage {
+  id               String         @id @default(cuid())
+  productionStepId String
+  productionStep   ProductionStep @relation(fields: [productionStepId], references: [id], onDelete: Cascade)
+  imageUrl         String
+  imagePublicId    String
+  order            Int            @default(0)
+  createdAt        DateTime       @default(now())
+
+  @@index([productionStepId])
 }
 
 model ContactSubmission {

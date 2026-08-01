@@ -2,6 +2,7 @@ import * as productionStepRepository from "@/lib/repositories/production-step.re
 import type {
   ProductionStepCreateInput,
   ProductionStepUpdateInput,
+  ProductionStepImageCreateInput,
 } from "@/lib/validators/production-step";
 import { deleteImage } from "@/lib/storage";
 import { logger, newRequestId } from "@/lib/logger";
@@ -51,12 +52,42 @@ export async function deleteProductionStep(id: string) {
   if (existing?.imagePublicId) {
     void cleanupOldImage(existing.imagePublicId);
   }
+  for (const image of existing?.galleryImages ?? []) {
+    void cleanupOldImage(image.imagePublicId);
+  }
 
   return deleted;
 }
 
 export function swapProductionStepOrder(firstId: string, secondId: string) {
   return productionStepRepository.swapProductionStepOrder(firstId, secondId);
+}
+
+/** Appends a gallery photo to a production step, ordered after any existing ones. */
+export async function addProductionStepGalleryImage(
+  productionStepId: string,
+  data: ProductionStepImageCreateInput,
+) {
+  const count = await productionStepRepository.countProductionStepImages(productionStepId);
+  return productionStepRepository.addProductionStepImage(productionStepId, {
+    ...data,
+    order: count,
+  });
+}
+
+/**
+ * Removes a single gallery photo, then best-effort deletes its Cloudinary
+ * asset afterwards (fire-and-forget, same pattern as the main step image).
+ */
+export async function removeProductionStepGalleryImage(imageId: string) {
+  const existing = await productionStepRepository.findProductionStepImageById(imageId);
+  const deleted = await productionStepRepository.deleteProductionStepImage(imageId);
+
+  if (existing?.imagePublicId) {
+    void cleanupOldImage(existing.imagePublicId);
+  }
+
+  return deleted;
 }
 
 /** Best-effort Cloudinary cleanup: log and swallow any failure. */

@@ -73,6 +73,7 @@ export default async function ProductionPage() {
     imageUrl: isPlaceholderImageUrl(step.imageUrl)
       ? getFallbackImageForProductionStep(step.slug)
       : step.imageUrl,
+    galleryImages: step.galleryImages.map((img) => ({ id: img.id, imageUrl: img.imageUrl })),
   }));
 
   return (

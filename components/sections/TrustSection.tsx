@@ -101,7 +101,7 @@ export function TrustSection({
           from={{ opacity: 0, y: 16 }}
           to={{ opacity: 1, y: 0 }}
         >
-          <p className="mt-7 max-w-md border-t border-[var(--hairline)] pt-5 font-body text-caption text-[var(--ink-soft)]">
+          <p className="mt-7 max-w-md border-t border-[var(--hairline)] pt-5 font-body text-body text-[var(--ink-soft)]">
             <span className="font-heading text-title-sm italic text-[var(--ink)]">
               {yearsOperating}+ years
             </span>{" "}

@@ -5,7 +5,7 @@ import { adminFetch, AdminApiError } from "@/lib/admin/api-client";
 import { Modal } from "../../_components/Modal";
 import { FormFeedback } from "../../_components/FormFeedback";
 import { ImageUploadField } from "../../_components/ImageUploadField";
-import type { AdminProductionStep } from "./ProductionStepsClient";
+import type { AdminProductionStep, AdminProductionStepImage } from "./ProductionStepsClient";
 
 interface ProductionStepFormValues {
   title: string;
@@ -21,6 +21,7 @@ interface ProductionStepFormModalProps {
   initialValues?: AdminProductionStep;
   onClose: () => void;
   onSaved: (productionStep: AdminProductionStep) => void;
+  onGalleryChange?: (stepId: string, galleryImages: AdminProductionStepImage[]) => void;
 }
 
 function toFormValues(productionStep?: AdminProductionStep): ProductionStepFormValues {
@@ -49,12 +50,65 @@ export function ProductionStepFormModal({
   initialValues,
   onClose,
   onSaved,
+  onGalleryChange,
 }: ProductionStepFormModalProps) {
   const isEditing = Boolean(initialValues);
   const [values, setValues] = useState<ProductionStepFormValues>(toFormValues(initialValues));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [errorDetails, setErrorDetails] = useState<unknown>(undefined);
+
+  const [galleryImages, setGalleryImages] = useState<AdminProductionStepImage[]>(
+    initialValues?.galleryImages ?? [],
+  );
+  const [galleryUploadKey, setGalleryUploadKey] = useState(0);
+  const [isAddingImage, setIsAddingImage] = useState(false);
+  const [galleryError, setGalleryError] = useState<string | null>(null);
+
+  async function handleAddGalleryImage(result: { url: string; imagePublicId: string }) {
+    if (!initialValues) return;
+    setGalleryError(null);
+    setIsAddingImage(true);
+    try {
+      const image = await adminFetch<AdminProductionStepImage>(
+        `/api/admin/production-steps/${initialValues.id}/images`,
+        {
+          method: "POST",
+          body: JSON.stringify({ imageUrl: result.url, imagePublicId: result.imagePublicId }),
+        },
+      );
+      setGalleryImages((prev) => {
+        const next = [...prev, image];
+        onGalleryChange?.(initialValues.id, next);
+        return next;
+      });
+    } catch (err) {
+      setGalleryError(err instanceof AdminApiError ? err.message : "Failed to add gallery image.");
+    } finally {
+      setIsAddingImage(false);
+      setGalleryUploadKey((k) => k + 1);
+    }
+  }
+
+  async function handleRemoveGalleryImage(imageId: string) {
+    if (!initialValues) return;
+    setGalleryError(null);
+    try {
+      await adminFetch<void>(
+        `/api/admin/production-steps/${initialValues.id}/images/${imageId}`,
+        { method: "DELETE" },
+      );
+      setGalleryImages((prev) => {
+        const next = prev.filter((img) => img.id !== imageId);
+        onGalleryChange?.(initialValues.id, next);
+        return next;
+      });
+    } catch (err) {
+      setGalleryError(
+        err instanceof AdminApiError ? err.message : "Failed to remove gallery image.",
+      );
+    }
+  }
 
   function update<K extends keyof ProductionStepFormValues>(
     key: K,
@@ -213,6 +267,56 @@ export function ProductionStepFormModal({
               update("imagePublicId", imagePublicId);
             }}
           />
+
+          <div className="flex flex-col gap-2 rounded border border-cream-dark p-3">
+            <h3 className="text-sm font-medium text-brown-deep">
+              Gallery photos (optional, 3-4 recommended)
+            </h3>
+
+            {isEditing ? (
+              <>
+                {galleryImages.length > 0 && (
+                  <div className="flex flex-wrap gap-3">
+                    {galleryImages.map((img) => (
+                      <div key={img.id} className="relative">
+                        {/* eslint-disable-next-line @next/next/no-img-element -- admin thumbnail of a remote Cloudinary URL */}
+                        <img
+                          src={img.imageUrl}
+                          alt=""
+                          className="h-20 w-20 rounded border border-cream-dark object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleRemoveGalleryImage(img.id)}
+                          aria-label="Remove gallery image"
+                          className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-700 text-xs font-medium text-white hover:bg-red-800"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <ImageUploadField
+                  key={galleryUploadKey}
+                  label="Add a gallery photo"
+                  imageUrl={null}
+                  onChange={(result) => {
+                    handleAddGalleryImage(result).catch(() =>
+                      setGalleryError("Failed to add gallery image."),
+                    );
+                  }}
+                />
+                {isAddingImage && <p className="text-xs text-gray-warm">Adding photo…</p>}
+                {galleryError && <p className="text-xs text-red-700">{galleryError}</p>}
+              </>
+            ) : (
+              <p className="text-xs text-gray-warm">
+                Save this production step first, then reopen it here to add gallery photos.
+              </p>
+            )}
+          </div>
         </section>
 
         <div className="flex justify-end gap-2 border-t border-cream-dark pt-4">

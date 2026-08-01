@@ -22,3 +22,10 @@ export const productionStepUpdateSchema = productionStepCreateSchema.partial();
 
 export type ProductionStepCreateInput = z.infer<typeof productionStepCreateSchema>;
 export type ProductionStepUpdateInput = z.infer<typeof productionStepUpdateSchema>;
+
+export const productionStepImageCreateSchema = z.object({
+  imageUrl: z.string().trim().url("imageUrl must be a valid URL"),
+  imagePublicId: z.string().trim().min(1, "imagePublicId is required"),
+});
+
+export type ProductionStepImageCreateInput = z.infer<typeof productionStepImageCreateSchema>;

@@ -68,7 +68,7 @@ export default async function AboutPage() {
       ? dbDepartments.map((d) => ({
           id: d.id,
           name: d.name,
-          members: d.members.map((m) => ({ name: m.name, role: m.role, email: m.email })),
+          members: d.members.map((m) => ({ name: m.name, role: m.role, email: m.email, phone: m.phone })),
         }))
       : [{ id: "all", name: "Our Team", members: resolvedTeam }];
 

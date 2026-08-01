@@ -93,7 +93,7 @@ export function ProcessGrid({
                 className="group flex aspect-[4/5] flex-col items-start justify-between rounded-card bg-[var(--brand-deep)] p-6 text-[var(--on-brand)] transition-colors duration-200 hover:bg-[var(--brand-deeper)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand)]"
               >
                 <span className="font-body text-xs font-medium uppercase tracking-[0.22em] text-[var(--on-brand)]/70">
-                  In-house, end to end
+                  Semi vertical, end to end
                 </span>
                 <span className="font-heading text-2xl font-semibold leading-tight">
                   Explore our full process

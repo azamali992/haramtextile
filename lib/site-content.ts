@@ -16,6 +16,7 @@ export interface SiteContentTeamMember {
   name: string;
   role: string;
   email: string;
+  phone?: string | null;
 }
 
 export interface SiteContentStat {
@@ -110,10 +111,10 @@ export function resolveStats(
 }
 
 export function resolveTeam(
-  dbTeam: ReadonlyArray<{ name: string; role: string; email: string }>,
+  dbTeam: ReadonlyArray<{ name: string; role: string; email: string; phone?: string | null }>,
 ): SiteContentTeamMember[] {
   return dbTeam.length > 0
-    ? dbTeam.map((m) => ({ name: m.name, role: m.role, email: m.email }))
+    ? dbTeam.map((m) => ({ name: m.name, role: m.role, email: m.email, phone: m.phone ?? null }))
     : siteContent.team;
 }
 
