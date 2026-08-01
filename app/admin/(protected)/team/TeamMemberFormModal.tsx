@@ -12,6 +12,7 @@ interface TeamMemberFormValues {
   email: string;
   phone: string;
   departmentId: string;
+  order: string;
 }
 
 interface TeamMemberFormModalProps {
@@ -28,6 +29,7 @@ function toFormValues(member?: AdminTeamMember): TeamMemberFormValues {
     email: member?.email ?? "",
     phone: member?.phone ?? "",
     departmentId: member?.departmentId ?? "",
+    order: String(member?.order ?? 0),
   };
 }
 
@@ -60,6 +62,7 @@ export function TeamMemberFormModal({
       email: values.email,
       phone: values.phone || null,
       departmentId: values.departmentId || null,
+      order: Number(values.order) || 0,
     };
 
     try {
@@ -179,6 +182,23 @@ export function TeamMemberFormModal({
                 No departments yet — create them on the Departments page first.
               </span>
             )}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="order" className="text-sm font-medium">
+              Order
+            </label>
+            <input
+              id="order"
+              type="number"
+              step={1}
+              value={values.order}
+              onChange={(e) => update("order", e.target.value)}
+              className="w-24 rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
+            />
+            <p className="text-xs text-gray-warm">
+              Position in the list (0 = first). Lower numbers show first.
+            </p>
           </div>
         </section>
 

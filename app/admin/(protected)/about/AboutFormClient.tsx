@@ -11,6 +11,7 @@ export interface AdminAboutContent {
   missionText: string | null;
   imageUrl: string | null;
   imagePublicId: string | null;
+  imageCaption: string | null;
   updatedAt: string | Date;
 }
 
@@ -19,6 +20,7 @@ interface AboutFormValues {
   missionText: string;
   imageUrl: string;
   imagePublicId: string;
+  imageCaption: string;
 }
 
 function toFormValues(about: AdminAboutContent | null): AboutFormValues {
@@ -27,6 +29,7 @@ function toFormValues(about: AdminAboutContent | null): AboutFormValues {
     missionText: about?.missionText ?? "",
     imageUrl: about?.imageUrl ?? "",
     imagePublicId: about?.imagePublicId ?? "",
+    imageCaption: about?.imageCaption ?? "",
   };
 }
 
@@ -61,6 +64,7 @@ export function AboutFormClient({ initialAbout }: AboutFormClientProps) {
       missionText: values.missionText || null,
       imageUrl: values.imageUrl || null,
       imagePublicId: values.imagePublicId || null,
+      imageCaption: values.imageCaption || null,
     };
 
     try {
@@ -131,6 +135,21 @@ export function AboutFormClient({ initialAbout }: AboutFormClientProps) {
           update("imagePublicId", imagePublicId);
         }}
       />
+
+      <div className="flex flex-col gap-1">
+        <label htmlFor="imageCaption" className="text-sm font-medium">
+          Image caption
+        </label>
+        <input
+          id="imageCaption"
+          maxLength={200}
+          placeholder="Knitting & dyeing floor - West Millat Industrial Estate"
+          value={values.imageCaption}
+          onChange={(e) => update("imageCaption", e.target.value)}
+          className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
+        />
+        <p className="text-xs text-gray-warm">Shown underneath the about photo.</p>
+      </div>
 
       <button
         type="submit"

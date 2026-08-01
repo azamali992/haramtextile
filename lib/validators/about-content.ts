@@ -5,6 +5,7 @@ export const aboutContentUpdateSchema = z.object({
   missionText: z.string().trim().max(2000).optional().nullable(),
   imageUrl: z.string().trim().url("imageUrl must be a valid URL").optional().nullable(),
   imagePublicId: z.string().trim().optional().nullable(),
+  imageCaption: z.string().trim().max(200).optional().nullable(),
 });
 
 export type AboutContentUpdateInput = z.infer<typeof aboutContentUpdateSchema>;

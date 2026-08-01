@@ -97,6 +97,10 @@ export default async function AboutPage() {
             ? aboutContent.imageUrl
             : "/images/about/about-factory.jpg"
         }
+        imageCaption={
+          aboutContent?.imageCaption ??
+          "Knitting & dyeing floor - West Millat Industrial Estate"
+        }
       />
 
       {/* Stats band - numbered row, straight after the story */}

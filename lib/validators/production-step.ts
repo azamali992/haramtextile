@@ -18,7 +18,16 @@ export const productionStepCreateSchema = z.object({
   order: z.number().int().optional().default(0),
 });
 
-export const productionStepUpdateSchema = productionStepCreateSchema.partial();
+// Built via `.omit({ order: true })` rather than a plain `.partial()`: Zod's
+// `.default()` on the `order` field still fires when the key is absent from
+// the input, even under `.partial()`, which would silently reset `order` to
+// 0 on every edit that doesn't touch it (the admin form never sends `order`
+// unless the user explicitly changes it). Re-adding `order` as a bare
+// optional (no default) keeps updates a true no-op when the key is omitted.
+export const productionStepUpdateSchema = productionStepCreateSchema
+  .omit({ order: true })
+  .partial()
+  .extend({ order: z.number().int().optional() });
 
 export type ProductionStepCreateInput = z.infer<typeof productionStepCreateSchema>;
 export type ProductionStepUpdateInput = z.infer<typeof productionStepUpdateSchema>;

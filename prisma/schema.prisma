@@ -121,6 +121,7 @@ model AboutContent {
   missionText   String?
   imageUrl      String?
   imagePublicId String?
+  imageCaption  String?
   updatedAt     DateTime @updatedAt
 }
 

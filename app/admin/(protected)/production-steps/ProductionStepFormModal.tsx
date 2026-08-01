@@ -15,6 +15,7 @@ interface ProductionStepFormValues {
   statValue: string;
   imageUrl: string;
   imagePublicId: string;
+  order: string;
 }
 
 interface ProductionStepFormModalProps {
@@ -33,6 +34,7 @@ function toFormValues(productionStep?: AdminProductionStep): ProductionStepFormV
     statValue: productionStep?.statValue ?? "",
     imageUrl: productionStep?.imageUrl ?? "",
     imagePublicId: productionStep?.imagePublicId ?? "",
+    order: String(productionStep?.order ?? 0),
   };
 }
 
@@ -143,6 +145,7 @@ export function ProductionStepFormModal({
       statValue: values.statValue || null,
       imageUrl: values.imageUrl,
       imagePublicId: values.imagePublicId,
+      order: Number(values.order) || 0,
     };
 
     try {
@@ -209,6 +212,23 @@ export function ProductionStepFormModal({
               className="rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
             />
             <p className="text-xs text-gray-warm">lowercase-with-hyphens, e.g. dyeing</p>
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <label htmlFor="order" className="text-sm font-medium">
+              Order
+            </label>
+            <input
+              id="order"
+              type="number"
+              step={1}
+              value={values.order}
+              onChange={(e) => update("order", e.target.value)}
+              className="w-24 rounded border border-cream-dark bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-primary"
+            />
+            <p className="text-xs text-gray-warm">
+              Position in the list (0 = first). Lower numbers show first.
+            </p>
           </div>
 
           <div className="flex flex-col gap-1">

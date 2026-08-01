@@ -22,7 +22,13 @@ export const teamMemberCreateSchema = z.object({
     .or(z.literal("").transform(() => null)),
 });
 
-export const teamMemberUpdateSchema = teamMemberCreateSchema.partial();
+// See production-step.ts for why this can't be a plain `.partial()`: Zod's
+// `.default()` on `order` still fires when the key is absent, which would
+// silently reset `order` to 0 on every edit that omits it.
+export const teamMemberUpdateSchema = teamMemberCreateSchema
+  .omit({ order: true })
+  .partial()
+  .extend({ order: z.number().int().optional() });
 
 export type TeamMemberCreateInput = z.infer<typeof teamMemberCreateSchema>;
 export type TeamMemberUpdateInput = z.infer<typeof teamMemberUpdateSchema>;
