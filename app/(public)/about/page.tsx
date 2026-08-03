@@ -128,11 +128,12 @@ export default async function AboutPage() {
         photoBackground="/images/about/about-factory.jpg"
       />
 
-      {/* About content sections - USP, why pakistan, team */}
+      {/* About content sections - USP and team (why pakistan section removed) */}
       <AboutSections
         whyPakistan={siteContent.about.whyPakistan}
         usp={siteContent.about.usp}
         departments={teamDepartments}
+        showWhyPakistan={false}
       />
 
       <JsonLd data={aboutPageSchema} />

@@ -11,6 +11,8 @@ interface AboutSectionsProps {
   usp: string;
   /** Admin-editable departments, each with its members, for the team tabs. */
   departments: TeamDept[];
+  /** Whether to show the "Why Pakistan" section (default: true). */
+  showWhyPakistan?: boolean;
 }
 
 /**
@@ -19,7 +21,7 @@ interface AboutSectionsProps {
  * Vision & Values live in the shared `MissionVisionValues` section, rendered
  * separately by the page (also reused on Home).
  */
-export function AboutSections({ whyPakistan, usp, departments }: AboutSectionsProps) {
+export function AboutSections({ whyPakistan, usp, departments, showWhyPakistan = true }: AboutSectionsProps) {
   return (
     <>
       {/* ── What sets us apart (USP) ── */}
@@ -54,48 +56,50 @@ export function AboutSections({ whyPakistan, usp, departments }: AboutSectionsPr
       </section>
 
       {/* ── Why Pakistan - numbered hairline rows ── */}
-      <section
-        aria-labelledby="why-pakistan-heading"
-        className="bg-[var(--surface)] px-6 py-24 sm:px-10"
-      >
-        <div className="mx-auto max-w-[90rem]">
-          <Eyebrow tone="dark">Why Pakistan</Eyebrow>
-          <RevealLines
-            lines={["Why we manufacture", "in Pakistan"]}
-            stagger={120}
-            duration={0.95}
-            className="mt-4 font-heading font-normal text-display text-[var(--ink)]"
-          />
-          <h2 id="why-pakistan-heading" className="sr-only">
-            Why We Manufacture in Pakistan
-          </h2>
+      {showWhyPakistan && (
+        <section
+          aria-labelledby="why-pakistan-heading"
+          className="bg-[var(--surface)] px-6 py-24 sm:px-10"
+        >
+          <div className="mx-auto max-w-[90rem]">
+            <Eyebrow tone="dark">Why Pakistan</Eyebrow>
+            <RevealLines
+              lines={["Why we manufacture", "in Pakistan"]}
+              stagger={120}
+              duration={0.95}
+              className="mt-4 font-heading font-normal text-display-lg text-[var(--ink)]"
+            />
+            <h2 id="why-pakistan-heading" className="sr-only">
+              Why We Manufacture in Pakistan
+            </h2>
 
-          <ol className="mt-14 border-t border-[var(--hairline)]" role="list">
-            {whyPakistan.map((reason, i) => (
-              <Inview
-                key={reason}
-                delayIn={Math.min(i, 4) * 70}
-                stiffness={190}
-                damping={26}
-                from={{ opacity: 0, y: 22 }}
-                to={{ opacity: 1, y: 0 }}
-              >
-                <li className="grid grid-cols-[3.5rem_1fr] items-baseline gap-6 border-b border-[var(--hairline)] py-6 sm:grid-cols-[5rem_1fr]">
-                  <span
-                    className="font-heading text-title-sm italic text-[var(--brand-strong)]"
-                    aria-hidden="true"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <p className="max-w-3xl font-body text-body leading-relaxed text-[var(--ink)]">
-                    {reason}
-                  </p>
-                </li>
-              </Inview>
-            ))}
-          </ol>
-        </div>
-      </section>
+            <ol className="mt-14 border-t border-[var(--hairline)]" role="list">
+              {whyPakistan.map((reason, i) => (
+                <Inview
+                  key={reason}
+                  delayIn={Math.min(i, 4) * 70}
+                  stiffness={190}
+                  damping={26}
+                  from={{ opacity: 0, y: 22 }}
+                  to={{ opacity: 1, y: 0 }}
+                >
+                  <li className="grid grid-cols-[3.5rem_1fr] items-baseline gap-6 border-b border-[var(--hairline)] py-6 sm:grid-cols-[5rem_1fr]">
+                    <span
+                      className="font-heading text-title-sm italic text-[var(--brand-strong)]"
+                      aria-hidden="true"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="max-w-3xl font-body text-title-sm leading-relaxed text-[var(--ink)]">
+                      {reason}
+                    </p>
+                  </li>
+                </Inview>
+              ))}
+            </ol>
+          </div>
+        </section>
+      )}
 
       {/* ── Our team - department tabs ── */}
       <section
