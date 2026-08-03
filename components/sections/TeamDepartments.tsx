@@ -74,25 +74,25 @@ export function TeamDepartments({ departments }: TeamDepartmentsProps) {
               to={{ opacity: 1, y: 0 }}
             >
               <li className="grid grid-cols-1 items-baseline gap-2 border-b border-[var(--hairline)] py-6 sm:grid-cols-[minmax(12rem,1.6fr)_minmax(9rem,1.2fr)_minmax(9rem,1.2fr)_minmax(11rem,1.6fr)]">
-                <p className="font-heading text-title-sm font-semibold text-[var(--ink)]">
+                <p className="font-heading text-title font-semibold text-[var(--ink)]">
                   {member.name}
                 </p>
-                <p className="font-body text-caption font-medium uppercase tracking-[0.14em] text-[var(--brand-strong)]">
+                <p className="font-body text-body font-medium uppercase tracking-[0.14em] text-[var(--brand-strong)]">
                   {member.role}
                 </p>
                 {member.phone ? (
                   <a
                     href={`tel:${member.phone.replace(/[^+\d]/g, "")}`}
-                    className="font-body text-body text-[var(--ink-soft)] transition-colors duration-150 hover:text-[var(--brand-strong)]"
+                    className="font-body text-body-lg text-[var(--ink-soft)] transition-colors duration-150 hover:text-[var(--brand-strong)]"
                   >
                     {member.phone}
                   </a>
                 ) : (
-                  <span className="font-body text-body text-[var(--ink-soft)]/50">—</span>
+                  <span className="font-body text-body-lg text-[var(--ink-soft)]/50">—</span>
                 )}
                 <a
                   href={`mailto:${member.email}`}
-                  className="font-body text-body text-[var(--ink-soft)] transition-colors duration-150 hover:text-[var(--brand-strong)] sm:justify-self-end"
+                  className="font-body text-body-lg text-[var(--ink-soft)] transition-colors duration-150 hover:text-[var(--brand-strong)] sm:justify-self-end"
                 >
                   {member.email}
                 </a>

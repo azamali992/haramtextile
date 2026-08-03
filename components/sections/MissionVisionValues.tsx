@@ -1,7 +1,6 @@
 "use client";
 
 import { Inview } from "@/components/motion/Inview";
-import { Eyebrow } from "@/components/ui/Eyebrow";
 import { RevealLines } from "@/components/motion/RevealLines";
 import type { SiteContentValue } from "@/lib/site-content";
 
@@ -35,7 +34,7 @@ export function MissionVisionValues({
       className={`${sectionBg} px-6 py-16 sm:px-10 sm:py-20 ${className}`}
     >
       <div className="mx-auto max-w-[90rem]">
-        <Eyebrow tone="dark">Mission &amp; vision</Eyebrow>
+        <p className="text-body font-medium uppercase tracking-[0.25em] text-[var(--brand)]">Mission &amp; vision</p>
         <RevealLines
           lines={["What we believe", "and where we're going"]}
           stagger={120}
@@ -56,7 +55,7 @@ export function MissionVisionValues({
             className="lg:col-span-2"
           >
             <div>
-              <p className="font-body text-eyebrow font-medium uppercase text-[var(--ink-soft)]">
+              <p className="font-body text-body font-medium uppercase text-[var(--ink-soft)]">
                 Our mission
               </p>
               <p className="mt-5 max-w-2xl font-heading text-title font-normal leading-snug text-[var(--ink)] sm:text-[2.25rem]">
@@ -73,10 +72,10 @@ export function MissionVisionValues({
             to={{ opacity: 1, y: 0 }}
           >
             <div className="rounded-card bg-[var(--brand-deep)] p-7">
-              <p className="font-body text-eyebrow font-medium uppercase text-on-brand/70">
+              <p className="font-body text-body font-medium uppercase text-on-brand/70">
                 Our vision
               </p>
-              <p className="mt-4 font-heading text-title-sm font-normal italic leading-snug text-[var(--on-brand)]">
+              <p className="mt-4 font-heading text-title font-normal italic leading-snug text-[var(--on-brand)]">
                 {vision}
               </p>
             </div>
@@ -99,10 +98,10 @@ export function MissionVisionValues({
                   className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--brand)] transition-all duration-200 group-hover:h-2 group-hover:w-2"
                   aria-hidden="true"
                 />
-                <h3 className="mt-4 font-heading text-title-sm font-normal text-[var(--ink)] transition-colors duration-200 group-hover:text-[var(--brand-strong)]">
+                <h3 className="mt-4 font-heading text-title font-normal text-[var(--ink)] transition-colors duration-200 group-hover:text-[var(--brand-strong)]">
                   {value.name}
                 </h3>
-                <p className="mt-2 font-body text-body-lg leading-relaxed text-[var(--ink-soft)]">
+                <p className="mt-2 font-body text-title-sm leading-relaxed text-[var(--ink-soft)]">
                   {value.description}
                 </p>
               </div>

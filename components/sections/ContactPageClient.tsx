@@ -28,7 +28,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
   const detailRow =
     "grid grid-cols-1 gap-2 py-6 sm:grid-cols-[10rem_1fr] sm:gap-6";
   const dtClass =
-    "font-body text-eyebrow font-medium uppercase text-[var(--ink-soft)]";
+    "font-body text-body font-medium uppercase text-[var(--ink-soft)]";
 
   return (
     <div className="px-6 py-12 sm:px-10 sm:py-16">
@@ -79,7 +79,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
               <dl className="divide-y divide-[var(--hairline)] border-y border-[var(--hairline)]">
                 <div className={detailRow}>
                   <dt className={dtClass}>Address</dt>
-                  <dd className="font-body text-body text-[var(--ink)]">
+                  <dd className="font-body text-body-lg text-[var(--ink)]">
                     {contact.address}
                   </dd>
                 </div>
@@ -89,7 +89,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
                   <dd>
                     <a
                       href={`tel:${contact.phone.replace(/[^+\d]/g, "")}`}
-                      className="font-body text-body text-[var(--ink)] transition-colors hover:text-[var(--brand-strong)]"
+                      className="font-body text-body-lg text-[var(--ink)] transition-colors hover:text-[var(--brand-strong)]"
                     >
                       {contact.phone}
                     </a>
@@ -104,7 +104,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
                         <li key={entry.email}>
                           <a
                             href={`mailto:${entry.email}`}
-                            className="font-body text-body text-[var(--ink)] transition-colors hover:text-[var(--brand-strong)]"
+                            className="font-body text-body-lg text-[var(--ink)] transition-colors hover:text-[var(--brand-strong)]"
                           >
                             <span className="text-[var(--ink-soft)]">{entry.label}: </span>
                             {entry.email}
@@ -117,7 +117,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
 
                 <div className={detailRow}>
                   <dt className={dtClass}>Office hours</dt>
-                  <dd className="font-body text-body text-[var(--ink)]">
+                  <dd className="font-body text-body-lg text-[var(--ink)]">
                     {contact.hours}
                   </dd>
                 </div>
@@ -130,7 +130,7 @@ export function ContactPageClient({ contact, siteName }: ContactPageClientProps)
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`Open ${siteName}'s location on Google Maps`}
-                      className="group inline-flex items-center gap-2 font-body text-body text-[var(--brand-strong)] transition-colors hover:text-[var(--brand-deep)]"
+                      className="group inline-flex items-center gap-2 font-body text-body-lg text-[var(--brand-strong)] transition-colors hover:text-[var(--brand-deep)]"
                     >
                       {/* Map pin icon */}
                       <svg
