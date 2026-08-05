@@ -74,7 +74,7 @@ export function TeamDepartments({ departments }: TeamDepartmentsProps) {
               to={{ opacity: 1, y: 0 }}
             >
               <li className="grid grid-cols-1 items-baseline gap-2 border-b border-[var(--hairline)] py-6 sm:grid-cols-[minmax(12rem,1.6fr)_minmax(9rem,1.2fr)_minmax(9rem,1.2fr)_minmax(11rem,1.6fr)]">
-                <p className="font-heading text-title font-semibold text-[var(--ink)]">
+                <p className="font-heading text-title-sm font-semibold text-[var(--ink)]">
                   {member.name}
                 </p>
                 <p className="font-body text-body font-medium uppercase tracking-[0.14em] text-[var(--brand-strong)]">

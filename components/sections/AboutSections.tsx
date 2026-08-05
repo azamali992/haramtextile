@@ -13,6 +13,8 @@ interface AboutSectionsProps {
   departments: TeamDept[];
   /** Whether to show the "Why Pakistan" section (default: true). */
   showWhyPakistan?: boolean;
+  /** Whether to show the team section (default: true). */
+  showTeam?: boolean;
 }
 
 /**
@@ -21,7 +23,7 @@ interface AboutSectionsProps {
  * Vision & Values live in the shared `MissionVisionValues` section, rendered
  * separately by the page (also reused on Home).
  */
-export function AboutSections({ whyPakistan, usp, departments, showWhyPakistan = true }: AboutSectionsProps) {
+export function AboutSections({ whyPakistan, usp, departments, showWhyPakistan = true, showTeam = true }: AboutSectionsProps) {
   return (
     <>
       {/* ── What sets us apart (USP) ── */}
@@ -102,25 +104,27 @@ export function AboutSections({ whyPakistan, usp, departments, showWhyPakistan =
       )}
 
       {/* ── Our team - department tabs ── */}
-      <section
-        aria-labelledby="team-heading"
-        className="bg-[var(--background)] px-6 py-24 sm:px-10"
-      >
-        <div className="mx-auto max-w-[90rem]">
-          <Eyebrow tone="dark">Our people</Eyebrow>
-          <RevealLines
-            lines={["Our team"]}
-            stagger={120}
-            duration={0.95}
-            className="mt-4 font-heading font-normal text-display text-[var(--ink)]"
-          />
-          <h2 id="team-heading" className="sr-only">
-            Our Team by Department
-          </h2>
+      {showTeam && (
+        <section
+          aria-labelledby="team-heading"
+          className="bg-[var(--background)] px-6 py-24 sm:px-10"
+        >
+          <div className="mx-auto max-w-[90rem]">
+            <Eyebrow tone="dark">Our people</Eyebrow>
+            <RevealLines
+              lines={["Our team"]}
+              stagger={120}
+              duration={0.95}
+              className="mt-4 font-heading font-normal text-display text-[var(--ink)]"
+            />
+            <h2 id="team-heading" className="sr-only">
+              Our Team by Department
+            </h2>
 
-          <TeamDepartments departments={departments} />
-        </div>
-      </section>
+            <TeamDepartments departments={departments} />
+          </div>
+        </section>
+      )}
     </>
   );
 }

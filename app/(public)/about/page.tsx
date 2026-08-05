@@ -14,6 +14,7 @@ import { StatBand } from "@/components/sections/StatBand";
 import { PullQuote } from "@/components/sections/PullQuote";
 import { AboutSections } from "@/components/sections/AboutSections";
 import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
+import { TeamDepartments } from "@/components/sections/TeamDepartments";
 
 export const dynamic = "force-dynamic";
 
@@ -103,6 +104,19 @@ export default async function AboutPage() {
         }
       />
 
+      {/* Team section - right after the story */}
+      <section
+        aria-labelledby="team-heading"
+        className="bg-[var(--background)] px-6 py-24 sm:px-10"
+      >
+        <div className="mx-auto max-w-[90rem]">
+          <h2 id="team-heading" className="sr-only">
+            Our Team by Department
+          </h2>
+          <TeamDepartments departments={teamDepartments} />
+        </div>
+      </section>
+
       {/* Stats band - numbered row, straight after the story */}
       <StatBand
         eyebrow="By the numbers"
@@ -128,12 +142,13 @@ export default async function AboutPage() {
         photoBackground="/images/about/about-factory.jpg"
       />
 
-      {/* About content sections - USP and team (why pakistan section removed) */}
+      {/* About content sections - USP only (team moved after story, why pakistan removed) */}
       <AboutSections
         whyPakistan={siteContent.about.whyPakistan}
         usp={siteContent.about.usp}
         departments={teamDepartments}
         showWhyPakistan={false}
+        showTeam={false}
       />
 
       <JsonLd data={aboutPageSchema} />
