@@ -15,6 +15,8 @@ import { PullQuote } from "@/components/sections/PullQuote";
 import { AboutSections } from "@/components/sections/AboutSections";
 import { MissionVisionValues } from "@/components/sections/MissionVisionValues";
 import { TeamDepartments } from "@/components/sections/TeamDepartments";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { RevealLines } from "@/components/motion/RevealLines";
 
 export const dynamic = "force-dynamic";
 
@@ -110,10 +112,19 @@ export default async function AboutPage() {
         className="bg-[var(--background)] px-6 py-24 sm:px-10"
       >
         <div className="mx-auto max-w-[90rem]">
+          <Eyebrow tone="dark">Our people</Eyebrow>
+          <RevealLines
+            lines={["Our team"]}
+            stagger={120}
+            duration={0.95}
+            className="mt-4 font-heading font-normal text-display text-[var(--ink)]"
+          />
           <h2 id="team-heading" className="sr-only">
             Our Team by Department
           </h2>
-          <TeamDepartments departments={teamDepartments} />
+          <div className="mt-12">
+            <TeamDepartments departments={teamDepartments} />
+          </div>
         </div>
       </section>
 
